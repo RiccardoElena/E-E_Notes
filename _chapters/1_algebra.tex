@@ -1,0 +1,169 @@
+\chapter{Basi di Algebra}
+
+Prima di iniziare a trattare gli argomenti principali del corso,
+è necessario ripassare alcuni concetti di algebra alla base della teoria dei codici introducendone alcuni nuovi.
+
+In particolare questo capitolo si concentra sulle strutture algebriche di semigruppi e monoidi.
+
+Prima di addentrarci nelle definizioni delle suddette strutture algebriche, è necessario introdurre alcune nozioni preliminari, che verranno conservate per tutto il corso di questi appunti.
+
+\section{Nozioni Preliminari}
+
+Le lettere maiuscole \(A, B, X, Y \ldots\) indicheranno generalmente insiemi, che siano finiti o infiniti.
+Per quanto riguarda gli insiemi numerici tradizionali, useremo:
+\begin{itemize}
+  \item \(\N = \set{0,1,2,\ldots}\) per i numeri naturali (incluso lo zero);
+  \item \(\N' = \set{1,2,3,\ldots}\) per i numeri naturali positivi (escluso lo zero);
+  \item \(\Z\) per i numeri interi;
+  \item \(\Q\) per i numeri razionali;
+  \item \(\R\) per i numeri reali.
+\end{itemize}
+Con eventuali notazioni aggiuntive a pedice per indicare sottoinsiemi particolari (ad esempio \(\R_{\geq 0}\) per i numeri reali non negativi).
+
+Per ogni insieme \(X\), \(\mathcal{P}(X)\) denota l'insieme delle parti di \(X\), ovvero l'insieme di tutti i sottoinsiemi di \(X\).
+Gli elementi di tali insiemi saranno indicati con le lettere minuscole corrispondenti \(a,b,x,y \ldots\), in particolare con la lettera \(n\) a indicare un generico elemento naturale se non specificato diversamente.
+
+\section{Semigruppi e Monoidi}
+\begin{definition}[Semigruppo]
+  Un \keyword{semigruppo} è una coppia \((S, \cdot)\) dove \(S\) è un insieme non vuoto e \(\cdot : S \times S \to S\) è un'operazione binaria associativa, ovvero:
+  \[\forall a,b,c \in S, (a \cdot b) \cdot c = a \cdot (b \cdot c).\]
+\end{definition}
+
+Questa struttura algebrica è molto generica, imponendo solo l'associatività dell'operazione binaria.
+Un esempio di semigruppo è dato da \((\N',+)\) dove l'operazione binaria è la somma tra numeri naturali positivi ordinaria.
+
+\begin{definition}[Monoide]
+  Un \keyword{monoide} \((M,\cdot,1_M)\) è un semigruppo \((M, \cdot)\) dotato di elemento neutro \(1_M\) per l'operazione binaria\footnote{Denotato semplicemente \(1\) in caso di non ambiguità del monoide di riferimento}, ovvero:
+  \[\forall a \in M, a \cdot 1_M = 1_M \cdot a = a.\]
+\end{definition}
+
+\begin{example}
+  \begin{itemize}
+    \item \((\N, +)\) è un monoide con elemento neutro \(0\).
+    \item \((\N, \cdot)\) è un monoide con elemento neutro \(1\).
+    \item Dato \(T\) insieme, sia \((\mathcal{P}(T), \cup, \emptyset)\) che \((\mathcal{P}(T), \cap, T)\) sono monoidi.
+  \end{itemize}
+  Gli esempi precedenti sono tutti monoidi commutativi (o abeliani), ovvero tali che:
+  \[\forall a,b \in M, a \cdot b = b \cdot a.\]
+  Un esempio di monoide non abeliano è, dato un insieme \(T\), il monoide delle funzioni totali da \(T\) in sé stesso \((T^{T}, \circ, id_T)\) dove l'operazione binaria è la composizione di funzioni e l'elemento neutro è la funzione identità su \(T\).
+\end{example}
+
+\subsection{Proprietà di monoidi e semigruppi}
+
+Analizziamo ora alcune notazioni e proprietà di monoidi e semigruppi.
+
+\begin{note}\label{note:power_notation}
+  Dato \((M,\cdot,1_M)\) monoide, si ha che, \(\forall m \in M\), \(m^0 = 1_M\) e \(m^{n+1} = m \cdot m^n, \quad \forall n \geq 0\).
+\end{note}
+
+\begin{definition}[Morfismi di semigruppi e monoidi]
+  Siano \((S,\cdot)\) e \((T,*)\) semigruppi.
+  Una funzione \(f: S \to T\) è un \keyword{morfismo di semigruppi} se:
+  \[\forall a,b \in S, f(a \cdot b) = f(a) * f(b).\]
+  Se \(S\) e \(T\) sono monoidi, \(f\) è un \keyword{morfismo di monoidi} se è un morfismo di semigruppi e:
+  \[f(1_S) = 1_T.\]
+  Se \(f\) è iniettiva, si dice che è un \keyword{monomorfismo}, se è suriettiva si dice che è un \keyword{epimorfismo}, se è biunivoca si dice che è un \keyword{isomorfismo}.
+  In quest'ultimo caso, i due semigruppi (o monoidi) si dicono isomorfi.
+\end{definition}
+\begin{example}
+  Consideriamo i monoidi \((\N, +, 0)\) e \((\N, \cdot, 1)\).
+  La funzione 
+  \[f: \N \to \N\]
+  \[f:n \mapsto = f(n) 2^n\]
+  è un monomorfismo tra i due monoidi.
+  Infatti,
+  \[f(n+m) = 2^{n+m} = 2^n \cdot 2^m = f(n) \cdot f(m)\]
+  \[ f(0) = 2^0 = 1\]
+  Tuttavia, \(f\) non è un epimorfismo, poiché non è suriettiva (ad esempio, non esiste \(n \in \N\) tale che \(f(n) = 3\)).
+\end{example}
+
+\begin{definition}[Sottosemigruppo e Sottomonoide]
+  Sia \((S,\cdot_S)\) un semigruppo.
+  \(T \subseteq S\) è un \keyword{sottosemigruppo} di \(S\) (\(T \leq S\)), se \(T\) è chiusa rispetto all'operazione binaria di \(S\), ovvero:
+  \[\forall a,b \in T, a \cdot_S b \in T\]
+  Dato \((M,\cdot_M,1_M)\) è un monoide, \(N \subseteq M\) è un \keyword{sottomonoide} di \(M\) (\(N \leq M\)) se:
+  \begin{itemize}
+    \item \(N\) è un sottosemigruppo di \(M\);
+    \item \(1_M \in N\).
+  \end{itemize}
+\end{definition}
+
+Dato un qualsiasi semigruppo \((S,\cdot)\), è possibile costruire un semigruppo sul suo insieme delle parti \(\mathcal{P}(S)\) indotto dall'operazione binaria di \(S\).
+\begin{definition}[Semigruppo delle parti]
+  Sia \((S,\cdot)\) un semigruppo.
+  Definiamo l'operazione binaria \(\circ\) su \(\mathcal{P}(S)\) come:
+  \[\forall X,Y \in \mathcal{P}(S), X \circ Y = \set{x \cdot y : x \in X, y \in Y}.\]
+\end{definition}
+Tale costruzione è estendibile anche a un qualsiasi monoide \((M,\cdot,1_M)\), usando come elemento neutro l'insieme \(\set{1_M}\).
+
+Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché, grazie alle notazioni introdotte nella Nota~\ref{note:power_notation}, è possibile definire le potenze di un qualsiasi sottoinsieme \(Y \subseteq S\).
+
+Tale notazione permette di formulare in modo più compatto la chiusura di un sottoinsieme \(Y\) di un semigruppo.
+  \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
+\begin{proof}[Idea di dimostrazione]\label{proof:alt_notation_closure}
+  Da definizione infatti, \(Y^2 = \set{y_1 \cdot y_2}[y_1,y_2 \in Y]\). Se \(Y^2 \subseteq Y\), allora anche \(Y^3 = Y^2 \cdot Y \subseteq Y\), poiché
+  \[\forall y \in Y^3, \exists y_1 \in Y, y_2 \in Y^2: y = y_1 \cdot y_2\]
+  Iterando il ragionamento è possibile mostrare che \(Y\) contiene tutte le potenze di sé stesso, ed è dunque chiuso.
+\end{proof}
+
+\begin{definition}[Sottostruttura generata]
+  Sia \((S,\cdot)\) un semigruppo e \(Y \subseteq S\).
+  Definiamo il \keyword{sottosemigruppo} di \(S\) generato da \(Y\) come:
+  \[Y^+ = Y \cup Y^2 \cup Y^3 \cup \cdots = \bigcup_{n=1}^{\infty} Y^n\]
+  l'insieme di tutte le possibili combinazioni finite di elementi di \(Y\) tramite l'operazione binaria di \(S\).
+
+  Dato \((M,\cdot_M,1_M)\) monoide, è possibile aggiungere la potenza zero, definendo il \keyword{sottomonoide} di \(M\) generato da \(Y\) come:
+  \[Y^* = \set{1_S} \cup Y^+ = \bigcup_{n=0}^{\infty} Y^n.\]
+\end{definition}
+
+Tali sottostrutture sono le più piccole possibili che contengono \(Y\).\\
+Un monoide notevole per il corso è il cosiddetto \emph{monoide delle parole}.
+Dato un insieme finito \(A\), detto \emph{alfabeto}, l'insieme di tutte le possibili sequenze finite (dette stringhe o parole) di elementi di \(A\) forma un monoide rispetto all'operazione di concatenazione di stringhe. 
+Tale monoide contiene \(A\) e ha come elemento neutro la stringa vuota, indicata con \(\varepsilon\).
+Denotiamo tale monoide con \(A^*\), e l'insieme delle stringhe non vuote con \(A^+ = A^* \setminus \set\varepsilon\).
+
+\begin{example}
+  Sia \(A = \set{0,1}\) un alfabeto binario.
+  Allora \(A^* = \set{\varepsilon, 0, 1, 00, 01, 10, 11, 000, \ldots}\) è il monoide delle parole binarie.
+  Si noti che \(A^*\) è infinito anche se \(A\) è finito.
+\end{example}
+
+\begin{definition}[Base di un semigruppo (monoide)]
+  Sia \(S\) un semigruppo (monoide).
+  Una \keyword{base} di \(S\) è un sottoinsieme \(X \subseteq S\) che gode di \emph{univoca fattorizzazione}, ovvero che dati \(\forall x_1,x_2,\ldots,x_n,x_1',x_2',\ldots,x_m' \in X\) si ha che:
+  \[x_1 x_2 \ldots x_n = x_1' x_2' \ldots x_m' \implies n=m \land x_1 = x_1' \land x_2 = x_2' \land \ldots \land x_n = x_n'\]
+\end{definition}
+In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come prodotto di elementi di \(X\).
+
+\begin{example}
+  Esempi di basi sono:
+  \begin{itemize}
+    \item \(A\) è una base di \(A^*\) per ogni alfabeto \(A\).
+    \item \(\set{1}\) è una base di \((\N, \cdot, 0)\).
+  \end{itemize}
+  Contrariamente a quello che si potrebbe pensare, l'insieme dei numeri primi \textbf{non} è una base di \((\N, \cdot, 1)\), poiché \(6 = 2 \cdot 3 = 3 \cdot 2\) ammette due fattorizzazioni distinte.
+\end{example}
+
+\begin{note}
+  Per definizione di base, nessuna base di un monoide può contenere l'elemento neutro.
+  Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{+}\) si fattorizza in un modo non univoco.
+\end{note}
+
+\begin{definition}[Semigruppi e monoidi liberi]
+  Data \(X \subseteq S\) base di un semigruppo \(S\), si dice che \(S\) è \keyword{libero} se \(S = X^{+}\).
+  Analogamente, dato \(X \subseteq M\) base di un monoide \(M\), si dice che \(M\) è \keyword{libero} se \(M = X^{*}\).
+\end{definition}
+Una modo meno formale ma più intuitivo di definire un semigruppo (monoide) libero è quella di considerarlo il semigruppo (monoide) con la minor quantità di vincoli possibile, ovvero solo quelli imposti dalla definizione di semigruppo (monoide).
+La struttura è \emph{libera} poiché non ha vincoli aggiuntivi che la limitano, essendo dunque la più generale possibile dato l'insieme sottostante.
+Tale proprietà di generalità verrà formalizzata più avanti tramite una proprietà universale.
+
+\todo{Chiedere a De Luca se \((\N,+)\) è libero di base \(\set{1}\), se no perché? Neanche isomorfo a \(\set{1}^*\)? Non è sufficiente?}
+Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabeto \(A\), che è libero di base \(A\).
+
+\begin{proposition}[Unicità della base in un semigruppo (monoide) libero]
+  Sia \(S\) un semigruppo libero, allora l'unica base di \(S\) è \(S \setminus S^2\), ovvero l'insieme degli elementi di \(S\) che non sono esprimibili come prodotto di altri elementi di \(S\).
+  Analogamente, sia \(M\) un monoide libero, allora l'unica base di \(M\) è \((M\setminus \{1_M\}) \setminus {(M\setminus \{1_M\})}^2\).
+\end{proposition}
+\begin{proof}[Idea di dimostrazione]
+  Analogo a~\ref{proof:alt_notation_closure}
+\end{proof}
