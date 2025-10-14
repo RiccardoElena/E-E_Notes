@@ -1,4 +1,4 @@
-\chapter{Basi di Algebra}
+\chapter{Prerequisiti di Algebra}
 
 Prima di iniziare a trattare gli argomenti principali del corso,
 è necessario ripassare alcuni concetti di algebra alla base della teoria dei codici introducendone alcuni nuovi.
@@ -13,7 +13,7 @@ Le lettere maiuscole \(A, B, X, Y \ldots\) indicheranno generalmente insiemi, ch
 Per quanto riguarda gli insiemi numerici tradizionali, useremo:
 \begin{itemize}
   \item \(\N = \set{0,1,2,\ldots}\) per i numeri naturali (incluso lo zero);
-  \item \(\N' = \set{1,2,3,\ldots}\) per i numeri naturali positivi (escluso lo zero);
+  \item \(\N_+ = \set{1,2,3,\ldots}\) per i numeri naturali positivi (escluso lo zero);
   \item \(\Z\) per i numeri interi;
   \item \(\Q\) per i numeri razionali;
   \item \(\R\) per i numeri reali.
@@ -167,3 +167,65 @@ Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabet
 \begin{proof}[Idea di dimostrazione]
   Analogo a~\ref{proof:alt_notation_closure}
 \end{proof}
+
+\begin{theorem}[Proprietà universale dei monoidi (semigruppi) liberi]
+  Sia \(M\) un monoide con \(X \subseteq M\). Allora \(M\) è libero di base \(X\) se e solo se, per ogni monoide \(M'\) e ogni applicazione \(f: X \to M'\), esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\hat{f}_{|_X} = f\), ovvero tale che il seguente diagramma commuta:
+  \begin{center}
+      \begin{tikzcd}[column sep=huge, row sep=huge, cells={nodes={scale=1.2, transform shape}}]
+        X \arrow[r, "f"] \arrow[d, hook,"i"] & M' \\ %chktex 18 
+        M \arrow[ru, dashed, "\exists!\bar{f}"'] & %chktex 18
+      \end{tikzcd}
+  \end{center}
+  Vale a dire che \(\bar{f} \circ i = f\), dove \(i: X \hookrightarrow M\) è l'inclusione di \(X\) in \(M\).\footnote{È possibile vedere \(i\) anche come la riduzione dell'identità di \(M\) a \(X\), ovvero \(i = id_{M|_X}\).}
+  Tale formulazione ha carattere algebrico-universale e quindi può essere estesa anche ai semigruppi, oltre che a qualsiasi famiglia di algebre dello stesso tipo, quali per esempio i gruppi.
+\end{theorem}
+
+\begin{corollary}
+  Sia \(M\) monoide libero di base \(X\) e \(M'\) monoide libero di base \(X'\).
+  Se \(\#X = \#X'\), allora \(M\) e \(M'\) sono isomorfi.
+\end{corollary}
+
+\begin{proof}
+  Essendo le basi equipotenti, esiste una biiezione \(g: X \to X'\).
+  Consideriamo l'applicazione \(f = i' \circ g : X \to M'\), dove \(i': X' \hookrightarrow M'\), ovvero l'inclusione di \(X'\) in \(M'\).
+  Per la proprietà universale, esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\bar{f}_{|_X} = f\).
+  Analogamente, sia \(f'= i \circ g^{-1} : X' \to M\) e sia \(\bar{f'}: M' \to M\) l'unico morfismo di monoidi tale che \(\bar{f'}_{|_{X'}} = f'\).
+  Si ha che \(\bar{f'} \circ \bar{f}: M \to M\) è un morfismo di monoidi che estende l'identità di \(X\), ovvero:
+  \[\forall x \in X, \bar{f'} (\bar{f}(x)) = \bar{f'}(g(x))= g^{-1}(g(x))= x\]
+  Considerando la proprietà universale usando \(M\) per entrami i monoidi coinvolti, si ha che anche in questo caso deve esistere un unico morfismo di monoidi che estende l'identità di \(X\). Essendo che anche \(id_M\) è un morfismo di monoidi che estende l'identità di \(X\), si ha che \(\bar{f'} \circ \bar{f} = id_M\).
+  Dalla definizione di identità abbiamo che \(\bar{f} = \bar{f'}^{-1} \), ovvero che \(\bar{f}\) è un isomorfismo tra \(M\) e \(M'\). 
+\end{proof}
+Questo corollario mostra che, a meno di isomorfismi, il monoide libero \(A^*\) è l'unico monoide libero con base di cardinalità \(\#A\).
+
+Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza delle parole.
+\begin{definition}[Morfismo di lunghezza]
+  Sia \(M\) un monoide libero di base \(X\).
+  Il \keyword{morfismo di lunghezza} è \(|\;|: M \to(\N,+,0)\) tale che \[\forall x \in X, |x| = 1\]
+\end{definition}
+
+\begin{note}
+  È importate notare che il morfismo di lunghezza è ben definito, poiché ogni elemento di \(M\) si fattorizza in modo univoco come prodotto di elementi di \(X\).
+  Non fosse stato così, non sarebbe possibile definire in modo univoco la lunghezza di un elemento di \(M\) a partire dagli elementi della sua base.
+\end{note}
+
+\begin{lemma}[Levi]
+  Sia \(M\) un monoide libero, \(m_1,m_2,m_3,m_4 \in M\) tali che:
+  \[m_1m_2=m_3m_4 \text{ e } |m_1| \geq |m_3|\]
+  Allora \(\exists v \in M: m_1 = m_3v \land vm_2 = m_4\)
+\end{lemma}
+
+\begin{proof}
+  \todo{Aggiungi disegno autoesplicativo da slide.}
+\end{proof}
+
+\begin{definition}[Insiemi quoziente]
+  Siano \(Y,Z \subseteq M\) monoide. Definiamo gli insieme quoziente destro e sinistro come:
+  \begin{equation}
+    \begin{aligned}
+      Y^{-1}Z &= \set{m \in M}[ \exists y \in Y, ym \in Z] = \set{m \in M}[Y\set{m} \cap Z \neq \emptyset]\\
+      ZY^{-1} &= \set{m \in M}[ \exists y \in Y, my \in Z] = \set{m \in M}[\set{m}Y \cap Z \neq \emptyset]
+    \end{aligned}
+  \end{equation}
+\end{definition}
+
+In altre parole possiamo vedere l'insieme quoziente sinistro (rispettivamente destro) come l'insieme delle parole di \(M\) che servono a completare a sinistra (rispettivamente destra) una parola di \(Y\) per ottenere una parola di \(Z\).
