@@ -144,7 +144,7 @@ In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come 
   Contrariamente a quello che si potrebbe pensare, l'insieme dei numeri primi \textbf{non} è una base di \((\N, \cdot, 1)\), poiché \(6 = 2 \cdot 3 = 3 \cdot 2\) ammette due fattorizzazioni distinte.
 \end{example}
 
-\begin{note}
+\begin{note}\label{note:no_neutral_in_base}
   Per definizione di base, nessuna base di un monoide può contenere l'elemento neutro.
   Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{+}\) si fattorizza in un modo non univoco.
 \end{note}
@@ -180,20 +180,24 @@ Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabet
   Tale formulazione ha carattere algebrico-universale e quindi può essere estesa anche ai semigruppi, oltre che a qualsiasi famiglia di algebre dello stesso tipo, quali per esempio i gruppi.
 \end{theorem}
 
+È importante notare che la proprietà universale, dato un monoide \(M\) e una sua base \(X\) vale \emph{per ogni monoide \(M'\)}, e quindi in particolare anche per \(M' = M\).
+Da questa particolare circostanza è facile ricavare che \(id_M: M \to M\) è l'unico morfismo da \(M\) a \(M\) che estende \(id_X\).
+
 \begin{corollary}
   Sia \(M\) monoide libero di base \(X\) e \(M'\) monoide libero di base \(X'\).
   Se \(\#X = \#X'\), allora \(M\) e \(M'\) sono isomorfi.
 \end{corollary}
 
 \begin{proof}
+  Per dimostrare tale corollario sarà sufficiente mostrare che è possibile costruire un morfismo biettivo (isomorfismo) tra \(M\) e \(M'\)
   Essendo le basi equipotenti, esiste una biiezione \(g: X \to X'\).
   Consideriamo l'applicazione \(f = i' \circ g : X \to M'\), dove \(i': X' \hookrightarrow M'\), ovvero l'inclusione di \(X'\) in \(M'\).
   Per la proprietà universale, esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\bar{f}_{|_X} = f\).
   Analogamente, sia \(f'= i \circ g^{-1} : X' \to M\) e sia \(\bar{f'}: M' \to M\) l'unico morfismo di monoidi tale che \(\bar{f'}_{|_{X'}} = f'\).
-  Si ha che \(\bar{f'} \circ \bar{f}: M \to M\) è un morfismo di monoidi che estende l'identità di \(X\), ovvero:
+  Si ha che \(\bar{f'} \circ \bar{f}: M \to M\) è un morfismo di monoidi che estende \(id_X\), ovvero:
   \[\forall x \in X, \bar{f'} (\bar{f}(x)) = \bar{f'}(g(x))= g^{-1}(g(x))= x\]
-  Considerando la proprietà universale usando \(M\) per entrami i monoidi coinvolti, si ha che anche in questo caso deve esistere un unico morfismo di monoidi che estende l'identità di \(X\). Essendo che anche \(id_M\) è un morfismo di monoidi che estende l'identità di \(X\), si ha che \(\bar{f'} \circ \bar{f} = id_M\).
-  Dalla definizione di identità abbiamo che \(\bar{f} = \bar{f'}^{-1} \), ovvero che \(\bar{f}\) è un isomorfismo tra \(M\) e \(M'\). 
+  Come detto precedentemente però \(id_M\) è l'uncio morifsmo di monoidi da \(M\) in sè stesso che estente \(id_X\), dunque necessariamente si ha che \(\bar{f'} \circ \bar{f} = id_M\)
+  Dalla definizione di biettività abbiamo che \(\bar{f} = \bar{f'}^{-1} \), ovvero che \(\bar{f}\) è un isomorfismo tra \(M\) e \(M'\). 
 \end{proof}
 Questo corollario mostra che, a meno di isomorfismi, il monoide libero \(A^*\) è l'unico monoide libero con base di cardinalità \(\#A\).
 
@@ -204,7 +208,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
 \end{definition}
 
 \begin{note}
-  È importate notare che il morfismo di lunghezza è ben definito, poiché ogni elemento di \(M\) si fattorizza in modo univoco come prodotto di elementi di \(X\).
+  È importate notare che il morfismo di lunghezza è ben definito per ogni valore di \(M\), poiché ogni elemento di \(M\) si fattorizza in modo univoco come prodotto di elementi di \(X\).
   Non fosse stato così, non sarebbe possibile definire in modo univoco la lunghezza di un elemento di \(M\) a partire dagli elementi della sua base.
 \end{note}
 
@@ -229,3 +233,162 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
 \end{definition}
 
 In altre parole possiamo vedere l'insieme quoziente sinistro (rispettivamente destro) come l'insieme delle parole di \(M\) che servono a completare a sinistra (rispettivamente destra) una parola di \(Y\) per ottenere una parola di \(Z\).
+
+Utilizzando tali insieme è possibile formulare un importate teorema sui sottomonoidi liberi.
+
+\begin{theorem}[Schuïtzenberger]\label{thm:schuïtzenberger}
+  Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} \subseteq N\)
+\end{theorem}
+In altre parole questo teorema ci dice che \(N\) sottomonoide di \(M\) libero è a sua volta libero se e solo se ogni parola di \(M\) che completa sia a destra che a sinistra parole di \(N\) sia a sua volta inclusa in \(N\).
+Tale formulazione può essere espressa formalmente come:
+\[N \text{ libero } \iff \left(\forall m \in M:(\exists n_1,n_2,n_3,n_4:( n_1m=n_2 \land mn_3=n_4) \implies m \in N)\right)\]
+
+Per dare un idea del perché di questo risultato possiamo ragionare per assurdo, considerando l'ipotesi che esista \(m \in M\) che completa sia a sinistra che a destra parole di \(N\) senza appartenere esso stesso a \(N\).
+Prendendo allora per esempio il caso \(n_1m=n_2\) si avrà che o le parole della base di \(M\) che compongono \(m\) appartengono a \(N\) ma senza formare \(m\) stesso, e dunque \(N\) non è libero, o tali parole non appartengono a \(N\) e dunque deve esistere in \(n' \in N: n_1n'=n_2\) con \(n' \neq m\).
+Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), e in particolare il suo resto da \(n_1\) ha una doppia fattorizzazione.
+\todo{Chiedere a De Luca se e sufficiente come dim, e se si a che serve che \(m\) sia quoto sia sinistro che destro, in questo ragionamento basta solo un lato.}
+
+Riguardo questo teorema è possibile fare anche qualche osservazione ulteriore.
+In primo luogo, se \(N\leq M\) necessariamente \(N \subseteq N^{-1}N \cap NN^{-1}\) poiché tutte le parole di \(N\) completano sia a destra che a sinistra la parola vuota per formare se stesse.
+Di conseguenza il teorema può essere riformulato equivalentemente come:
+\begin{theorem}[Schuïtzenberger alt.]
+  Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} = N\)
+\end{theorem}
+In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
+\todo{Chiedere esempio di \(N \leq M\) non libero con \(M\) libero}
+
+\begin{definition}[Sottomoide unitario]
+  Dato \(M\) monoide, \(N \leq M\) è detto \keyword{unitario a sinistra} (rispettivamente a destra) se:
+  \[N^{-1}N \subseteq N \text{ sx}\]
+  \[NN^{-1} \subseteq N \text{ dx}\]
+  \(N\) si dice \keyword{unitario} se è sia unitario a sinistra che unitario a destra.
+\end{definition}
+
+Da tale definizione e dal teorema~\ref{thm:schuïtzenberger} segue che, dato \(M\) monoide libero, se \(N \leq M\) è libero, allora è unitario.
+\todo{Questa mi è proprio strana, spiego in commento nel codice}
+% FIXME @TheFabbest
+% Dal teorema di shuzzi abbiamo che se N è libero allora contiene l'interesezione dei quozienti, ma per eseere unitario deve contenere TUTTO il quoziente sinistro e TUTTO il quozione destro
+% dunque o il teorema di shuzzi vuole l'UNIONE degli insiemi quozionete, o la definizione di unitario generale è sbagliata o questa conclusione è sbagliata.
+% IDEA @TheFabbest
+% Forse per "unitario" si intende O unitario a sinistra O unitario a destra.
+\begin{definition}[Codice]
+  Dato \(A\) alfabeto finito, diremo che \(\emptyset \neq X \subseteq A^*\) è un \keyword{codice} se \(X\) è base di (un sottomonoide libero di) \(A^*\)
+\end{definition}
+
+\begin{note}
+  Come già osservato nella Nota~\ref{note:no_neutral_in_base}, per definizione di base, nessun codice può contenere la parola vuota \(\varepsilon\).
+  Di conseguenza, la notazione \(X \subseteq A^*\) può essere sostituita con \(X \subseteq A^+\) se \(X\) è codice.
+\end{note}
+
+\begin{definition}[Prefisso e Suffisso]
+  Dato \(A\) alfabeto finito, diremo che \(\emptyset \neq X \subseteq A^*\) è
+  \begin{description}
+    \item[\keyword{Prefisso}] se \(X\cap XA^+ = \emptyset\)
+    \item[\keyword{Suffisso}] se \(A^+X \cap X = \emptyset\)
+  \end{description}
+\end{definition}
+
+In altre parole \(X\) è prefisso se nessuna parola di \(X\) è prefisso di un'altra parola di \(X\), e analogamente per il suffisso.
+
+Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
+È possibile infatti dimostrare due forti risultati a riguardo.
+\begin{theorem}
+  Sia \(A\) alfabeto finito e \(\emptyset \neq X \subseteq A^*\).
+  Allora:
+  \begin{enumerate}
+    \item \(X\) prefisso (suffisso) è codice \(\iff X \neq {\varepsilon}\)
+    \item \(X\) codice è prefisso (suffisso) \(\iff X^*\) unitario a sinistra (destra)
+  \end{enumerate}
+\end{theorem}
+\todo{Altra domanda importante nel codice}
+% FIXME @TheFabbest
+% Sappiamo che A* è libero, e se X è contenuto in A* allora X* è sottomonoide di A*.
+% X* per sua definizione è libero. Ma dall'osservazione che già ci sembrava dubbi prima dovremmo avere che X* è sempre unitario.
+% Da quest'ultimo teorema si dovrebbe avere dunque che X è sempre sia prefisso che suffisso
+% C'è qualcosa che decisamente non abbiamo capito
+
+\begin{corollary}
+  \(\emptyset \neq X \subseteq A^+\) è codice se e solo se valgono entrambe le seguenti condizioni:
+  \begin{itemize}
+    \item \({(X^*)}^{-1}X^* \cap X{(X^*)}^{-1} \subseteq X^* \)
+    \item \(X \cap XX^+ = \emptyset\)
+  \end{itemize}
+\end{corollary}
+
+Una volta definiti gli insiemi quoziente, è possibile definire gli insiemi \emph{resto} da essi derivati, anch'essi collegati a importanti proprietà dei codici.
+\begin{definition}[Insiemi resto]
+  Per \(X \subseteq A^+\) definiamo la successione di insiemi resto destri come:
+  \begin{equation}
+    \begin{cases}
+      R_1(X) = X^{-1}X\setminus \set{\varepsilon} \\
+      R_{n+1}(X) =X^{-1} R_n(X) \cup {R_n(X)}^{-1}X, \quad n \geq 1\\
+    \end{cases}
+  \end{equation}
+  I resti sinistri sono definiti in modo analogo usando il quoziente destro.
+\end{definition}
+
+In altre parole, dato \(X \subseteq A^+\), il primo insieme dei resti destri \(R_1(X)\) è l'insieme delle parole che completano a destra una parola di \(X\) per formare un'altra parola di \(X\), escluse le parole vuote.
+I resti successivi sono invece le parole che completano a destra una parola di \(X\) per formare una parola del resto precedente o viceversa.
+
+\begin{note}
+  Se \(X\) è chiaro dal contesto, indicheremo semplicemente con \(R_n\) i suoi insiemi resto.
+\end{note}
+\begin{example}
+  Sia \(A = \set{a,b}, X = \set{a,a^3b,abb,b^3}\).
+  Avremo dunque che gli insiemi resto di \(X\) sono:
+  \[R_1 = \set{a^2b, bb}\]
+  con \(a^2b\) che completa \(a\) per formare \(a^3b\) e \(bb\) che completa sempre \(a\) per formare \(abb\).
+  \[R_2 = \set{ab,b}\]
+  con \(a^b\) che completa sempre \(a\) per formare \(a^2b\) e \(b\) che completa \(bb\) per formare \(b^3\).
+  \[R_3 = \set{b,bb}\]
+  con \(b\) che completa \(a\) per formare \(ab\) e \(bb\) che completa \(b\) per formare \(bbb\).
+  Da questo punto la successione si stabilizza, e dunque:
+  \[\forall n \geq 3, R_n = \set{b,bb}\]
+\end{example}
+
+È interessante notare che l'\(X\) scelto nell'esempio precedente è un codice, e che i suoi insiemi resto non contengono mai elementi di \(X\).
+Questa osservazione non è casuale, ma è in realtà il risultato di un teorema importante.
+\begin{theorem}[Sardinas-Patterson]
+  Sia \(\emptyset \neq X \subseteq A^+\). Allora \(X\) è codice \(\iff \forall n\geq 1 R_n(X) \cap X = \emptyset\)
+\end{theorem}
+
+\todo{Secondo me qui un idea di dim la si può pensare}
+
+% ?? @TheFabbest
+% Fino a dove sono arrivato non è ben chiaro se il lemma che segue serve a dimosrtare il teorema di Sardinas-Patterson o se tale teorema non verrà dimostrato.
+% Nel primo caso vanno aggiunte due paroline sul fatto che la dimotrazione arriverà più avanti ma ci servono risultati intermedi. 
+\begin{lemma}
+  Sia \(X \subseteq A^+\) e \(n\geq 1\). Allora, data \(w \in A^+\), \(w \in R_n \iff \exists i,j\geq 1, x_1,\ldots,x_i,x_1',\ldots,x_j' \in X\) tali che:
+  \begin{itemize}
+    \item \(i+j=n+1\)
+    \item \(x_1\ldots x_{i}w = x_1'\ldots x_j'\)
+    \item \(x_1 \neq x_1'\)
+    \item \(\abs{w} \leq \abs{x_j'}\)
+  \end{itemize}
+\end{lemma}
+
+\begin{proof}
+  La dimostrazione procede per induzione su \(n\).
+  Il caso base \(n=1\) è vero per definizione di \(R_1\) con \(i = j = 1\).
+  Procediamo dunque col passo induttivo nelle due direzioni dell'implicazione.
+  \begin{description}
+    \item[\q{\(\implies\)}] 
+      Sia \(w \in R_n, n>1\). Allora \(R_n = X^{-1}R_{n-1} \cup {R_{n-1}}^{-1}X\), dunque
+      \[\exists r_{n-1} \in R_{n-1}, x \in X: xw=r_{n-1} \lor r_{n-1}w=x\]
+
+      Per ipotesi induttiva, esistono \(i,j \geq 1, x_1\ldots x_i,x_1'\ldots x_j' \in X\) tali che:
+      \begin{itemize}
+        \item \(i+j=n+1\)
+        \item \(x_1\ldots x_i r_{n-1} = x_1'\ldots x_j'\)
+        \item \(x_1 \neq x_1'\)
+        \item \(\abs{r_{n-1}} \leq \abs{x_j'}\)
+      \end{itemize}
+      Ora, se \(xw = r_{n-1}\), si ha che \(x_1\ldots x_i xw= x_1\ldots x_i r_{n-1} = x_1'\ldots x_j'\), da cui \(i+1,j\), e scegliendo come \(x_{i+1} = x\) si ha che tutte le condizioni sono soddisfatte.
+      Le prime tre condizioni sono ovvie, e l'ultima è data da \(\abs{w}\leq\abs{r_{n-1}}\leq\abs{x_j'}\).
+      Se invece \(r_{n-1}w = x\), otteniamo \(x_1\ldots x_i r_{n-1} w = x_1'\ldots x_j' w\) concatenando \(w\) a destra di entrambi i membri.
+      Ma sapendo che \(r_{n-1}w = x\), possiamo riscrivere gli ultimi due fattori del primo membro come \(x\), ottenendo \(x_1\ldots x_i x = x_1'\ldots x_j' w\).
+      In questo caso, scegliendo \(j,i+1\) e \(x_j' = x\) otteniamo nuovamente tutte le condizioni.
+    \item[\q{\(\impliedby\)}]
+      \todo{Next lecture}
+  \end{description}
+\end{proof}
