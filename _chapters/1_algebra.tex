@@ -92,7 +92,7 @@ Dato un qualsiasi semigruppo \((S,\cdot)\), è possibile costruire un semigruppo
 \begin{definition}[Semigruppo delle parti]
   Sia \((S,\cdot)\) un semigruppo.
   Definiamo l'operazione binaria \(\circ\) su \(\mathcal{P}(S)\) come:
-  \[\forall X,Y \in \mathcal{P}(S), X \circ Y = \set{x \cdot y : x \in X, y \in Y}.\]
+  \[\forall X,Y \in \mathcal{P}(S), X \circ Y = \set{x \cdot y}[ x \in X, y \in Y].\]
 \end{definition}
 Tale costruzione è estendibile anche a un qualsiasi monoide \((M,\cdot,1_M)\), usando come elemento neutro l'insieme \(\set{1_M}\).
 
@@ -102,7 +102,7 @@ Tale notazione permette di formulare in modo più compatto la chiusura di un sot
   \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
 \begin{proof}[Idea di dimostrazione]\label{proof:alt_notation_closure}
   Da definizione infatti, \(Y^2 = \set{y_1 \cdot y_2}[y_1,y_2 \in Y]\). Se \(Y^2 \subseteq Y\), allora anche \(Y^3 = Y^2 \cdot Y \subseteq Y\), poiché
-  \[\forall y \in Y^3, \exists y_1 \in Y, y_2 \in Y^2: y = y_1 \cdot y_2\]
+  \[\forall y \in Y^3, \exists y_1 \in Y, y_2 \in Y^2\st y = y_1 \cdot y_2\]
   Iterando il ragionamento è possibile mostrare che \(Y\) contiene tutte le potenze di sé stesso, ed è dunque chiuso.
 \end{proof}
 
@@ -212,7 +212,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
   Non fosse stato così, non sarebbe possibile definire in modo univoco la lunghezza di un elemento di \(M\) a partire dagli elementi della sua base.
 \end{note}
 
-\begin{lemma}[Levi]
+\begin{lemma}[Levi]\label{thm:levi}
   Sia \(M\) un monoide libero, \(m_1,m_2,m_3,m_4 \in M\) tali che \(m_1m_2=m_3m_4 \text{ e } |m_1| \geq |m_3|\).
   Allora \(\exists v \in M: m_1 = m_3v \land vm_2 = m_4\)
 \end{lemma}
@@ -321,21 +321,22 @@ Utilizzando tali insieme è possibile formulare un importate teorema sui sottomo
 \end{theorem}
 In altre parole questo teorema ci dice che \(N\) sottomonoide di \(M\) libero è a sua volta libero se e solo se ogni parola di \(M\) che completa sia a destra che a sinistra parole di \(N\) sia a sua volta inclusa in \(N\).
 Tale formulazione può essere espressa formalmente come:
-\[N \text{ libero } \iff \left(\forall m \in M:(\exists n_1,n_2,n_3,n_4:( n_1m=n_2 \land mn_3=n_4) \implies m \in N)\right)\]
+\[N \text{ libero } \iff \left(\forall m \in M (\exists n_1,n_2,n_3,n_4( n_1m=n_2 \land mn_3=n_4) \implies m \in N)\right)\]
 
 Per dare un idea del perché di questo risultato possiamo ragionare per assurdo, considerando l'ipotesi che esista \(m \in M\) che completa sia a sinistra che a destra parole di \(N\) senza appartenere esso stesso a \(N\).
-Prendendo allora per esempio il caso \(n_1m=n_2\) si avrà che o le parole della base di \(M\) che compongono \(m\) appartengono a \(N\) ma senza formare \(m\) stesso, e dunque \(N\) non è libero, o tali parole non appartengono a \(N\) e dunque deve esistere in \(n' \in N: n_1n'=n_2\) con \(n' \neq m\).
+Prendendo allora per esempio il caso \(n_1m=n_2\) si avrà che o le parole della base di \(M\) che compongono \(m\) appartengono a \(N\) ma senza formare \(m\) stesso, e dunque \(N\) non è libero, o tali parole non appartengono a \(N\) e dunque deve esistere in \(n' \in N\st n_1n'=n_2\) con \(n' \neq m\).
 Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), e in particolare il suo resto da \(n_1\) ha una doppia fattorizzazione.
 \todo{Chiedere a De Luca se e sufficiente come dim, e se si a che serve che \(m\) sia quoto sia sinistro che destro, in questo ragionamento basta solo un lato.}
 
-Riguardo questo teorema è possibile fare anche qualche osservazione ulteriore.
-In primo luogo, se \(N\leq M\) necessariamente \(N \subseteq N^{-1}N \cap NN^{-1}\) poiché tutte le parole di \(N\) completano sia a destra che a sinistra la parola vuota per formare se stesse.
-Di conseguenza il teorema può essere riformulato equivalentemente come:
-\begin{theorem}[Schuïtzenberger alt.]
-  Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} = N\)
-\end{theorem}
-In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
-\todo{Chiedere esempio di \(N \leq M\) non libero con \(M\) libero}
+\begin{note}[Osservazioni]
+  Se \(N\leq M\) necessariamente \(N \subseteq N^{-1}N \cap NN^{-1}\) poiché tutte le parole di \(N\) completano sia a destra che a sinistra la parola vuota per formare se stesse.
+  Di conseguenza il teorema può essere riformulato equivalentemente come:
+  \begin{theorem}[Schuïtzenberger alt.]
+    Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} = N\)
+  \end{theorem}
+  In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
+\end{note}
+  \todo{Chiedere esempio di \(N \leq M\) non libero con \(M\) libero}
 
 \begin{definition}[Sottomoide unitario]
   Dato \(M\) monoide, \(N \leq M\) è detto \keyword{unitario a sinistra} (rispettivamente a destra) se:
