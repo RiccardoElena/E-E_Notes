@@ -73,20 +73,22 @@ Tali insiemi sono collegati a importanti proprietà dei codici, come vedremo a b
 \begin{example}
   Sia \(A = \set{a,b}, X = \set{a,a^3b,abb,b^3}\).
   Avremo dunque che gli insiemi resto di \(X\) sono:
-  \[R_1 = \set{a^2b, bb}\]
+
+  \(R_1 = \set{a^2b, bb}\)
   con \(a^2b\) che completa \(a\) per formare \(a^3b\) e \(bb\) che completa sempre \(a\) per formare \(abb\).
-  \[R_2 = \set{ab,b}\]
-  con \(a^b\) che completa sempre \(a\) per formare \(a^2b\) e \(b\) che completa \(bb\) per formare \(b^3\).
-  \[R_3 = \set{b,bb}\]
+
+  \(R_2 = \set{ab,b}\)
+  con \(ab\) che completa sempre \(a\) per formare \(a^2b\) e \(b\) che completa \(bb\) per formare \(b^3\).
+
+  \(R_3 = \set{b,bb}\)
   con \(b\) che completa \(a\) per formare \(ab\) e \(bb\) che completa \(b\) per formare \(bbb\).
-  Da questo punto la successione si stabilizza, e dunque:
-  \[\forall n \geq 3, R_n = \set{b,bb}\]
+  Da questo punto la successione si stabilizza, e dunque \(\forall n \geq 3, R_n = \set{b,bb}\)
 \end{example}
 
 È interessante notare che l'\(X\) scelto nell'esempio precedente è un codice, e che i suoi insiemi resto non contengono mai elementi di \(X\).
 Questa osservazione non è casuale, ma è in realtà il risultato di un teorema importante.
 \begin{theorem}[Sardinas-Patterson]\label{thm:sardinas-patterson}
-  Sia \(\emptyset \neq X \subseteq A^+\). Allora \(X\) è codice \(\iff \forall n\geq 1 R_n(X) \cap X = \emptyset\)
+  Sia \(\emptyset \neq X \subseteq A^+\). Allora \(X\) è codice \(\iff \forall n\geq 1\st R_n(X) \cap X = \emptyset\)
 \end{theorem}
 
 Per dimostrare questo teorema, è utile utilizzare un risultato intermedio per semplificare la trattazione.
@@ -200,25 +202,33 @@ Conclusa la dimostrazione del lemma, possiamo procedere con la dimostrazione del
 
 \begin{example}
   Sia \(X_2 = \set{a,ab,bb}\). Calcoliamo gli insiemi resto di \(X_2\):
-  \[R_1 = X_2^{-1}X_2 \setminus \set{\varepsilon} = \set{b}\]
+
+  \(R_1 = X_2^{-1}X_2 \setminus \set{\varepsilon} = \set{b}\)
   poiché \(b\) completa \(a\) per formare \(ab\).
-  \[R_2 = X_2^{-1}R_1 \cup R_1^{-1}X_2 = \set{b}\]
+
+  \(R_2 = X_2^{-1}R_1 \cup R_1^{-1}X_2 = \set{b}\)
   poiché \(b\) completa \(a\) per formare \(ab\) e \(b\) completa \(bb\) per formare \(bb\).
+
   Da questo punto in poi, la successione si stabilizza, dunque \(\forall n \geq 1, R_n = \set{b}\).
   Poiché \(b \not\in X_2\), per il Teorema di Sardinas-Patterson, \(X_2\) è codice.
 
   Sia \(X_4 = \set{a,aba,bb}\). Calcoliamo gli insiemi resto di \(X_4\):
-  \[R_1 = X_4^{-1}X_4 \setminus \set{\varepsilon} = \set{ba}\]
+  
+  \(R_1 = X_4^{-1}X_4 \setminus \set{\varepsilon} = \set{ba}\)
   poiché \(ba\) completa \(a\) per formare \(aba\).
-  \[R_2 = X_4^{-1}R_1 \cup R_1^{-1}X_4 = \emptyset\]
+
+  \(R_2 = X_4^{-1}R_1 \cup R_1^{-1}X_4 = \emptyset\)
   poiché nessuna parola di \(X_4\) può essere usata per completare \(ba\) e viceversa.
+  
   Da questo punto in poi, la successione si stabilizza, dunque \(\forall n \geq 2, R_n = \emptyset\).
   Anche in questo caso, \(X_4\) è codice per il Teorema di Sardinas-Patterson.
 
   Sia infine \(X_5 = \set{a,ab,ba}\). Calcoliamo gli insiemi resto di \(X_5\):
-  \[R_1 = X_5^{-1}X_5 \setminus \set{\varepsilon} = \set{b}\]
+
+  \(R_1 = X_5^{-1}X_5 \setminus \set{\varepsilon} = \set{b}\)
   poiché \(b\) completa \(a\) per formare \(ab\).
-  \[R_2 = X_5^{-1}R_1 \cup R_1^{-1}X_5 = \set{a}\]
+  
+  \(R_2 = X_5^{-1}R_1 \cup R_1^{-1}X_5 = \set{a}\)
   poiché \(a\) completa \(b\) per formare \(ba\).
   Dunque, essendo che \(a \in X_5\), per il Teorema di Sardinas-Patterson, \(X_5\) non è codice.
 \end{example}
