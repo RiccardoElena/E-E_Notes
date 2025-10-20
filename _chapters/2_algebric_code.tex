@@ -1,6 +1,9 @@
 \chapter{Codici}
 
-Addentrandoci finalmente negli argomenti propri del corso, in questo capitolo si inizieranno a trattare i \keyword{codici}.
+Finita la parte introduttiva su gli strumenti matematici necessari,
+possiamo finalmente addentrarci negli argomenti propri del corso.
+
+In questo capitolo si inizieranno a trattare i \keyword{codici}.
 In particolare, questo capitolo si concentra sui codici da un punto di vista algebrico, studiandone le proprietà fondamentali e le strutture matematiche sottostanti.
 
 Le loro proprietà legate alla teoria dell'informazione e alla crittografia verranno invece trattate nei capitoli successivi.
@@ -255,7 +258,7 @@ Questo risultato implica che, dato un insieme finito \(X\), la procedura di deci
 Inoltre, denotando \(K = \# X\) e \(L = \max_{x \in X} \abs{x}\), si ha che \(\# Suff(X) \leq KL+1\).
 Infatti, ogni \( x \in X \setminus \set{\varepsilon}\) ha esattamente \(\abs{x}\) suffissi non vuoti distinti e quindi \(X\), che ha \(K\) parole di lunghezza al più \(L\), avrà al più \(KL\) suffissi non vuoti distinti, a cui si deve aggiungere la parola vuota \(\varepsilon\) come suffisso banale.
 
-Di conseguenza, \(Suff(X)\) ha al più \(2^{KL+1}\) sottoinsiemi\footnote{\(\#(\P(S)) = 2^{\#S}\) è un risultato noto in combinatoria}, per cui \(\exists n \leq 2^{KL+1} \st R_n = R_m, m < n\), e conseguentemente \(R_{n+i} = R_{m+i}, \forall i \geq 0\), ovvero la successione degli insiemi resto si stabilizza entro un numero finito di passi, esponenziale in \(K\) e \(L\).
+Di conseguenza, \(Suff(X)\) ha al più \(2^{KL+1}\) sottoinsiemi\footnote{\(\#(\mathcal{P}(S)) = 2^{\#S}\) è un risultato noto in combinatoria}, per cui \(\exists n \leq 2^{KL+1} \st R_n = R_m, m < n\), e conseguentemente \(R_{n+i} = R_{m+i}, \forall i \geq 0\), ovvero la successione degli insiemi resto si stabilizza entro un numero finito di passi, esponenziale in \(K\) e \(L\).
 Chiaramente tale limite è molto elevato, portando a complessità esponenziale nell'algoritmo di decisione basato sul Teorema di Sardinas-Patterson.
 Fortunatamente, è possibile mostrare come tale limite possa essere notevolmente ridotto, portando la complessità dell'algoritmo a essere lineare in \(K\) e \(L\).
 \begin{theorem}[Levanshtein???]
@@ -292,6 +295,176 @@ In poche parole, questo teorema afferma che, nel caso di insiemi finiti, se le c
 Questi esempi servono a mostrare come in molti caso questo nuovo limite sia comunque più grande del necessario, ma in ogni caso fornisce una procedura di decisione efficiente per stabilire se un insieme finito sia codice o meno.
 
 \section{Distribuzioni e Disuguaglianza di Kraft-McMillan}
+
+Un modo ulteriore di discriminare tra codici e non, anche se rappresentando una condizione solo necessaria e non sufficiente, è dato dalla Disuguaglianza di Kraft-McMillan.
+\begin{theorem}[Disuguaglianza di Kraft-McMillan]\label{thm:kraft-mcmillan_inequality}
+  Dato \(X \subseteq A^+\), con \(\# A = d\), si ha:
+    \[X \text{ codice } \implies \sum_{x \in X} d^{-\abs{x}} \leq 1\]
+\end{theorem}
+
+\begin{example}
+  Come già anticipato, questa disuguaglianza fornisce una condizione solo necessaria per essere codice. Infatti, esistono insiemi \(X\) che soddisfano la disuguaglianza ma non sono codici.
+  Consideriamo l'insieme \(X_5\) dell'esempio precedente, ovvero \(X_5 = \set{a,ab,ba}\) su alfabeto \(A = \set{a,b}\).
+  Si ha che:
+  \[\sum_{x \in X_5} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} = 1\]
+  Nonostante ciò, come già visto, \(X_5\) non è codice.
+  
+  Ovviamente, come tutte le condizioni necessarie, la Disuguaglianza di Kraft-McMillan può essere utilizzata per dimostrare che un insieme non è codice.
+  Ad esempio, consideriamo l'insieme \(X_6 = \set{a,ab,bb,bab}\) non può essere codice su \(A = \set{a,b}\), poiché:
+  \[\sum_{x \in X_6} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} + 2^{-3} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} + \frac{1}{8} = \frac{9}{8} > 1\]
+\end{example}
+
+Un modo alternativo di esprimere la Disuguaglianza di Kraft-McMillan è dato dalla funzione di struttura di un insieme di parole.
+\begin{definition}[Funzione di struttura di un insieme]
+  Sia \(X \subseteq A^*\), la \keyword{funzione di struttura} di \(X\) è la funzione:
+  \begin{equation*}
+    \begin{aligned}
+      f_X: \N &\to \N \\
+      n &\mapsto \#(X \cap A^n)
+    \end{aligned}
+  \end{equation*}
+  ovvero la funzione che associa a ogni possibile lunghezza di parola \(n\) il numero di parole di tale lunghezza appartenenti a \(X\).
+\end{definition}
+
+A questo punto, possiamo riscrivere la Disuguaglianza di Kraft-McMillan (\ref{thm:kraft-mcmillan_inequality}) come:
+\begin{theorem}[Disuguaglianza di Kraft-McMillan alt.]\label{thm:kraft-mcmillan_inequality_alt}
+  Dato \(X \subseteq A^+\), con \(\# A = d\), si ha:
+    \[X \text{ codice } \implies \sum_{n=1}^{\infty} f_X(n) d^{-n} \leq 1\]
+\end{theorem}
+
+Per la dimostrazione di questa disuguaglianza sarà necessario attendere un po', poiché richiede diversi risultati intermedi, oltre che all'introduzione di un nuovo concetto, che ci tornerà utile anche in passaggi futuri: le \emph{distribuzioni}.
+\subsection{Distribuzioni}
+
+\begin{definition}[Distribuzione su simboli di un alfabeto]
+  Una \keyword{distribuzione} su un alfabeto \(A\) è una funzione
+    \[\mu: A \to \R_{\geq 0}\]
+  tale che \(\sum_{a \in A} \mu(a) = 1\).
+\end{definition}
+La condizione di somma unitaria implica, ovviamente, che l'immagine di una distribuzione sia contenuta nell'intervallo \([0,1]\).
+
+Una distribuzione su un alfabeto è detta \keyword{positiva} se \(\forall a \in A, \mu(a) > 0\).
+Inoltre, una distribuzione su un alfabeto \(A\) è detta \keyword{uniforme} se \(\forall a \in A, \mu(a) = \frac{1}{\# A}\).
+
+Dalla proprietà universale dei monoidi liberi, possiamo estendere in maniera unica una distribuzione definita su un alfabeto \(A\) a un morfismo su \(A^*\).
+\begin{definition}[Distribuzione su parole di un monoide libero]
+  Sia \(\mu: A \to \R_{\geq 0}\) una distribuzione su un alfabeto \(A\).
+  Allora, esiste un unico morfismo di monoidi
+    \[\mu: A^* \to (\R_{\geq 0}, \cdot, 1)\]
+\end{definition}
+
+Dalla definizione di morfismo di monoidi, necessariamente si avrà che \(\mu(\varepsilon) = 1\) e che \(\mu(a_1\ldots a_n) = \mu(a_1)\cdot\ldots\cdot \mu(a_n), \forall a_1\ldots a_n \in A\)
+
+\begin{note}
+  Queste distribuzioni sono interpretabili da un punto di vista probabilistico.
+  Infatti una distribuzione su un alfabeto \(A\) può essere vista come una distribuzione di probabilità discreta su \(A\),
+  mentre il morfismo esteso a \(A^*\) può essere visto come la distribuzione di probabilità su parole ottenute da esperimenti indipendenti e identicamente distribuiti (i.i.d.) con distribuzione di probabilità data dalla distribuzione su \(A\).
+  
+  Per il momento però, l'interpretazione probabilistica non ci interessa, e ci concentreremo sugli aspetti puramente algebrici delle distribuzioni.
+  Analizzeremo l'interpretazione probabilistica in seguito.
+\end{note}
+
+\begin{definition}[Distribuzione su insiemi di parole]
+  Data una distribuzione \(\mu\) su un alfabeto \(A\), definiamo la \keyword{distribuzione su insiemi di parole} come la funzione:
+  \begin{equation*}
+    \begin{aligned}
+      \mu: \mathcal{P}(A^*) &\to \R_{\geq 0} \cup \set{\infty} \\
+                  \emptyset &\mapsto 0 \\
+                 \emptyset \neq X \subseteq A^* &\mapsto \sum_{w \in X} \mu(w)
+    \end{aligned}
+  \end{equation*}
+  Dove \(\mu\) usata nella somma è il morfismo di monoidi esteso dalla distribuzione su \(A\).  
+\end{definition}
+
+\begin{note}
+  In questa estensione l'aspetto probabilistico è perso, poiché la somma su insiemi di parole può essere infinita.
+  Tuttavia, questa estensione è fondamentale per numerosi risultati successivi.
+
+  A maggior ragione, si ribadisce come, seppur sia possibile trarre delle interpretazioni probabilistiche delle distribuzioni su insiemi di parole, è importante trattare le due cose con distinzione.
+\end{note}
+
+Analizziamo ora alcune proprietà delle distribuzioni su insiemi di parole.
+\begin{proposition}\label{prop:distribution_monotonicity}
+  Sia \(\mu\) una distribuzione su un alfabeto \(A\).
+  Allora, dati \(X,Y \subseteq A^*\) tali che \(X \subseteq Y\), si ha che \(\mu(X) \leq \mu(Y)\).
+\end{proposition}
+\begin{proof}
+  La dimostrazione è ovvia, dal fatto che nella somma degli elementi di \(\mu(Y)\) sono presenti tutti gli addendi di \(\mu(X)\), più eventualmente altri addendi non negativi.
+\end{proof}
+
+\begin{proposition}
+  Sia \(Y_j \subseteq A^*\) una famiglia di insiemi di parole indicizzati da \(j \in J\). 
+  Allora
+  \[\mu(\bigcup_{j \in J}Y_j) \leq \sum_{j\in J} \mu(Y_j)\]
+
+  Inoltre, vale l'uguaglianza se gli insiemi \(Y_j\) sono a due a due disgiunti.
+
+  Viceversa, se \(\mu(\bigcup_{j \in J}Y_j) = \sum_{j\in J} \mu(Y_j) < \infty\), e \(\mu\) è una distribuzione positiva, allora gli insiemi \(Y_j\) sono a due a due disgiunti.
+\end{proposition}
+
+Questa proposizione sarà la prima di una serie di risultati di quasi equivalenze, in cui una delle due direzioni richiederà delle ipotesi aggiuntive, in particolare che la distribuzione sia positiva e che la somma delle misure degli insiemi sia finita.
+
+\begin{proof}
+  Che valga la disuguaglianza è ovvio, poiché ogni elemento di \(\bigcup_{j \in J}Y_j\) compare almeno una volta nella somma a destra.
+  Se gli insiemi sono a due a due disgiunti, ogni elemento compare esattamente una volta, dunque la somma a destra è esattamente uguale alla misura dell'unione a sinistra.
+  Il viceversa è analogo, ma le ipotesi aggiuntive sono necessarie.
+  In primo luogo, poiché elementi nulli potrebbero essere presenti in più insiemi senza alterare la somma.
+  Inoltre, se la somma fosse infinita, un elemento presente in più di un insieme potrebbe non alterare la somma.
+  Ad esempio, se gli insiemi \(Y_1,Y_2\) sono disgiunti e hanno misura infinita, aggiungendo un elemento \(w\) a entrambi gli insiemi non si altera la somma, ma gli insiemi non sono più disgiunti.
+\end{proof}
+
+\begin{definition}[Prodotto cartesiano non ambiguo]
+  Dati \(Y,Z \subseteq A^*\), diremo che il loro prodotto cartesiano \(Y\times Z\) è \keyword{non ambiguo} se
+    \[\forall w \in YZ, \exists! (y,z) \in Y \times Z : w = yz\]
+  In altre parole, ogni parola ottenuta concatenando una parola di \(Y\) con una parola di \(Z\) ammette un'unica fattorizzazione di questo tipo.
+\end{definition}
+
+\begin{example}\label{ex:non_ambiguos_prod}
+  Consideriamo gli insiemi \(Y = \set{a,ab}\) e \(Z = \set{a,ba}\).
+  Il loro prodotto cartesiano \(\set{a,ab}\times\set{a,ba}\) è ambiguo, poiché \(ab\cdot a = a\cdot ba\).
+
+  Invece, \(A^h\times A^k\) è non ambiguo \(\forall h,k \in \N\), poiché ogni parola di \(A^{h+k}\) può essere scritta in un unico modo come concatenazione di una parola di lunghezza \(h\) e una di lunghezza \(k\).
+\end{example}
+\begin{proposition}
+  \(\forall Y,Z \subseteq A^*, \mu(YZ) \leq \mu(Y)\mu(Z)\), e vale l'uguaglianza se \(Y\times Z\) è non ambiguo.
+  Viceversa, se \(\mu(YZ) = \mu(Y)\mu(Z) < \infty\) e \(\mu\) è una distribuzione positiva, allora \(Y\times Z\) è non ambiguo.
+\end{proposition}
+\begin{proof}
+  È sufficiente osservare che \(YZ = \bigcup_{y\in Y, z \in Z}\set{yz}\) e tale unione è a due a due disgiunta se e solo se \(Y\times Z\) è non ambiguo per definizione del prodotto cartesiano non ambiguo.
+  Quindi
+  \[\mu(YZ) = \mu(\bigcup_{y\in Y, z \in Z}\set{yz}) \leq \sum_{y\in Y, z \in Z}\mu(yz) = \sum_{y\in Y, z \in Z}\mu(y)\mu(z) =\sum_{y \in Y}\mu(y) \sum_{z \in Z}\mu(z) = \mu(Y)\mu(Z)\]
+  e vale l'uguaglianza se \(Y\times Z\) è non ambiguo.
+  Il viceversa è analogo a quello della proposizione precedente.
+\end{proof}
+
+\begin{proposition}
+  Per \(\mu\) distribuzione su un alfabeto \(A\), si ha che \(\forall n \geq 0, \mu(A^n) = 1\).
+  Inoltre, \(\mu(A^*) = \infty\)
+\end{proposition}
+\begin{proof}
+  Procediamo per induzione su \(n\).
+  Per \(n=0\), si ha che \(A^0 = \set{\varepsilon}\) e quindi \(\mu(A^0) = \mu(\set{\varepsilon}) = \mu(\varepsilon) = 1\).
+
+  Inoltre, come ulteriore caso base, per \(n=1\), si ha che \(\mu(A^1) = \mu(A) = 1\) per definizione di distribuzione.
+  Ora, procedendo per induzione, abbiamo che \(\mu(A^{n+1}) = \mu(AA^n)\).
+  Come visto nell'esempio~\ref{ex:non_ambiguos_prod}, \(A \times A^n\) è non ambiguo, dunque:
+  \[\mu(A^{n+1}) = \mu(AA^n) = \mu(A)\mu(A^n) = 1 \cdot 1 = 1 \]
+
+  Dalla definizione di \(A^*\) inoltre, segue che:
+  \[\mu(A^*) = \mu(\bigcup_{n\geq0} A^n) = \sum_{n=0}^{\infty} \mu(A^n) = \sum_{n=0}^{\infty} 1 = \infty\]
+\end{proof}
+
+\begin{proposition}
+  Sia \(X \subseteq A^*\). Allora:
+  \[X \text{ codice } \iff \forall n \geq 1, X\times X^n \text{ è non ambiguo}\]
+\end{proposition}
+\begin{proof}
+  Se \(X\) è codice, la proposizione è ovvia, poiché se \(X\) è codice, ogni parola di \(X^*\) ha un'unica fattorizzazione in parole di \(X\), dunque anche ogni parola ottenuta concatenando una parola di \(X\) con \(n\) parole di \(X\) avrà un'unica fattorizzazione di questo tipo.
+  Viceversa, se \(X\) non è codice, \(\exists x_1,\ldots,x_h,x_1',\ldots,x_k' \in X \st x_1\ldots x_h = x_1'\ldots x_k' \land x_1 \neq x_1'\).
+  I due membri dell'uguaglianza appartengono rispettivamente a \(X^h\) e \(X^k\).
+  Concatenando a destra dell'elemento di \(X^h\) la parola di \(X^k\) e viceversa otteniamo:
+  \[x_1\ldots x_h x_1'\ldots x_k' = x_1'\ldots x_k' x_1\ldots x_h\]
+  Dove entrambi i membri appartengono a \(X^{h+k} = X \times X^{h+k-1}\), ma ammettono due fattorizzazioni distinte, dunque \(X \times X^{h+k-1}\) è ambiguo.
+\end{proof}
 
 \section{Codici Massimali e Insiemi Densi e Completi}
 % TODO @TheFabbest
