@@ -297,10 +297,12 @@ Questi esempi servono a mostrare come in molti caso questo nuovo limite sia comu
 \section{Distribuzioni e Disuguaglianza di Kraft-McMillan}
 
 Un modo ulteriore di discriminare tra codici e non, anche se rappresentando una condizione solo necessaria e non sufficiente, è dato dalla Disuguaglianza di Kraft-McMillan.
-\begin{theorem}[Disuguaglianza di Kraft-McMillan]\label{thm:kraft-mcmillan_inequality}
+\begin{corollary}[Disuguaglianza di Kraft-McMillan]\label{cor:kraft-mcmillan_inequality}
   Dato \(X \subseteq A^+\), con \(\# A = d\), si ha:
     \[X \text{ codice } \implies \sum_{x \in X} d^{-\abs{x}} \leq 1\]
-\end{theorem}
+\end{corollary}
+
+Tale disuguaglianza è riportata come corollario poiché, come vedremo a breve, la sua dimostrazione segue direttamente da un teorema più generale.
 
 \begin{example}
   Come già anticipato, questa disuguaglianza fornisce una condizione solo necessaria per essere codice. Infatti, esistono insiemi \(X\) che soddisfano la disuguaglianza ma non sono codici.
@@ -326,11 +328,11 @@ Un modo alternativo di esprimere la Disuguaglianza di Kraft-McMillan è dato dal
   ovvero la funzione che associa a ogni possibile lunghezza di parola \(n\) il numero di parole di tale lunghezza appartenenti a \(X\).
 \end{definition}
 
-A questo punto, possiamo riscrivere la Disuguaglianza di Kraft-McMillan (\ref{thm:kraft-mcmillan_inequality}) come:
-\begin{theorem}[Disuguaglianza di Kraft-McMillan alt.]\label{thm:kraft-mcmillan_inequality_alt}
+A questo punto, possiamo riscrivere la Disuguaglianza di Kraft-McMillan (\ref{cor:kraft-mcmillan_inequality}) come:
+\begin{corollary}[Disuguaglianza di Kraft-McMillan alt.]\label{cor:kraft-mcmillan_inequality_alt}
   Dato \(X \subseteq A^+\), con \(\# A = d\), si ha:
     \[X \text{ codice } \implies \sum_{n=1}^{\infty} f_X(n) d^{-n} \leq 1\]
-\end{theorem}
+\end{corollary}
 
 Per la dimostrazione di questa disuguaglianza sarà necessario attendere un po', poiché richiede diversi risultati intermedi, oltre che all'introduzione di un nuovo concetto, che ci tornerà utile anche in passaggi futuri: le \emph{distribuzioni}.
 \subsection{Distribuzioni}
@@ -343,7 +345,7 @@ Per la dimostrazione di questa disuguaglianza sarà necessario attendere un po',
 La condizione di somma unitaria implica, ovviamente, che l'immagine di una distribuzione sia contenuta nell'intervallo \([0,1]\).
 
 Una distribuzione su un alfabeto è detta \keyword{positiva} se \(\forall a \in A, \mu(a) > 0\).
-Inoltre, una distribuzione su un alfabeto \(A\) è detta \keyword{uniforme} se \(\forall a \in A, \mu(a) = \frac{1}{\# A}\).
+Inoltre, una distribuzione su un alfabeto \(A\) è detta \keyword{uniforme} (\(\pi\)) se \(\forall a \in A, \mu(a) = \frac{1}{\# A}\).
 
 Dalla proprietà universale dei monoidi liberi, possiamo estendere in maniera unica una distribuzione definita su un alfabeto \(A\) a un morfismo su \(A^*\).
 \begin{definition}[Distribuzione su parole di un monoide libero]
@@ -391,7 +393,7 @@ Analizziamo ora alcune proprietà delle distribuzioni su insiemi di parole.
   La dimostrazione è ovvia, dal fatto che nella somma degli elementi di \(\mu(Y)\) sono presenti tutti gli addendi di \(\mu(X)\), più eventualmente altri addendi non negativi.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop:dist_union_leq_sum_dist}
   Sia \(Y_j \subseteq A^*\) una famiglia di insiemi di parole indicizzati da \(j \in J\). 
   Allora
   \[\mu(\bigcup_{j \in J}Y_j) \leq \sum_{j\in J} \mu(Y_j)\]
@@ -402,6 +404,7 @@ Analizziamo ora alcune proprietà delle distribuzioni su insiemi di parole.
 \end{proposition}
 
 Questa proposizione sarà la prima di una serie di risultati di quasi equivalenze, in cui una delle due direzioni richiederà delle ipotesi aggiuntive, in particolare che la distribuzione sia positiva e che la somma delle misure degli insiemi sia finita.
+Tali risultati sono utili a caratterizzare meglio le distribuzioni e le loro proprietà, in funzione delle successive applicazioni, prima tra tutte la dimostrazione della Disuguaglianza di Kraft-McMillan.
 
 \begin{proof}
   Che valga la disuguaglianza è ovvio, poiché ogni elemento di \(\bigcup_{j \in J}Y_j\) compare almeno una volta nella somma a destra.
@@ -424,7 +427,7 @@ Questa proposizione sarà la prima di una serie di risultati di quasi equivalenz
 
   Invece, \(A^h\times A^k\) è non ambiguo \(\forall h,k \in \N\), poiché ogni parola di \(A^{h+k}\) può essere scritta in un unico modo come concatenazione di una parola di lunghezza \(h\) e una di lunghezza \(k\).
 \end{example}
-\begin{proposition}
+\begin{proposition}\label{prop:distribution_distributivity_over_product}
   \(\forall Y,Z \subseteq A^*, \mu(YZ) \leq \mu(Y)\mu(Z)\), e vale l'uguaglianza se \(Y\times Z\) è non ambiguo.
   Viceversa, se \(\mu(YZ) = \mu(Y)\mu(Z) < \infty\) e \(\mu\) è una distribuzione positiva, allora \(Y\times Z\) è non ambiguo.
 \end{proposition}
@@ -436,7 +439,7 @@ Questa proposizione sarà la prima di una serie di risultati di quasi equivalenz
   Il viceversa è analogo a quello della proposizione precedente.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop:A_power_mesure_1}
   Per \(\mu\) distribuzione su un alfabeto \(A\), si ha che \(\forall n \geq 0, \mu(A^n) = 1\).
   Inoltre, \(\mu(A^*) = \infty\)
 \end{proposition}
@@ -453,9 +456,9 @@ Questa proposizione sarà la prima di una serie di risultati di quasi equivalenz
   \[\mu(A^*) = \mu(\bigcup_{n\geq0} A^n) = \sum_{n=0}^{\infty} \mu(A^n) = \sum_{n=0}^{\infty} 1 = \infty\]
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop:code_iff_not_ambiguos}
   Sia \(X \subseteq A^*\). Allora:
-  \[X \text{ codice } \iff \forall n \geq 1, X\times X^n \text{ è non ambiguo}\]
+  \[X \text{ codice } \iff X\times X^n \text{ è non ambiguo},\forall n \geq 1\]
 \end{proposition}
 \begin{proof}
   Se \(X\) è codice, la proposizione è ovvia, poiché se \(X\) è codice, ogni parola di \(X^*\) ha un'unica fattorizzazione in parole di \(X\), dunque anche ogni parola ottenuta concatenando una parola di \(X\) con \(n\) parole di \(X\) avrà un'unica fattorizzazione di questo tipo.
@@ -464,6 +467,91 @@ Questa proposizione sarà la prima di una serie di risultati di quasi equivalenz
   Concatenando a destra dell'elemento di \(X^h\) la parola di \(X^k\) e viceversa otteniamo:
   \[x_1\ldots x_h x_1'\ldots x_k' = x_1'\ldots x_k' x_1\ldots x_h\]
   Dove entrambi i membri appartengono a \(X^{h+k} = X \times X^{h+k-1}\), ma ammettono due fattorizzazioni distinte, dunque \(X \times X^{h+k-1}\) è ambiguo.
+\end{proof}
+
+\begin{proposition}
+  Sia \(X \subseteq A^+\) e \(\mu\) una distribuzione su \(A\). Allora:
+  \begin{enumerate}
+    \item \(X \text{ codice } \implies \mu(X^n) = {\mu(X)}^n, \forall n \geq 1\)\label{item:code_implies_measure_product}
+    \item \((\mu \text{ positiva } \land \mu(X) < \infty \land \forall n \geq 1, \mu(X^n) = {\mu(X)}^n )\implies X \text{ codice}\)\label{item:measure_product_implies_code}
+  \end{enumerate}
+\end{proposition}
+
+Tale proposizione dunque fornisce una caratterizzazione dei codici in termini di distribuzioni, se queste sono positive e finite.
+Infatti, in altre parole, ci dice che un insieme \(X\) è codice se e solo se, data una qualsiasi distribuzione positiva e finita su \(A\), la misura di \(X^n\) è il prodotto della misura di \(X\) per sé stessa \(n\) volte.
+\begin{proof}
+  Procediamo a dimostrare i due punti separatamente.
+  \begin{description}
+    \item[\ref{item:code_implies_measure_product}] Possiamo procedere per induzione su \(n\).
+      Per \(n=1\), la tesi è banale.
+      Sia dunque \(n>1\), con \(\mu(X^i) = {\mu(X)}^i, \forall i < n\).
+      Abbiamo dunque che 
+      \[\mu(X^n)=\mu(XX^{n-1})\]
+      Dalla Proposizione~\ref{prop:code_iff_not_ambiguos}, sappiamo che essendo \(X\) codice, \(X \times X^{n-1}\) è non ambiguo.
+      Dunque, dalla Proposizione~\ref{prop:distribution_distributivity_over_product}, segue che:
+      \[\mu(X^n)=\mu(XX^{n-1}) = \mu(X)\mu(X^{n-1}) = \mu(X) {\mu(X)}^{n-1} = {\mu(X)}^n\]
+
+    \item[\ref{item:measure_product_implies_code}] Dalle ipotesi di questo caso è ovvio che ogni potenza di \(\mu(X)\) è finita, così come ogni \(\mu(X^n)\) è finita.
+    Formalmente:
+    \[\mu(X)<\infty \land \mu(X^n) = {\mu(X)}^n, \forall n \geq 1 \implies \land \mu(X^n) = {\mu(X)}^n < \infty, \forall n \geq 1\]
+    Dunque si ha che
+    \[\mu(XX^n) = \mu(X^{n+1}) = {\mu(X)}^{n+1} = \mu(X){\mu(X)}^n < \infty\]
+    Essendo che \(\mu\) è positiva, sono verificate tutte le ipotesi aggiuntive del viceversa della Proposizione~\ref{prop:distribution_distributivity_over_product}, dunque \(X \times X^n\) è non ambiguo \(\forall n \geq 1\).
+    Tali ipotesi aggiuntive sono le stesse richieste dal viceversa della Proposizione~\ref{prop:code_iff_not_ambiguos}, dunque \(X\) è codice.
+  \end{description}
+\end{proof}
+Definite queste proprietà delle distribuzioni, e il loro rapporto coi codici e i prodotti non ambigui, possiamo finalmente andare a dimostrare il Teorema di Kraft-McMillan, di cui la Disuguaglianza di Kraft-McMillan (\ref{cor:kraft-mcmillan_inequality}) è un corollario diretto.
+
+\begin{theorem}[Kraft-McMillan]\label{thm:kraft-mcmillan}
+  Sia \(X \subseteq A^+\) un codice e sia \(\mu\) una distribuzione su \(A\).
+  Allora \(\mu(X) \leq 1\).
+\end{theorem}
+
+L'enunciato di questo teorema è una proprietà dei codici molto forti, poiché afferma che la misura di un codice non può superare \(1\), qualsiasi sia la distribuzione \(\mu\).
+Inoltre, il teorema non si limita al finito, implicando dunque che anche codici infiniti hanno misura al più \(1\) per qualsiasi distribuzione, e di conseguenza le serie associate alla funzione di struttura di tali codici convergono sempre a un valore al più \(1\) per qualsiasi distribuzione.
+\begin{proof}
+  Iniziamo a dimostrare il teorema nel caso di \(X\) finito.
+  In tal caso, è possibile definire una lunghezza massima delle parole di \(X\), poniamo \(L = \max_{x \in X} \abs{x}\).
+  Allora, essendo che ogni parola di \(X\) ha lunghezza al più \(L\), si ha che:
+  \[\forall n \geq 1, X^n \subseteq \bigcup_{i=1}^{nL} A^i\]
+  poiché concatenando \(n\) parole di lunghezza al più \(L\) si ottiene una parola di lunghezza al più \(nL\).
+  Dunque, per la Proposizione~\ref{prop:distribution_monotonicity}, segue che:
+  \[\mu(X^n) \leq \mu(\bigcup_{i=1}^{nL} A^i) = \sum_{i=1}^{nL} \mu(A^i) = \sum_{i=1}^{nL} 1 = nL\]
+  Poiché \(\mu(A^i) = 1\) per ogni \(i\) dalla Proposizione~\ref{prop:A_power_mesure_1} e che vale l'uguaglianza nella Proposizione~\ref{prop:dist_union_leq_sum_dist} essendo che gli insiemi \(A^i\) sono disgiunti.
+
+  Essendo \(X\) codice, dalla Proposizione precedente sappiamo che \({\mu(X)}^n = \mu(X^n) \leq nL \implies \mu(X) \leq \sqrt[n]{nL}\).
+
+  Tale disuguaglianza vale per ogni \(n \geq 1\), dunque in particolare vale il minimo della successione.
+  Essendo \({(nL)}^{\frac{1}{n}}\) una successione decrescente il minimo sia con\footnote{Il limite usato è un limite notevole.}:
+  \[\mu(X) \leq \lim_{n \to \infty} {(nL)}^{\frac{1}{n}} = 1\]
+
+  Passiamo ora al caso di \(X\) infinito.
+  Poniamo \(X_k = X \cap \bigcup_{i=1}^{k} A^i, \forall k \geq 1\), ovvero l'insieme delle parole di \(X\) di lunghezza al più \(k\).
+  Ovviamente, ogni \(X_k\) è finito, e inoltre si ha che
+  \[\forall k \geq 1, X_{k+1}\setminus X_k \land X = X \cap A^{k+1} \land X_k = X_1 \cup (X_2 \setminus X_1) \cup \ldots \cup (X_k \setminus X_{k-1}) = X_1 \cup \bigcup_{i=2}^{k} (X_i \setminus X_{i-1})\]
+  Ovvero, che per ogni \(k\), ciò che viene aggiunto a \(X_k\) per ottenere \(X_{k+1}\) sono esattamente le parole di \(X\) di lunghezza \(k+1\), e che dunque ogni \(X_k\) è l'unione disgiunta di queste aggiunte incrementali all'insieme di parole di lunghezza \(1\).
+  Infine, si ha che \(X = X_1 \bigcup_{i=2}^{\infty} (X_i \setminus X_{i-1})\), unioni disgiunte.
+  Dunque, dalla Proposizione~\ref{prop:dist_union_leq_sum_dist}, segue che:
+  \[\mu(X_k) = \mu(X_1) + \sum_{i=2}^{k} \mu(X_i \setminus X_{i-1}) \text{ e }\]
+  \[\mu(X) = \mu(X_1) + \sum_{i=2}^{\infty} \mu(X_i \setminus X_{i-1})\]
+
+  In altre parole si ha che \(\mu(X) = \lim_{k \to \infty} \mu(X_k)\). Essendo che ogni \(X_k\) è codice (essendo sottoinsieme di \(X\)) e finito, dal caso precedente sappiamo che \(\mu(X_k) \leq 1, \forall k \geq 1\).
+  Dunque, abbiamo che ogni \(\mu(X_k)\) è limitata superiormente da \(1\) e che la successione è non decrescente (essendo che ogni \(\mu(X_k)\) è ottenuto dal precedente aggiungendo una quantità non negativa \(\mu(X_{k}\setminus\mu(X_{k-1}))\)). 
+  Di conseguenza, il limite esiste e vale e corrisponde all'estremo superiore della successione, che è al più \(1\):
+  \[\mu(X) = \lim_{k \to \infty} \mu(X_k) \leq 1\]
+\end{proof}
+
+Finalmente, possiamo dimostrare la Disuguaglianza di Kraft-McMillan (\ref{cor:kraft-mcmillan_inequality}) come semplice corollario del Teorema di Kraft-McMillan appena dimostrato scegliendo come \(\mu\) la distribuzione uniforme \(\pi\) su \(A\).
+
+\begin{proof}[Dimostrazione di~\ref{cor:kraft-mcmillan_inequality}]
+  Per definizione di distribuzione uniforme, si ha che \(\forall a \in A, \pi(a) = \frac{1}{d}\), dove \(d = \# A\).
+  Dunque, per il morfismo esteso a \(A^*\), si ha che:
+  \begin{equation*}
+    \forall w \in A^*, \pi(w) = \overbrace{\frac{1}{d}\cdot\ldots\cdot\frac{1}{d}}^{\abs{w}} = d^{-\lvert w\rvert}
+  \end{equation*}
+  Applicando ora il Teorema di Kraft-McMillan~\ref{thm:kraft-mcmillan}, si ha che:
+  \[1 \geq\mu(X) = \sum_{x \in X} \mu(x) = \sum_{x \in X} d^{-\abs{x}}\]
+  
 \end{proof}
 
 \section{Codici Massimali e Insiemi Densi e Completi}
