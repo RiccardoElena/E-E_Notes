@@ -226,14 +226,14 @@ Conclusa la dimostrazione del lemma, possiamo procedere con la dimostrazione del
   Da questo punto in poi, la successione si stabilizza, dunque \(\forall n \geq 2, R_n = \emptyset\).
   Anche in questo caso, \(X_4\) è codice per il Teorema di Sardinas-Patterson.
 
-  Sia infine \(X_5 = \set{a,ab,ba}\). Calcoliamo gli insiemi resto di \(X_5\):
+  Sia infine \(X' = \set{a,ab,ba}\). Calcoliamo gli insiemi resto di \(X'\):
 
-  \(R_1 = X_5^{-1}X_5 \setminus \set{\varepsilon} = \set{b}\)
+  \(R_1 = {(X')}^{-1}X' \setminus \set{\varepsilon} = \set{b}\)
   poiché \(b\) completa \(a\) per formare \(ab\).
   
-  \(R_2 = X_5^{-1}R_1 \cup R_1^{-1}X_5 = \set{a}\)
+  \(R_2 = {(X')}^{-1}R_1 \cup R_1^{-1}X' = \set{a}\)
   poiché \(a\) completa \(b\) per formare \(ba\).
-  Dunque, essendo che \(a \in X_5\), per il Teorema di Sardinas-Patterson, \(X_5\) non è codice.
+  Dunque, essendo che \(a \in X'\), per il Teorema di Sardinas-Patterson, \(X'\) non è codice.
 \end{example}
 
 Da questi risultati, si potrebbe evincere che il teorema di Sardinas-Patterson (\ref{thm:sardinas-patterson}) fornisca una procedura di decisione per stabilire se un insieme \(X \subseteq A^+\) \textbf{finito} sia codice o meno.
@@ -289,7 +289,7 @@ In poche parole, questo teorema afferma che, nel caso di insiemi finiti, se le c
   \[R_2 = \set{ab,b}\]
   \[R_3 = \set{b,bb} = R_n \forall n \geq 3\]
   In questo caso è stato sufficiente calcolare i primi \(3\) insiemi resto per stabilire che \(X\) è codice, ma in ogni caso ci sarebbe bastato calcolare i primi \(KL+1 = 4\cdot 4 + 1 = 17\).
-  Prendendo invece \(X_5 = \set{a,ab,ba}\) come nell'esempio precedente, avevamo che \(a \in R_2\), ma in ogni caso sarebbe stato sufficiente calcolare i primi \(KL+1 = 3\cdot 2 + 1 = 7\) insiemi resto.
+  Prendendo invece \(X' = \set{a,ab,ba}\) come nell'esempio precedente, avevamo che \(a \in R_2\), ma in ogni caso sarebbe stato sufficiente calcolare i primi \(KL+1 = 3\cdot 2 + 1 = 7\) insiemi resto.
 \end{example}
 
 Questi esempi servono a mostrare come in molti caso questo nuovo limite sia comunque più grande del necessario, ma in ogni caso fornisce una procedura di decisione efficiente per stabilire se un insieme finito sia codice o meno.
@@ -304,16 +304,16 @@ Un modo ulteriore di discriminare tra codici e non, anche se rappresentando una 
 
 Tale disuguaglianza è riportata come corollario poiché, come vedremo a breve, la sua dimostrazione segue direttamente da un teorema più generale.
 
-\begin{example}
+\begin{example}\label{ex:kraft-mcmillan}
   Come già anticipato, questa disuguaglianza fornisce una condizione solo necessaria per essere codice. Infatti, esistono insiemi \(X\) che soddisfano la disuguaglianza ma non sono codici.
-  Consideriamo l'insieme \(X_5\) dell'esempio precedente, ovvero \(X_5 = \set{a,ab,ba}\) su alfabeto \(A = \set{a,b}\).
+  Consideriamo l'insieme \(X'\) dell'esempio precedente, ovvero \(X' = \set{a,ab,ba}\) su alfabeto \(A = \set{a,b}\).
   Si ha che:
-  \[\sum_{x \in X_5} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} = 1\]
-  Nonostante ciò, come già visto, \(X_5\) non è codice.
+  \[\sum_{x \in X'} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} = 1\]
+  Nonostante ciò, come già visto, \(X'\) non è codice.
   
   Ovviamente, come tutte le condizioni necessarie, la Disuguaglianza di Kraft-McMillan può essere utilizzata per dimostrare che un insieme non è codice.
-  Ad esempio, consideriamo l'insieme \(X_6 = \set{a,ab,bb,bab}\) non può essere codice su \(A = \set{a,b}\), poiché:
-  \[\sum_{x \in X_6} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} + 2^{-3} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} + \frac{1}{8} = \frac{9}{8} > 1\]
+  Ad esempio, consideriamo l'insieme \(X_5 = \set{a,ab,bb,bab}\) non può essere codice su \(A = \set{a,b}\), poiché:
+  \[\sum_{x \in X_5} 2^{-\abs{x}}= 2^{-1} + 2^{-2} + 2^{-2} + 2^{-3} = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} + \frac{1}{8} = \frac{9}{8} > 1\]
 \end{example}
 
 Un modo alternativo di esprimere la Disuguaglianza di Kraft-McMillan è dato dalla funzione di struttura di un insieme di parole.
@@ -551,12 +551,283 @@ Finalmente, possiamo dimostrare la Disuguaglianza di Kraft-McMillan (\ref{cor:kr
   \end{equation*}
   Applicando ora il Teorema di Kraft-McMillan~\ref{thm:kraft-mcmillan}, si ha che:
   \[1 \geq\mu(X) = \sum_{x \in X} \mu(x) = \sum_{x \in X} d^{-\abs{x}}\]
-  
 \end{proof}
 
+Come già mostrato nell'esempio~\ref{ex:kraft-mcmillan}, tale disuguaglianza fornisce una condizione necessaria per essere codice, ma non sufficiente.
+
+Si potrebbe dunque pensare che il teorema di Kraft-McMillan (\ref{thm:kraft-mcmillan}) possa invece esprimere una condizione necessaria e sufficiente per essere codice, ma ciò non è vero in generale.
+Ciò che il teorema afferma è che, per ogni codice \(X \subseteq A\) e ogni distribuzione \(\mu\) su \(A\), si ha che \(\mu(X) \leq 1\).
+Dunque, il teorema fornisce una condizione necessaria per essere codice, ovvero se esiste una distribuzione \(\mu\) su \(A\) tale che \(\mu(X) > 1\), allora \(X\) non è codice, ma non fornisce una condizione sufficiente, poiché non è detto che per ogni insieme \(X\) non codice esista una distribuzione \(\mu\) su \(A\) tale che \(\mu(X) > 1\).
+
+\begin{example}
+  
+  In particolare riprendendo l'insieme \(X' = \set{a,ab,ba}\) dell'esempio~\ref{ex:kraft-mcmillan}, che sappiamo non essere codice ma che soddisfa la Disuguaglianza di Kraft-McMillan.
+  Consideriamo una qualsiasi distribuzione su \(A = \set{a,b}\), poniamo \(\mu_p(a) = p\) e \(\mu_p(b) = 1-p\), con \(p \in [0,1]\).
+  
+  Calcolando dunque la misura di \(X'\) si ha che:
+  \[\mu_p(X') = \mu_p(a) + \mu_p(ab) + \mu_p(ba) = p + p(1-p) + (1-p)p = p + 2p(1-p) = 3p - 2p^2\]
+  Tale funzione è concava, e quindi raggiunge il suo massimo nel punto di annullamento della sua derivata prima.
+  Calcolando la derivata prima si ha che:
+  \[\frac{d}{dp}(3p - 2p^2) = 3 - 4p\]
+  Ponendo la derivata uguale a zero si ha che \(p = \frac{3}{4}\) è il punto di massimo.
+  Calcolando dunque il valore della funzione in tale punto si ha che:
+  \[\mu_{\frac{3}{4}}(X') = 3\cdot \frac{3}{4} - 2 \cdot {\left(\frac{3}{4}\right)}^2 = \frac{9}{4} - 2 \cdot \frac{9}{16} = \frac{9}{4} - \frac{9}{8} = \frac{18}{8} - \frac{9}{8} = \frac{9}{8} > 1\]
+  Dunque, in questo caso, esiste una distribuzione su \(A\) tale che la misura di \(X'\) supera \(1\), confermando che \(X'\) non è codice.
+  
+  Tuttavia, esistono esempi di insiemi non codice per cui la misura non supera \(1\) per nessuna distribuzione su \(A\).
+  Consideriamo ad esempio l'insieme \(X'' = \set{a^4,a^2b,aba,ba,ba^2,b^2,b^3a}\) su \(A = \set{a,b}\).
+  Tale insieme non è codice, poiché \(b^2 \cdot ba = b^3a\).
+  Consideriamo ora una qualsiasi distribuzione su \(A\), poniamo \(\mu_p(a) = p\) e \(\mu_p(b) = 1-p\), con \(p \in [0,1]\).
+  Calcolando dunque la misura di \(X''\) si ha che:
+  \begin{align*}
+    \mu_p(X'') &= \mu_p(a^4) + \mu_p(a^2b) + \mu_p(aba) + \mu_p(ba) + \mu_p(ba^2) + \mu_p(b^2) + \mu_p(b^3a) \\
+    &= p^4 + p^2(1-p) + p(1-p)p + (1-p)p + (1-p)p^2 + {(1-p)}^2 + {(1-p)}^3p \\
+    &= p^4 + 3p^2(1-p) + (1-p)p + {(1-p)}^2 + {(1-p)}^3p \\
+    &= p^4 + 3p^2 - 3p^3 + p - p^2 + 1 - 2p + p^2 + p - 3p^2 + 3p^3 - p^4 \\
+    &= 1
+  \end{align*}
+  Essendo questa funzione costante, ogni possibile assegnazione di \(p\), ovvero ogni possibile distribuzione su \(A\) fa si che \(X''\) abbia misura pari a \(1\), nonostante non sia un codice
+\end{example}
+
 \section{Codici Massimali e Insiemi Densi e Completi}
-% TODO @TheFabbest
-% Questa è la sezione di cui tu hai fatto le foto e non ci sono lavagne, dovresti vedere se riesci a scriverla tu
+
+Continuando a esplorare nozioni di teoria dei codici, andiamo ad analizzare altre importanti proprietà dei codici stessi che ci torneranno utili in futuro.
+
+\begin{definition}[Codici Massimali]
+  Sia \(X \subseteq A^+\) codice, \(X\) è \keyword{massimale} se dato \(Y: X\subseteq Y \subseteq A^+\), \(Y\) codice su \(A \implies X = Y\).
+
+  In altre parole un codice è massimale in un alfabeto se non esistono altri codici sullo stesso alfabeto che lo contengono propriamente.
+\end{definition}
+
+\begin{example}
+  Vediamo esempi di codici massimali.
+  Iniziamo con l'insieme \(X = \set{bb,ab}\). Tale insieme è codice su \(A = \set{a,b}\), ma \textbf{non} è massimale, poiché l'insieme \(X_1 = \set{a,ba,bb}\) è ancora codice e lo contiene propriamente.
+  D'altra parte \(X_1\) stesso è massimale. Questo si può vedere come semplice conseguenza del fatto che la misura di \(X_1\) rispetto alla distribuzione uniforme è pari a \(1\).
+  \[\pi(X) = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} = 1\]
+  Dunque qualsiasi altro insieme che contenga propriamente \(X_1\) andrebbe ad aggiungere a tale misura un addendo non negativo, e di conseguenza si otterrebbe che una misura per tale insieme che supera \(1\).
+  Di conseguenza, tale insieme non può essere codice sia per~\ref{thm:kraft-mcmillan} che per~\ref{cor:kraft-mcmillan_inequality}
+
+  Vedremo successivamente come conseguenza di un importante teorema che, per codici finiti, l'avere misura pari a \(1\) e l'essere massimali siano proprietà equivalenti.
+\end{example}
+
+Vedremo come la massimalità di un codice sarà collegata a proprietà di ottimalità di codifica di una sorgente nei capitoli successivi.
+Prima di allora però ci soffermeremo sull'analizzare altre nozioni a essa collegate, ovvero la \keyword{completezza} e la \keyword{densità}.
+
+\begin{definition}[Insiemi di parole densi]
+  Sia \(X \subseteq A^*\) è \keyword{denso} se, 
+  \[\forall w \in A^*,A^*\set{w}A^* \cap X \neq \emptyset \text{ o equivalentemente}\]
+  \[\forall w \in A^*, \exists \lambda,\rho\in A^* \st \lambda w \rho \in X\]
+
+  In altre parole \(X\) è denso se ogni parola di \(A^*\) si \qi{completa} in \(X\), ovvero può essere estesa a destra o sinistra per formare parole di \(X\).
+\end{definition}
+
+Una prima osservazione che è possibile fare a riguardo degli insiemi densi è che tali insiemi non possono essere finiti.
+Formalmente:
+\[X \text{ denso } \implies X \text{ infinito}\]
+\begin{proof}
+  Se \(X\) fosse finito, esisterebbe una lunghezza massima delle parole di \(X\), poniamo \(L = \max_{x \in X} \abs{x}\).
+  Dunque, ogni parola di lunghezza maggiore di \(L\) non potrebbe essere completata in \(X\), poiché qualsiasi estensione a destra o sinistra la renderebbe ancora più lunga di \(L\), e quindi non appartenente a \(X\).
+\end{proof}
+
+D'altra parte non tutti gli insiemi infiniti sono densi. Ad esempio, su alfabeto \(A = \set{a,b}\), l'insieme \(\set{a}^*\) è infinito ma non denso, poiché parole come \(b\) o \(ab\) non possono essere completate in \(\set{a}^*\).
+È però possibile mostrare un altro risultato che mettere in relazione la densità con la \qi{grandezza} di un insieme di parole, o più precisamente con la sua misura.
+
+\begin{proposition}
+  Sia \(X \subseteq A^*\) non denso e sia \(\mu\) una distribuzione positiva su \(A\), allora \(\mu(X) < \infty\).
+\end{proposition}
+
+Il viceversa di tale proposizione non vale, poiché esistono insiemi a misura finita che sono densi. Addirittura esistono codici densi, che quindi hanno misura minore o uguale a \(1\).
+
+\begin{example}\label{ex:dense_code}
+  Un esempio di ciò è l'insieme \(Z = \set{a^{\abs{u}+1}bu}[u \in \set{a,b}^*]\). Questo insieme è codice prefisso, poiché nessuna parola della forma \(a^{\abs{u}+1}bu\) è prefisso proprio di un'altra,
+  poiché se \(u \in \set{a}^*\) la singola \(b\) evita che ciò accada, mentre se \(u\) contiene almeno una \(b\), per avere un prefisso proprio è necessario che il numero di \(a\) sia lo stesso, il che implica che le due parole \(u, u'\) siano della stessa lunghezza, e che dunque non possano essere prefissi propri l'una dell'altra.
+  Tale insieme è però banalmente anche denso, poiché ogni parola \(u \in A^*\) si completa in \(Z\) come \(a^{\abs{u}+1}bu\). In altre parole, \(\forall u \in A^*, \lambda u \rho in Z\), con \(\lambda = a^{\abs{u}+1}b\) e \(\rho = \varepsilon\).
+\end{example}
+
+Inoltre, nel caso in cui \(X\) sia un codice, è possibile rilassare l'ipotesi di cardinalità finita per avere garanzia che non sia denso.
+\begin{proposition}
+  Sia \(X \subseteq A^+\) codice.
+  \[ X \text{ regolare } \implies X \text{ non denso}\]
+\end{proposition}
+
+L'ultima nozione che andiamo a definire è quella di completezza, che è strettamente collegata a quella di densità.
+\begin{definition}[Insiemi di parole completi]
+  Sia \(X \subseteq A^*\). Diremo che \(X\) è \keyword{completo} se \(X^*\) è denso.
+
+  Ovvero, \(X\) è completo se ogni parola di \(A^*\) può essere completata nel sottomonoide generato da \(X\), ovvero \(X^*\).
+\end{definition}
+
+Date queste definizioni, ci approcciamo a un altro importante teorema dovuto a Schützenberger, la cui dimostrazione ci sarà possibile solo a seguito di ulteriori utili risultati che andremo a dimostrare successivamente.
+
+\begin{theorem}[Schützenberger su massimalità e completezza dei codici]\label{thm:schutz_maximality_completeness}
+  Sia \(X \subseteq A^+\) un codice.
+  Allora:
+  \begin{enumerate}
+    \item \(X\) massimale \(\implies X\) completo
+    \item \(X\) completo e non denso \(\implies X\) massimale
+  \end{enumerate}
+\end{theorem}
+
+Dunque, per i codici non densi, che include come caso particolare i codici finiti, ovvero quello di maggior interesse per questo corso, la completezza e la massimalità sono proprietà equivalenti.
+
+Per iniziare a mostrare i risultati intermedi necessari alla dimostrazione di tale teorema, è necessario introdurre un ulteriore definizione.
+\begin{definition}[Bordo di una parola]
+  Siano \(\alpha,x \in A^+\). Diremo che \(\alpha\) è un \keyword{bordo} di \(x\) se \(\alpha\) è sia prefisso che suffisso proprio di \(x\), ovvero:
+  \[\alpha \text{ è bordo di } x \iff \exists u,v \in A^+ \st x = \alpha u = v \alpha\]
+\end{definition}
+
+Un importante risultato riguardo i bordi è che se una parola ammette bordi ammette bordi di lunghezza inferiore alla metà della parola.
+
+\begin{proposition}\label{prop:if_border_exists_border_half_length}
+  Sia \(w \in A^+\). Se \(w\) ha bordi, allora \(\exists \beta\) bordo di \(w\) tale che \(\abs{\beta}\leq\frac{\abs{w}}{2}\)
+\end{proposition}
+
+\begin{proof}
+  Sia \(\alpha\) un bordo di \(w\) tale che \(\abs{\alpha} > \frac{\abs{w}}{2}\).
+  Avremo che necessariamente \(w\) è rappresentabile come segue:
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \foreach \x in {0,2,4,6}{
+        \coordinate (P\x) at (\x,0);
+        \draw[thick] (P\x) -- ++(0,-0.3);
+        \draw[thick] (P\x) -- ++(0,0.3);
+      }
+      
+      \draw[thick] (P0) -- (P6);
+
+      \node[left] at (P0) {\(w\)};
+      \draw[thick, red, bend left=45] (P0) to node[midway, above, red] {\(\alpha\)} (P4);
+      \draw[thick, red,bend right=45] (P2) to node[midway, below, red] {\(\alpha\)} (P6);
+
+      \draw[thick, blue] (P2) to node[midway, above, blue,font=\small]{\(\alpha'\)} (P4);
+    \end{tikzpicture}
+  \end{figure}
+  Infatti, essendo che \(\abs{\alpha} > \frac{\abs{w}}{2}\) e \(\alpha\) è sia prefisso che suffisso di \(w\), necessariamente deve esistere una sovrapposizione \(\alpha'\) non vuota.
+  Inoltre \(\alpha'\neq\alpha\), poiché essendo \(\alpha\) bordo dev'essere prefisso e suffisso proprio di \(w\) e l'unico caso in cui \(\alpha' = \alpha\) è quello in cui le due occorrenze di \(\alpha\) coincidono, portando a \(\alpha = w\).
+  In più, com'è evidente dalla figura, \(\alpha'\) è sia prefisso che suffisso di \(\alpha\), dunque è un bordo di \(\alpha\).
+
+  Ovviamente, un bordo di \(\alpha\) è anche un bordo di \(w\), poiché è sia prefisso di un prefisso di \(w\) che suffisso di un suffisso di \(w\).
+  Inoltre, si ha che \(\abs{\alpha'} < \abs{\alpha}\), dunque, ripetendo questo ragionamento, si arriva necessariamente a un bordo \(\beta\) di \(w\) tale che \(\abs{\beta} \leq \frac{\abs{w}}{2}\).
+\end{proof}
+
+Questa proposizione fa si che sia sufficiente analizzare prefissi e suffissi fino alla metà della lunghezza di una parola per scoprire se essa ammette bordi.
+
+\begin{lemma}[Marcus-Schützenberger]
+  Sia \(X \subseteq A^+\) completo e non denso e \(\mu\) una distribuzione positiva su \(A\).
+  Allora \(\mu(X) \geq 1\).
+\end{lemma}
+\begin{proof}
+  Dato che \(X\) è non denso, esiste una parola \(w \in A^*\) che non si completa in \(X\).
+  Sia \(y \in A^*\) qualsiasi.
+  Essendo che \(X\) è completo, la parola \(wyw\) si completa in \(X^*\), ovvero:
+  \[\exists \lambda,\rho \in A^*\st \lambda w y w \rho  = x_1x_2\ldots x_n\in X^*\]
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \foreach \x in {0,2,4,6,8,10}{
+        \coordinate (P\x) at (\x,0);
+        \draw[thick] (P\x) -- ++(0,-0.3);
+        \draw[thick] (P\x) -- ++(0,0.3);
+      }
+     
+      \draw[thick] (P0) -- (P10);
+
+      \node at ($(P0)!0.5!(P2)$) [below] {$\lambda$};
+      \node at ($(P2)!0.5!(P4)$) [below] {$w$};
+      \node at ($(P4)!0.5!(P6)$) [below] {$y$};
+      \node at ($(P6)!0.5!(P8)$) [below] {$w$};
+      \node at ($(P8)!0.5!(P10)$) [below] {$\rho$};
+
+      \draw[thick, red, bend left=45] (P0) to node[midway, above, red] {\(x_1\)} (1,0);
+      \draw[thick, red, bend left=45] (1,0) to node[midway, above, red] {\(x_2\)} (3,0);
+      \draw[thick, red, bend left=45] (3,0) to node[midway, above, red] {\(x_i\)} (4.5,0);
+      \draw[thick, red, bend left=45] (4.5,0) to (5.5,0);
+      \draw[thick, red, bend left=45] (5.5,0) to  node[midway, above, red] {\(x_j\)} (6.5,0);
+      \draw[thick, red, bend left=45] (6.5,0) to (7,0);
+      \draw[thick, red, bend left=45] (7,0) to (9,0);
+      \draw[thick, red, bend left=45] (9,0) to node[midway, above, red] {\(x_n\)} (P10);
+    \end{tikzpicture}
+  \end{figure}
+
+  Tale concatenazione è ottenibile come concatenazione di parole di \(X\), ma essendo che \(w\) non si completa in \(X\), nessuna delle occorrenze di \(w\) può essere contenuta interamente in una parola di \(X\).
+  Dunque entrambe le occorrenze di \(w\) contengono almeno una \qi{linea di parsing} tra due parole di \(X\), ovvero un punto in cui termina una parola della fattorizzazione e inizia la seguente.
+  Formalmente, esistono \(i,j \st 1 \leq i \leq j \leq n\) tali che \(x_i\) inizia all'interno della prima occorrenza di \(w\) e \(x_j\) termina all'interno della seconda occorrenza di \(w\).
+
+  Dunque \(wyw \in Pref(w)\cdot X^* \cdot Suff(w)\), poiché la parte iniziale fino alla fine di \(x_i\) è un prefisso di \(w\), la parte finale da inizio di \(x_j\) alla fine è un suffisso di \(w\), e la parte centrale è ottenuta concatenando parole di \(X\).
+  Essendo che \(y\) è arbitrario, si ha che \(\set{w}A^*\set{w} \subseteq Pref(w)\cdot X^* \cdot Suff(w)\)
+  Dalle Proposizioni~\ref{prop:distribution_monotonicity} e~\ref{prop:distribution_distributivity_over_product}, segue che:
+  \[\mu(\set{w}A^*\set{w}) \leq \mu(Pref(w)\cdot X^* \cdot Suff(w)) \leq \mu(Pref(w))\cdot \mu(X^*)\cdot \mu(Suff(w))\]
+  Inoltre il prodotto \(\set{w}\times A^* \times \set{w}\) è chiaramente non ambiguo, dunque dal viceversa della Proposizione~\ref{prop:distribution_distributivity_over_product}, segue che:
+  \[{\mu(\set{w})}^2\mu(A^*)=\mu(\set{w}A^*\set{w}) \leq \mu(Pref(w)\cdot X^* \cdot Suff(w)) \leq \mu(Pref(w))\cdot \mu(X^*)\cdot \mu(Suff(w))\]
+
+  Essendo che \(\mu\) è positiva, si ha che \({\mu(\set{w})}^2 > 0\), e dalla Proposizione~\ref{prop:A_power_mesure_1} sappiamo che \(\mu(A^*) = \infty\).
+  Dunque, per la disuguaglianza precedente, abbiamo che:
+  \[\infty = {\mu(\set{w})}^2\mu(A^*) \leq \mu(Pref(w))\cdot \mu(X^*)\cdot \mu(Suff(w))\]
+  E di conseguenza \(\mu(Pref(w))\cdot \mu(X^*)\cdot \mu(Suff(w)) = \infty\).
+  Me essendo \(Pref(w)\) e \(Suff(w)\) finiti la loro misura è finita, dunque deve essere \(\mu(X^*) = \infty\).
+  Abbiamo dunque dalla Proposizione~\ref{prop:dist_union_leq_sum_dist} che:
+  \[\infty = \mu(X^*) = \mu(\bigcup_{k \geq 0}^{\infty} X^k) \leq \sum_{k \geq 0}^{\infty} \mu(X^k)\]
+  Inoltre dalla Proposizione~\ref{prop:distribution_distributivity_over_product}, segue che:
+  \[\infty = \mu(X^*) = \mu(\bigcup_{k \geq 0}^{\infty} X^k) \leq \sum_{k \geq 0}^{\infty} \mu(X^k)\leq \sum_{k \geq 0}^{\infty} {\mu(X)}^k\]
+  In particolare, l'ultimo membro è una serie geometrica, che essendo maggiore o uguale a \(\infty\) diverge.
+  Per far si che la serie geometrica diverga, è necessario che il suo ragione (in questo caso \(\mu(X)\)) sia maggiore o uguale a \(1\).
+  Da cui segue che \(\mu(X) \geq 1\).
+\end{proof}
+
+A questo punto siamo in grado di dimostrare il Teorema di Schützenberger~\ref{thm:schutz_maximality_completeness}.
+\begin{proof}[Dimostrazione di~\ref{thm:schutz_maximality_completeness}]
+  \begin{enumerate}
+    \item Per dimostrare che se \(X\) è massimale allora è completo, procediamo per contrapposizione, ovvero assumendo che \(X\) non sia completo e mostrando che in tal caso non può essere massimale.
+      Iniziamo escludendo il caso banale in cui \(\# A = 1\). In questo casi infatti, tutti i codici possibili sono singleton, poiché ogni altro insieme di parole porta a parole con plurime fattorizzazioni\footnote{Si prenda ad esempio \(Z = \set{a^k,a^h}\). In tal caso \(a^{h+k} = a^h a^k = a^k a^h\)}.
+      Di conseguenza tutti i codici sono massimali, e sono inoltre anche completi, poiché ogni parola \(a^m\) si completa in \(X = \set{a^h}\) aggiungendo a \(a^m\) tante \(a\) fino a raggiungere un multiplo di \(h\).
+
+      Sia dunque \(\# A \geq 2\) e sia \(y \in A^*\) che non si completa in \(X^*\) (esistenza garantita dal fatto che \(X\) è assunto non completo).
+      Possiamo scegliere senza perdita di generalità \(y\) senza bordi.
+
+      Assumiamo infatti che \(y\) abbia bordi e inizia per \(a \in A\), possiamo dunque prendere \(b \in A\setminus\set{a}\) in modo da formare la parola \(y' = yb^{\abs{y}}\).
+      Tale parola non può completarsi in \(X^*\), poiché se così fosse, essendo che \(y\) è prefisso di \(y'\), anche \(y\) si completerebbe in \(X^*\), contraddicendo l'ipotesi.
+      Inoltre, \(y'\) non può avere bordi, poiché dalla Preposizione~\ref{prop:if_border_exists_border_half_length} per valutare se \(y'\) ha bordi è sufficiente considerare i prefissi e suffissi di lunghezza al più \(\frac{\abs{y'}}{2} = \abs{y}\).
+      Essendo che però \(y\) inizia per \(a\) e la prima metà di \(y'\) è proprio \(y\) tutti i suoi prefissi di lunghezza al più \(\abs{y}\) iniziano per \(a\), mentre tutti i suffissi di lunghezza al più \(\abs{y}\) iniziano per \(b\), dunque non possono coincidere, e di conseguenza \(y'\) non ha bordi.
+      \todo{Potremmo considerare di trattare questa mini dim come lemma apparte?}
+      
+      Consideriamo dunque l'insieme \(Y=X\cup\set{y}\). Se tale insieme fosse codice, si avrebbe che \(X\) non è massimale, come volevamo dimostrare.
+      Supponiamo dunque per assurdo, assumendo che non lo sia.
+      Dunque, esistono \(y_1,y_2,\ldots y_m,y_1',y_2',\ldots,y_n' \in Y\) tali che \(y_1y_2\ldots y_m = y_1y_2\ldots y_n'\), con \(y_1\neq y_1'\).
+      Tra queste parole deve necessariamente esserci almeno una occorrenza di \(y\), poiché altrimenti si avrebbe che \(X\) non è codice, contraddicendo l'ipotesi.
+      Inoltre, essendo che \(y\) non si completa in \(X^*\), dev'esserci almeno un occorrenza di \(y\) in entrambe le fattorizzazioni.
+      Dunque \(\exists i,j \st y_i=y_j'=y\). Scegliamo senza perdita di generalità \(i\) e \(j\) minimi con tale proprietà.
+
+      Queste due occorrenze di \(y\) devono avere una sovrapposizione non vuota, poiché altrimenti si potrebbe completare \(y\) in \(X^*\) prendendo la parte tra la fine di \(y_i\) e l'inizio di \(y_j'\), contraddicendo l'ipotesi.
+      Se esiste una sovrapposizione non vuota e non propria tra le due occorrenze di \(y\), allora \(y\) ammette bordi, poiché tale sovrapposizione è sia prefisso che suffisso di \(y\), contraddicendo l'ipotesi.
+      Dunque l'unica possibilità rimasta è che le due occorrenze di \(y\) abbiano sovrapposizione propria, ovvero siano allineate nelle due fattorizzazioni.
+      Essendo che \(y_1\neq y_1'\), necessariamente \(i\) e \(j\) non possono essere entrambi \(1\), e per non violare la minimalità di \(i\) e \(j\), devono essere entrambi maggiori di \(1\).
+      Ma allora, \(y_1\ldots y_{i-1} = y_1' \ldots y_j'\). Tale uguaglianza è ottenuta concatenando parole di \(X\) (essendo che \(y\) compare solo a partire da \(i\) e \(j\)), dunque si ha che \(X\) non è codice, contraddicendo l'ipotesi.
+      Abbiamo dunque raggiunto una contraddizione in ogni caso, per cui l'ipotesi che \(Y\) non sia codice è falsa.
+      Dunque \(Y\) è codice, e quindi \(X\) non è massimale.
+    \item In questo caso, sappiamo per ipotesi che \(X\) è completo e non denso.
+      Dunque presa \(\mu\) distribuzione positiva su \(A\), dal Lemma precedente sappiamo che \(\mu(X) \geq 1\).
+      D'altra parte, dal Teorema di Kraft-McMillan~\ref{thm:kraft-mcmillan}, sappiamo che \(\mu(X) \leq 1\), poiché \(X\) è codice.
+      Dunque, si ha che \(\mu(X) = 1\). Come visto in precedenza, ciò implica che \(X\) è massimale.
+  \end{enumerate}
+\end{proof}
+
+
+\todo{Possibile versione del lemma estrapolare dal teorema precedente}
+
+\begin{lemma}[CUSTOM]
+  Sia \(X \subseteq A^+\) codice non completo, con \(\# A \geq 2\).
+  Allora esiste una parola \(y \in A^*\) senza bordi che non si completa in \(X^*\).
+\end{lemma}
+\begin{proof}
+  Essendo che \(X\) non è completo, esiste una parola \(z \in A^*\) che non si completa in \(X^*\).
+  Se tale parola non ha bordi, allora abbiamo finito.
+  Altrimenti, supponiamo che \(z\) abbia bordi e inizi per \(a \in A\).
+  Sia dunque \(b \in A\setminus\set{a}\) (esistenza garantita dal fatto che \(\# A \geq 2\)) e consideriamo la parola \(y = zb^{\abs{z}}\).
+  Tale parola non può completarsi in \(X^*\), poiché se così fosse, essendo che \(z\) è prefisso di \(y\), anche \(z\) si completerebbe in \(X^*\), contraddicendo l'ipotesi.
+  Inoltre, \(y\) non può avere bordi, poiché dalla Preposizione~\ref{prop:if_border_exists_border_half_length} per valutare se \(y\) ha bordi è sufficiente considerare i prefissi e suffissi di lunghezza al più \(\frac{\abs{y}}{2} = \abs{z}\).
+  Si ha dunque che tutti i prefissi di \(y\) iniziano per \(a\) (poiché la prima metà di \(y\) è proprio \(z\)), mentre tutti i suffissi di lunghezza al più \(\abs{z}\) iniziano per \(b\) (poiché la seconda metà di \(y\) è composta di sole \(b\)), dunque non possono coincidere, e di conseguenza \(y\) non ha bordi.
+\end{proof}
 
 % Dopo questa sezione (che corrisponde alla lezione 6 del 6 ottobre) siamo "in pari" col file draft, nel senso che quello che viene dopo è già scritto nel file draft e va solo ripulito.
 % Dopo tale file poi ci sono i tuoi appunti in obsidian da trascrivere delle lezioni in cui ero in finlandia.

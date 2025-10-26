@@ -316,7 +316,7 @@ In altre parole possiamo vedere l'insieme quoziente sinistro (rispettivamente de
 
 Utilizzando tali insieme è possibile formulare un importate teorema sui sottomonoidi liberi.
 
-\begin{theorem}[Schuïtzenberger]\label{thm:schuïtzenberger}
+\begin{theorem}[Schützenberger sui sottomonoidi liberi]\label{thm:schützenberger_monoids}
   Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} \subseteq N\)
 \end{theorem}
 In altre parole questo teorema ci dice che \(N\) sottomonoide di \(M\) libero è a sua volta libero se e solo se ogni parola di \(M\) che completa sia a destra che a sinistra parole di \(N\) sia a sua volta inclusa in \(N\).
@@ -331,7 +331,7 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
 \begin{note}[Osservazioni]
   Se \(N\leq M\) necessariamente \(N \subseteq N^{-1}N \cap NN^{-1}\) poiché tutte le parole di \(N\) completano sia a destra che a sinistra la parola vuota per formare se stesse.
   Di conseguenza il teorema può essere riformulato equivalentemente come:
-  \begin{theorem}[Schuïtzenberger alt.]
+  \begin{theorem}[Schützenberger alt.]
     Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} = N\)
   \end{theorem}
   In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
@@ -345,5 +345,5 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
   \(N\) si dice \keyword{unitario} se è unitario a sinistra o a destra.
 \end{definition}
 
-Da tale definizione e dal teorema~\ref{thm:schuïtzenberger} segue che, dato \(M\) monoide libero, se \(N \leq M\) è libero, allora è unitario.
+Da tale definizione e dal teorema~\ref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se \(N \leq M\) è libero, allora è unitario.
 
