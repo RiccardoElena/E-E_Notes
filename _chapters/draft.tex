@@ -1,125 +1,14 @@
 \chapter{Lezione 7}
 
 
-\begin{theorem}[Schützenberger]
-  Sia \(X\) codice su \(A\). Allora:
-  \begin{enumerate}
-    \item \(X\) massimale \(\implies\) \(X\) completo\label{item:schutz1}
-    \item \(X\) completo e non denso \(\implies\) \(X\) massimale\label{item:schutz2}
-  \end{enumerate}
-\end{theorem}
-\begin{proof}
-  \paragraph{\ref{item:schutz1}.}
-  Mostriamo che se \(X\) non è completo allora non è massimale.
-  Il caso \(\# A = 1\) è banale, quindi supponiamo \(\# A \geq 2\).
-  Sia \(y \in A^{*} \) che non si completa in \(X^{*}\), senza bordi\footnote{Se \(y\) ha bordi, possiamo costruire facilmente un'altra parola \(y'\) senza bordi partendo da \(y\) che non si completa in \(X^{*}\)}.
-
-
-  Mostriamo che \(Y = X \cup \{y\}\) è un codice.
-  Sia \(y_1 y_2 \cdots y_n = y_1' y_2' \cdots y_m', y_1\neq y_1'\) una doppia fattorizzazione di una parola di \(Y^*\).
-  Essendo \(X\) codice \(y\) deve occorrere sia a sinistra che a destra.\footnote{Non solo in un lato poiché altrimenti l'altro sarebbe un modo di completare \(y\) in \(X^*\).}
-  Poiché \(y\) non si completa in \(X^*\) esistono \(i\) e \(j\) tali che \(y_i = y_j' = y\), minimali.
-
-  \TODO{Inserire figura 1}
-
-  Analizziamo i possibili casi:
-  \begin{enumerate}
-    \item \(y_i\) e \(y_j'\) non si sovrappongono: allora \(y_i\) occorre a sinistra di \(y_j'\) o viceversa. Allora \(y\) si completa in \(X^*\), assurdo.
-    \item \(y_i\) e \(y_j'\) si sovrappongono parzialmente.
-      \TODO{Inserire figura 2}
-      Allora \(y\) avrebbe bordo, assurdo.
-      \item \(y_i\) e \( y_j'\) si sovrappongono completamente: allora \(y_1y_2 \cdots y_{i-1} = y_1'y_2' \cdots y_{j-1}'\), che però sono tutte parole in \(X^*\), ottenendo una doppia fattorizzazione di una parola in \(X^*\), che però è un codice, assurdo. 
-  \end{enumerate}
-\end{proof}
-
-\begin{note}
-  L'ipotesi \emph{non denso} in~\ref{item:schutz2} è necessaria. Infatti il codice \(Z = \{a^{|u|+1}bu | u \in {\{a,b\}}^*\}\) è un codice denso (e quindi completo), ma non massimale.
-  Infatti \(Z\cup\{b\}\) è ancora un codice (prefisso).
-\end{note}
-
-\begin{corollary}
-  Sia \(X \subseteq A^+\) codice non denso. Allora le seguenti affermazioni sono equivalenti:
-  \begin{enumerate}
-    \item \(X\) è massimale
-    \item \(X\) è completo
-    \item \(\forall \mu\) distribuzione positiva su \(A\): \(\mu(X) = 1\)
-    \item \(\exists \mu\) distribuzione positiva su \(A\): \(\mu(X) = 1\)
-  \end{enumerate}
-\end{corollary}
-\begin{proof}
-  Si ha che \(1 \iff 2\) per il teorema di Schützenberger, \(2 \implies 3\) viene dalla dimostrazione del punto~\ref{item:schutz2} del teorema di Schützenberger, \(3 \implies 4\) è banale e \(4 \implies 1\) lo abbiamo visto più volte.
-\end{proof}
-
-\begin{proposition}
-  Sia \(X\subseteq A^*\) finito e completo, e \(\mu\) distribuzione positiva su \(A\) tale che \(\mu(X) = 1\). Allora \(X\) è un codice (massimale).
-\end{proposition}
-
-\begin{proof}
-  Dato \(n \geq 1\), \(X^n\) è completo (se \(w\) si completa in \(X^*\) allora si completa in \({(X^n)}^*\))
-  Per il lemma di Marcus-Schützenberger, \TODO{aggiungi ref al teorema una volta inserito}
-  \(1\leq \mu(X^n) = {\mu(X)}^n = 1^n = 1\)
-  Quindi \(\forall n \geq 1: \mu(X^n) = 1 = {\mu(X)}^n\). Dunque \(X\) è un codice. RISULTATO PRECEDENTE
-\end{proof}
-
-\begin{proposition}
-  Sia \(X \subseteq A^*\) finito e completo. Allora \(\forall a \in A \exists n \geq 1 : a^n \in X\). Tale \(n\) è unico se \(X\) è un codice.
-\end{proposition}
-\begin{proof}
-  Sia \(L = \max_{x \in X}\abs{x}\) e \(a \in A\). Essendo \(X\) completo, \(a^{2L}\) si completa in \(X^*\), quindi esistono \(\lambda, \rho \in A^*: \lambda a^{2L} \rho \in X^*\).
-  \TODO{Inserire figura 3}
-  Essendo che ogni parola in \(X\) ha lunghezza al più \(L\), esiste un \(x_i\) della fattorizzazione di \(\lambda a^{2L} \rho\) fattore della parola \(a^{2L}\).
-  \TODO{Inserire figura 4}
-  Una tale fattorizzazione infatti porterebbe ad avere \(x_i,x_{i+1} \in X\) tali che \(\abs{x_i}+\abs{x_{i+1}} > 2L\), assurdo.
-  Da ciò segue che tale \(x_i\) è della forma \(a^n\). Questo è unico poiché se esistesse \(m\neq n\) tale che \(a^m \in X\), allora la parola \(a^{n+m}\) avrebbe due fattorizzazioni distinte in \(X^*\), assurdo se \(X\) è un codice.
-\end{proof}
-
-\begin{example}
-  Il codice prefisso \(X = \set{aa,aba,cbb,ba,bbc}\) è facilmente verificabile non essere massimale. Infatti, questo codice non contiene potenze di \(b\), e dunque dalla proposizione precedente non è completo, e quindi non è massimale.
-\end{example}
-
-\begin{definition}
-  Dato \(X \subseteq A^*\) codice, chiamiamo \keyword{completamento} di \(X\) un codice \(Y \supseteq X\) nello stesso alfabeto, massimale.
-\end{definition}
-
-Da questa definizione sorgono due domande:
-\begin{enumerate}
-  \item Dato un codice \(X\) qualsiasi, esiste sempre un completamento? (Spoiler, sì)
-  \item Dato un codice \(X\) finito, esiste sempre un completamento finito? (Spoiler, no)
-    Esempio noto fornito da Markov ha mostrato che dato \(A = \set{a,b}\), il codice \(X = \set{a^5,ab,ba^2,b}\) non ha completamenti finiti.
-  \item A questo punto, \emph{quali} codici finiti ammettono completamento finito?
-    In generale, la caratterizzazione completa è un problema aperto, ma:
-    \begin{itemize}
-      \item I codici finiti prefissi ammettono sempre completamenti finiti. (Tra essi in particolare i codici su \(A\) con \(\abs{A} = 1\)).
-      \item Se \(\#X = 2\), allora \(X\) ammette un completamento finito (Restivo).
-      \item Se \(\#X \geq 4\), in generale non ammette un completamento finito.
-      \item Se \(\#X = 3\), il problema è aperto.
-    \end{itemize}
-\end{enumerate}
-
-Vediamo dunque la dimostrazione dell'esistenza di un completamento per ogni codice citato in precedenza.
-\begin{proposition}
-  Sia \(X \subseteq A^*\) codice. Allora esiste un completamento di \(X\).
-\end{proposition}
-\begin{proof}
-  Se \(X\) è massimale, allora \(X = X_0\) è un completamento di sé stesso.
-  Altrimenti, esiste \(w_1 \in A^*\setminus X\) di lunghezza minima tale che \(X_1 = X \cup \{w_1\}\) è ancora un codice.
-  Se \(X_1\) è massimale, abbiamo finito.
-  Se iterando questo procedimento otteniamo \(X_k = X_{k-1} \cup \set{w_k}\) massimale, abbiamo finito.
-  Altrimenti, otteniamo una successione infinita di parole \(s = \set{w_n}\). Essendo però l'alfabeto finito, esistono parole in \(s\) arbitrariamente lunghe.
-  Mostriamo dunque che \(Y = \bigcup_{k = 0}^{\infty} X_k\) è un codice massimale.
-  È codice poiché se avessimo una doppia fattorizzazione \(y_1 y_2 \cdots y_n = y_1' y_2' \cdots y_m'\) avremmo che ogni \(y_i\) e \(y_j'\) appartengono a qualche \(X_k\). Essendo che \(X_0 \subseteq X_1 \subseteq X_2 \subseteq \cdots\), esiste \(n\) tale che tutti i \(y_i\) e \(y_j'\) appartengono a \(X_n\). Ma allora avremmo una doppia fattorizzazione in \(X_n\), assurdo.
-  Per quanto riguarda la massimalità, se avessimo \(w \in A^* \setminus Y\) tale che \(Y \cup \{w\}\) è ancora un codice, allora esisterebbe \(m\) tale che \(\abs{w_m} > \abs{w}\).
-  Ma allora \(X_m \cup \set{w}\subseteq Y \cup \set{w}\) sarebbe ancora codice, contraddicendo la minimalità di \(w_m\).
-\end{proof}
-
-\begin{definition}[Sorgente (discreta e a memoria zero)]
+\begin{definition}{Sorgente (discreta e a memoria zero)}
   Chiamiamo \keyword{Sorgente discreta e a memoria zero} variabile aleatoria discreta, identificabile come una coppia \(S = (\SCal,p)\), con \(\SCal\) alfabeto sorgente e \(p\) distribuzione su \(\SCal\).
 \end{definition}
-\begin{definition}[Codifica]
+\begin{definition}{Codifica}
   Definiamo \keyword{codifica} un morfismo iniettivo \(\varphi: \SCal^* \to A^*\) con \(A\) alfabeto (di codice).
   Il \keyword{codice} relativo a questa codifica è \(X = \varphi(\SCal)\), ovvero l'immagine di \(\SCal\) sotto \(\varphi\).
 \end{definition}
-\begin{definition}[Costo di codifica]
+\begin{definition}{Costo di codifica}
   Chiamiamo \keyword{costo} di \(phi\) la quantità
   \[c(X,\varphi) = \sum_{s \in \SCal} p(s) \abs{\varphi(s)}\]
   ovvero la media pesata sulla distribuzione \(p\) delle lunghezze delle parole codificate.
@@ -127,7 +16,7 @@ Vediamo dunque la dimostrazione dell'esistenza di un completamento per ogni codi
   \[c(X) = \min_{\varphi: \varphi(\SCal) \leftrightarrow  X} c(X,\varphi)\]
 \end{definition}
 
-\begin{example}\label{ex:codifica}
+\begin{example}[label=ex:codifica]{}
   Sia \(\SCal = \set{s_1,s_2,s_3}\), \(A = \set{a,b}\), \(X = \set{a,ba,bb}\).
   Se \(p(s_1) = 1/2, p(s_2) = p(s_3) = 1/4\), e inoltre \(\varphi(s_1) = ba, \varphi(s_2) = a, \varphi(s_3) = bb\), si ha che
     \[c(X,\varphi) = \frac{7}{4} > c(X) = \frac{3}{2}\]
@@ -144,22 +33,22 @@ e il costo assoluto di un codice \(X\) come
 
 Dall'esempio~\ref{ex:codifica} possiamo trarne una regola generale.
 
-\begin{proposition}
+\begin{proposition}{}
   Sia \(S\) sorgente, \(X\) codice su \(A\) \emph{adattato}\footnote{Ovvero tale che esiste un morfismo biettivo tra \(\S\) e \(X\)} a \(S\) mediante \(\varphi\).
   Allora \(c(X) = c(X,\varphi)\) se e solo se
     \[\forall s,s' \in \SCal, p(s) < p(s') \implies \abs{\varphi(s)} < \abs{\varphi(s')} \]
 \end{proposition}
 
-\begin{definition}[Codice ottimale]
+\begin{definition}{Codice ottimale}
   Diremo che \(X\) è un \keyword{codice ottimale} per la sorgente \(S\) se, per ogni codice \(Z\) sullo stesso alfabeto e di cardinalità \(\# X = \# \SCal\), si ha che
   \[c(X) \leq c(Z)\]
 \end{definition}
 
-\begin{example}
+\begin{example}{}
   Data la sorgente dell'esempio~\ref{ex:codifica}, il codice \(Z = \set{aa,ba,bb}\) \textbf{non} è ottimale, poiché \(c(Z) = 2\), mentre abbiamo trovato un codice di costo inferiore.
 \end{example}
 
-\begin{definition}[Entropia di una sorgente]
+\begin{definition}{Entropia di una sorgente}
   Data una sorgente \(S = (\SCal,p)\), definiamo l'\keyword{entropia} di \(S\) la quantità
   \[H(S) = -\sum_{s \in \SCal} p(s) \log(p(s)) = \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right)\]  
 \end{definition}
@@ -178,7 +67,7 @@ L'entropia di \(1 bit\) è quella di una sorgente binaria uniforme:
 
 Da questo momento in avanti si farà riferimento unicamente ai \(bit\) come unità di misura dell'informazione, omettendo dunque la base del logaritmo.
 
-\begin{note}
+\begin{note}{}
   La definizione di entropia fornita non esclude la possibilità di avere \(p(s) = 0\) per qualche \(s \in \SCal\).
   In tal caso il termine della somma corrispondente a tale \(s\) non sarebbe definito.
   In tal caso dunque si assume che il termine \(p(s)\log(p(s)) = 0\) per continuità, dato che \(\lim_{x \to 0^+} x \log(x) = 0\).
@@ -210,7 +99,7 @@ Ovvero l'entropia (e quindi l'incertezza) è nulla se la sorgente è certa (emet
   Tale disuguaglianza afferma che, date due distribuzioni \(p\) e \(q\) su \(\SCal\), Allora
   \[ \sum_{s \in \SCal} p(s) \log(\frac{1}{p(s)}) \leq -\sum_{s \in \SCal} p(s) \log(\frac{1}{q(s)})\]
   Ovvero che l'entropia di \(S\) rispetto a \(p\) è minore o uguale alla media in probabilità \(p\) dell'inverso del logaritmo della probabilità secondo \(q\), e vale l'uguaglianza se e solo se \(p = q\).
-  \begin{note}
+  \begin{note}{}
     È importate notare che il lato destro della disuguaglianza può divergere, poiché essendo le distribuzioni diverse non è possibile definire separatamente il caso dello \(0\), poiché le due distribuzioni potrebbero essere nulle in punti diversi.
   \end{note}
   Posto \(q(s) = \frac{1}{\#\SCal}, \forall s \in \SCal\), per la disuguaglianza di Gibbs si ha che
@@ -220,7 +109,7 @@ Ovvero l'entropia (e quindi l'incertezza) è nulla se la sorgente è certa (emet
 
 Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l'entropia di una sorgente al costo assoluto di un codice.
 
-\begin{theorem}[Shannon]
+\begin{theorem}{Shannon}
   Sia \(S = (\SCal,p)\) sorgente, \(A\) alfabeto di codice con \(\#\SCal = d \geq 2\) e \(X \subseteq A^+\) codice adattato a \(S\) mediante \(\varphi\).
   Allora
   \[c(X,\varphi) \geq \frac{H(S)}{\log(d)}\]
@@ -277,7 +166,7 @@ Alcuni esempi sono:
 
 In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codice prefisso, ogni parola codificata può essere decifrata non appena è stata ricevuta tutta la parola, senza dover attendere di ricevere altre parole.
 
-\begin{example}
+\begin{example}{}
   Con \(\SCal = \set{s_1,s_2,s_3}\), \(A = \set{a,b}\), \(X = \set{a,ba,bb}\) con \(\varphi(s_1) = a, \varphi(s_2) = ba, \varphi(s_3) = bb\), allora un messaggio in codice \(\varphi(w)\) che inizia per \(a\) corrisponde necessariamente a un messaggio \(w \in \SCal^*\) che inizia per \(s_1\).
   Invece, utilizzando il codice \(Z = \set{a,aba,bb}\) con \(\varphi'(s_1) = a, \varphi'(s_2) = aba, \varphi'(s_3) = bb\), un messaggio in codice \(\varphi'(w)\) che inizia per \(a\) potrebbe sia corrispondere a un messaggio \(w\) che inizia per \(s_1\) che a un messaggio \(w\) che inizia per \(s_2\).
   È necessario dunque aspettare altri simboli per poter decifrare il messaggio.
