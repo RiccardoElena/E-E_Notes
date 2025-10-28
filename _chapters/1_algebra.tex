@@ -101,7 +101,7 @@ Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché,
 
 Tale notazione permette di formulare in modo più compatto la chiusura di un sottoinsieme \(Y\) di un semigruppo.
   \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
-\begin{proof}[Idea di dimostrazione]\label{proof:alt_notation_closure}
+\begin{proof}[\warningsymbol{} Idea di dimostrazione]\label{proof:alt_notation_closure}
   Da definizione infatti, \(Y^2 = \set{y_1 \cdot y_2}[y_1,y_2 \in Y]\). Se \(Y^2 \subseteq Y\), allora anche \(Y^3 = Y^2 \cdot Y \subseteq Y\), poiché
   \[\forall y \in Y^3, \exists y_1 \in Y, y_2 \in Y^2\st y = y_1 \cdot y_2\]
   Iterando il ragionamento è possibile mostrare che \(Y\) contiene tutte le potenze di sé stesso, ed è dunque chiuso.
@@ -165,7 +165,7 @@ Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabet
   Sia \(S\) un semigruppo libero, allora l'unica base di \(S\) è \(S \setminus S^2\), ovvero l'insieme degli elementi di \(S\) che non sono esprimibili come prodotto di altri elementi di \(S\).
   Analogamente, sia \(M\) un monoide libero, allora l'unica base di \(M\) è \((M\setminus \{1_M\}) \setminus {(M\setminus \{1_M\})}^2\).
 \end{proposition}
-\begin{proof}[Idea di dimostrazione]
+\begin{proof}[\warningsymbol{} Idea di dimostrazione]
   Analogo a~\ref{proof:alt_notation_closure}
 \end{proof}
 
