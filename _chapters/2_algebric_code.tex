@@ -34,7 +34,7 @@ Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
   Sia \(A\) alfabeto finito e \(\emptyset \neq X \subseteq A^*\).
   Allora:
   \begin{enumerate}
-    \item \(X\) prefisso (suffisso) è codice \(\iff X \neq {\varepsilon}\)
+    \item \(X\) prefisso (suffisso) è codice \(\iff X \neq \set{\varepsilon}\)
     \item \(X\) codice è prefisso (suffisso) \(\iff X^*\) unitario a sinistra (destra)
   \end{enumerate}
 \end{theorem}
@@ -48,7 +48,7 @@ Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
 \begin{corollary}{}
   \(\emptyset \neq X \subseteq A^+\) è codice se e solo se valgono entrambe le seguenti condizioni:
   \begin{itemize}
-    \item \({(X^*)}^{-1}X^* \cap X{(X^*)}^{-1} \subseteq X^* \)
+    \item \({(X^*)}^{-1}X^* \cap X^*{(X^*)}^{-1} \subseteq X^* \)
     \item \(X \cap XX^+ = \emptyset\)
   \end{itemize}
 \end{corollary}
@@ -59,9 +59,9 @@ Dagli insiemi quozienti, definiti nella \Cref{def:quotient_sets}, è possibile d
 \begin{definition}{Insiemi resto}
   Per \(X \subseteq A^+\) definiamo la successione di insiemi resto destri come:
   \begin{equation}
-    \begin{cases}
-      R_1(X) = X^{-1}X\setminus \set{\varepsilon} \\
-      R_{n+1}(X) =X^{-1} R_n(X) \cup {R_n(X)}^{-1}X, \quad n \geq 1\\
+    R_n=\begin{cases}
+      X^{-1}X\setminus \set{\varepsilon} & n = 1\\
+      X^{-1} R_{n-1}(X) \cup {R_{n-1}(X)}^{-1}X, & n > 1\\
     \end{cases}
   \end{equation}
   I resti sinistri sono definiti in modo analogo usando il quoziente destro.
@@ -198,7 +198,7 @@ Conclusa la dimostrazione del lemma, possiamo procedere con la dimostrazione del
   \begin{itemize}
     \item \(X \text{codice prefisso} \iff R_1 = \emptyset\).
       Questo poiché dalla definizione di prefisso si ha che \(X \cap XA^+ = \emptyset \iff X^{-1}X \setminus \set{\varepsilon} = \emptyset\)
-    \item \(X \text{codice} \iff \forall n \geq 1 L_n \cap X = \emptyset\),
+    \item \(X \text{codice} \iff \forall n \geq 1, L_n \cap X = \emptyset\),
       dove \(L_n\) sono gli insiemi resto sinistri di \(X\).
       La dimostrazione è analoga a quella del \Cref{thm:sardinas-patterson}, utilizzando il corrispondente lemma per gli insiemi resto sinistri.
   \end{itemize}
@@ -372,8 +372,10 @@ Dalla definizione di morfismo di monoidi, necessariamente si avrà che \(\mu(\va
   \begin{equation*}
     \begin{aligned}
       \mu: \mathcal{P}(A^*) &\to \R_{\geq 0} \cup \set{\infty} \\
-                  \emptyset &\mapsto 0 \\
-                 \emptyset \neq X \subseteq A^* &\mapsto \sum_{w \in X} \mu(w)
+                  X \subseteq A^* &\mapsto \begin{cases}
+                      0 & ,X = \emptyset \\
+                      \sum_{w \in X} \mu(w) & ,X \neq \emptyset
+                    \end{cases}
     \end{aligned}
   \end{equation*}
   Dove \(\mu\) usata nella somma è il morfismo di monoidi esteso dalla distribuzione su \(A\).  
@@ -634,7 +636,7 @@ Formalmente:
 D'altra parte non tutti gli insiemi infiniti sono densi. Ad esempio, su alfabeto \(A = \set{a,b}\), l'insieme \(\set{a}^*\) è infinito ma non denso, poiché parole come \(b\) o \(ab\) non possono essere completate in \(\set{a}^*\).
 È però possibile mostrare un altro risultato che mettere in relazione la densità con la \qi{grandezza} di un insieme di parole, o più precisamente con la sua misura.
 
-\begin{proposition}
+\begin{proposition}{}
   Sia \(X \subseteq A^*\) non denso e sia \(\mu\) una distribuzione positiva su \(A\), allora \(\mu(X) < \infty\).
 \end{proposition}
 
@@ -643,11 +645,11 @@ Il viceversa di tale proposizione non vale, poiché esistono insiemi a misura fi
 \begin{example}[label=ex:dense_code]{}
   Un esempio di ciò è l'insieme \(Z = \set{a^{\abs{u}+1}bu}[u \in \set{a,b}^*]\). Questo insieme è codice prefisso, poiché nessuna parola della forma \(a^{\abs{u}+1}bu\) è prefisso proprio di un'altra,
   poiché se \(u \in \set{a}^*\) la singola \(b\) evita che ciò accada, mentre se \(u\) contiene almeno una \(b\), per avere un prefisso proprio è necessario che il numero di \(a\) sia lo stesso, il che implica che le due parole \(u, u'\) siano della stessa lunghezza, e che dunque non possano essere prefissi propri l'una dell'altra.
-  Tale insieme è però banalmente anche denso, poiché ogni parola \(u \in A^*\) si completa in \(Z\) come \(a^{\abs{u}+1}bu\). In altre parole, \(\forall u \in A^*, \lambda u \rho in Z\), con \(\lambda = a^{\abs{u}+1}b\) e \(\rho = \varepsilon\).
+  Tale insieme è però banalmente anche denso, poiché ogni parola \(u \in A^*\) si completa in \(Z\) come \(a^{\abs{u}+1}bu\). In altre parole, \(\forall u \in A^*, \lambda u \rho \in Z\), con \(\lambda = a^{\abs{u}+1}b\) e \(\rho = \varepsilon\).
 \end{example}
 
 Inoltre, nel caso in cui \(X\) sia un codice, è possibile rilassare l'ipotesi di cardinalità finita per avere garanzia che non sia denso.
-\begin{proposition}
+\begin{proposition}{}
   Sia \(X \subseteq A^+\) codice.
   \[ X \text{ regolare } \implies X \text{ non denso}\]
 \end{proposition}
@@ -681,11 +683,11 @@ Per iniziare a mostrare i risultati intermedi necessari alla dimostrazione di ta
 Un importante risultato riguardo i bordi è che se una parola ammette bordi ammette bordi di lunghezza inferiore alla metà della parola.
 
 \begin{proposition}[label=prop:if_border_exists_border_half_length]{}
-  Sia \(w \in A^+\). Se \(w\) ha bordi, allora \(\exists \beta\) bordo di \(w\) tale che \(\abs{\beta}\leq\frac{\abs{w}}{2}\)
+  Sia \(w \in A^+\). Se \(w\) ha bordi, allora \(\exists \beta\) bordo di \(w \st \abs{\beta}\leq\frac{\abs{w}}{2}\)
 \end{proposition}
 
 \begin{proof}
-  Sia \(\alpha\) un bordo di \(w\) tale che \(\abs{\alpha} > \frac{\abs{w}}{2}\).
+  Sia \(\alpha\) un bordo di \(w \st \abs{\alpha} > \frac{\abs{w}}{2}\).
   Avremo che necessariamente \(w\) è rappresentabile come segue:
   \begin{figure}[H]
     \centering
@@ -710,7 +712,7 @@ Un importante risultato riguardo i bordi è che se una parola ammette bordi amme
   In più, com'è evidente dalla figura, \(\alpha'\) è sia prefisso che suffisso di \(\alpha\), dunque è un bordo di \(\alpha\).
 
   Ovviamente, un bordo di \(\alpha\) è anche un bordo di \(w\), poiché è sia prefisso di un prefisso di \(w\) che suffisso di un suffisso di \(w\).
-  Inoltre, si ha che \(\abs{\alpha'} < \abs{\alpha}\), dunque, ripetendo questo ragionamento, si arriva necessariamente a un bordo \(\beta\) di \(w\) tale che \(\abs{\beta} \leq \frac{\abs{w}}{2}\).
+  Inoltre, si ha che \(\abs{\alpha'} < \abs{\alpha}\), dunque, ripetendo questo ragionamento, si arriva necessariamente a un bordo \(\beta\) di \(w \st \abs{\beta} \leq \frac{\abs{w}}{2}\).
 \end{proof}
 
 Questa proposizione fa si che sia sufficiente analizzare prefissi e suffissi fino alla metà della lunghezza di una parola per scoprire se essa ammette bordi.
@@ -942,7 +944,7 @@ A questo punto siamo in grado di dimostrare il Teorema di Schützenberger~\ref{t
 \end{note}
 
 Un diretto corollario del Teorema di Schützenberger è il seguente:
-\begin{corollary}
+\begin{corollary}{}
   Sia \(X \subseteq A^+\) codice non denso. Allora le seguenti affermazioni sono equivalenti:
   \begin{enumerate}
     \item \(X\) è massimale

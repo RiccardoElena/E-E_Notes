@@ -616,7 +616,12 @@
 % ==========================
 % TODOs 
 % ==========================
-\RequirePackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\RequirePackage[
+  %disable,
+  colorinlistoftodos,
+  prependcaption,
+  textsize=small
+  ]{todonotes}
 % rapid todo commands
 \newcommand{\TODO}[1]{\todo[color=warncolor!40]{#1}}         % margin
 \newcommand{\TODOinline}[1]{\todo[inline,color=warncolor!20]{#1}} % inline
