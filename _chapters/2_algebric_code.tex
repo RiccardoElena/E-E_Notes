@@ -18,7 +18,7 @@ Le loro proprietà legate alla teoria dell'informazione e alla crittografia verr
   Di conseguenza, la notazione \(X \subseteq A^*\) può essere sostituita con \(X \subseteq A^+\) se \(X\) è codice.
 \end{note}
 
-\begin{definition}{Prefisso e Suffisso}
+\begin{definition}[label=def:prefix_suffix]{Prefisso e Suffisso}
   Dato \(A\) alfabeto finito, diremo che \(\emptyset \neq X \subseteq A^*\) è
   \begin{description}
     \item[\keyword{Prefisso}] se \(X\cap XA^+ = \emptyset\)
@@ -30,7 +30,7 @@ In altre parole \(X\) è prefisso se nessuna parola di \(X\) è prefisso di un'a
 
 Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
 È possibile infatti dimostrare due forti risultati a riguardo.
-\begin{theorem}{}
+\begin{theorem}[label=thm:prefix_suffix_code]{}
   Sia \(A\) alfabeto finito e \(\emptyset \neq X \subseteq A^*\).
   Allora:
   \begin{enumerate}

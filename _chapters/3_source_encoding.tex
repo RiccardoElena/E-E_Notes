@@ -1,2 +1,239 @@
 \chapter{Codifica di Sorgente}
-\todo{Titolo provvisorio}
+
+Ci inoltriamo finalmente nel cuore della teoria dell'informazione, ovvero la codifica di sorgente.
+
+\section{Sorgenti e Codifica}
+
+\begin{definition}{Sorgente (discreta e a memoria zero)}
+  Chiamiamo \keyword{Sorgente discreta e a memoria zero} una variabile aleatoria discreta, identificabile come una coppia \(S = (\SCal,p)\), con \(\SCal\) alfabeto sorgente, ovvero l'insieme dei simboli che la sorgente può emettere,
+  ovvero i valori che la variabile aleatoria può assumere, e \(p\) distribuzione su \(\SCal\).
+\end{definition}
+
+\begin{definition}{Codifica}
+  Definiamo \keyword{codifica} un morfismo iniettivo \(\varphi: \SCal^* \to A^*\) con \(A\) alfabeto (di codice).
+  Il \keyword{codice} relativo a questa codifica è \(X = \varphi(\SCal)\), ovvero l'immagine di \(\SCal\) sotto \(\varphi\).
+\end{definition}
+
+\todo{Mi ricordo che disse che la ridotta alla base è biettiva}
+\todo{Inoltre mi pare si parlasse solo di alfabeti finiti, mi sbaglio?}
+
+\begin{definition}{Costo di una codifica}
+  Data una sorgente \(S = (\SCal,p)\) e una codifica \(\varphi: \SCal^* \to A^*\) con codice \(X = \varphi(\SCal)\), definiamo il \keyword{costo} di \(\varphi\) la quantità:
+  \[c(X,\varphi) = \sum_{s \in \SCal} p(s) \abs{\varphi(s)}\]
+  ovvero la media pesata sulla distribuzione \(p\) delle lunghezze delle parole codificate.
+  Il \keyword{costo assoluto} di un codice \(X\) sarà
+  \[c(X) = \min_{\varphi: \varphi(\SCal) \leftrightarrow  X} c(X,\varphi)\]
+\end{definition}
+
+
+\begin{example}[label=ex:codifica]{}
+  Sia \(\SCal = \set{s_1,s_2,s_3}\), \(A = \set{a,b}\), \(X = \set{a,ba,bb}\).
+  Se \(p(s_1) = 1/2, p(s_2) = p(s_3) = 1/4\), e inoltre \(\varphi(s_1) = ba, \varphi(s_2) = a, \varphi(s_3) = bb\), si ha che
+    \[c(X,\varphi) = \frac{7}{4} > c(X) = \frac{3}{2}\]
+\end{example}
+
+Da questo esempio è possibile trarne una regola generale.
+
+\begin{proposition}{}
+  Sia \(S\) sorgente, \(X\) codice su \(A\) \emph{adattato}\footnote{Ovvero tale che esiste un morfismo biettivo tra \(\S\) e \(X\). In questo caso mediante \(\varphi\) si intende che un morfismo biettivo è \(\varphi_{|_{\SCal}}\)} a \(S\) mediante \(\varphi\).
+  Allora \(c(X) = c(X,\varphi)\) se e solo se
+    \[\forall s,s' \in \SCal, p(s) < p(s') \implies \abs{\varphi(s)} < \abs{\varphi(s')} \]
+\end{proposition}
+
+\begin{proof}
+  La dimostrazione è abbastanza intuitiva, in quanto la proposizione è l'unico modo per minimizzare la somma pesata delle lunghezze.
+\end{proof}
+
+In altre parole, per minimizzare il costo di una codifica, i simboli più probabili devono essere codificati con parole più corte.
+
+\begin{definition}{Codice ottimale}
+  Diremo che \(X\) è un \keyword{codice ottimale} per la sorgente \(S\) se, per ogni codice \(Z\) sullo stesso alfabeto e di cardinalità \(\# X = \# \SCal\), si ha che
+  \[c(X) \leq c(Z)\]
+\end{definition}
+
+\begin{example}{}
+  Data la sorgente dell'esempio~\ref{ex:codifica}, il codice \(Z = \set{aa,ba,bb}\) \textbf{non} è ottimale, poiché \(c(Z) = 2\), mentre abbiamo trovato un codice di costo inferiore nell'esempio precedente.
+\end{example}
+
+\section{Entropia di una sorgente}
+
+\begin{definition}{Entropia di una sorgente}
+  Data una sorgente \(S = (\SCal,p)\), definiamo l'\keyword{entropia} di \(S\) la quantità
+  \[H(S) = -\sum_{s \in \SCal} p(s) \log\left(p(s)\right) = \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right)\]  
+\end{definition}
+
+Tale quantità rappresenta un valore medio dell'autoinformazione (ovvero dell'incertezza) della sorgente.
+La base del logaritmo non è specificata, non perché non cambi il valore di \(H(S)\), ma poiché la variazione è solo un fattore moltiplicativo costante, analogo a un cambio di unità di misura.
+
+Corrispondentemente l'entropia (e l'informazione in generale) si misura utilizzando comunemente tre unità di misura:
+\begin{itemize}
+  \item \emph{hartley} (base \(10\)), prima unità di misura dell'informazione
+  \item \emph{nat} (base \(e\)), utile per alcune formulazioni matematiche
+  \item \emph{bit} (base \(2\)), più utilizzata al giorno d'oggi
+\end{itemize}
+L'entropia di \(1 bit\) è quella di una sorgente binaria uniforme:
+\[H(S) = \frac{1}{2}\log_2(2) + \frac{1}{2}\log_2(2) = 1\]
+Da questo momento in avanti si farà riferimento unicamente ai \(bit\) come unità di misura dell'informazione, omettendo dunque la base del logaritmo.
+
+\begin{note}{}
+  La definizione di entropia fornita non esclude la possibilità di avere \(p(s) = 0\) per qualche \(s \in \SCal\).
+  In tal caso il termine della somma corrispondente a tale \(s\) non sarebbe definito. 
+  Dunque si assume che il termine \(p(s)\log\left(p(s)\right) = 0\) per continuità, dato che \(\lim_{x \to 0^+} x \log\left(x\right) = 0\).
+
+  In maniera formale, si può ridefinire l'entropia come
+  \[H(S) = -\sum_{s \in \SCal} h(s)\]
+  dove
+  \[h(s) = \begin{cases}
+              p(s) \log\left(p(s)\right) & , p(s) > 0 \\
+              0 & , p(s) = 0
+            \end{cases}
+  \]
+\end{note}
+
+In generale si ha che \(0 \leq H(S) \leq \log\left(\#\SCal\right)\), e inoltre possibile caratterizzare tali casi limite.
+Il limite inferiore è dato da:
+\begin{equation}\label{eq:lower_bound_entropy}
+    H(S) = 0 \iff \exists s \in \SCal: p(s) = 1
+\end{equation}
+
+Ovviamente dalla definizione di distribuzione segue che \(\forall s' \neq s: p(s') = 0\).
+
+Mentre il limite superiore è dato da:
+\begin{equation}\label{eq:upper_bound_entropy}
+  H(S) = \log\left(\#\SCal\right) \iff \forall s \in \SCal: p(s) = \frac{1}{\#\SCal}
+\end{equation}
+Ovvero l'entropia (e quindi l'incertezza) è nulla se la sorgente è certa (emette sempre lo stesso simbolo), e massima se la sorgente è uniforme (emette tutti i simboli con la stessa probabilità).
+
+Andiamo dunque a dimostrare tali affermazioni.
+
+\begin{proof}[Dimostrazione di~\ref{eq:lower_bound_entropy}]
+  Essendo che \(\forall s \in \SCal: 0\leq p(s) \leq 1\), abbiamo che\footnote{È denotato che \(-\infty \leq \log\left(p(s)\right)\) e non \(-\infty < \log\left(p(s)\right)\), poiché si assume \(\log\left(0\right)\) definito come \(-\infty\) per continuità.}
+  \[-\infty \leq \log\left(p(s)\right) \leq 0 \iff  0 \leq -\log\left(p(s)\right) = \log\left(\frac{1}{p(s)}\right) \leq \infty\]
+
+  Dunque \(H(S) = \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) = E[\log\left(\frac{1}{p(S)}\right)] \geq 0\), essendo somma pesata (o media) di quantità non negative.
+
+  Inoltre se \(p(s) = 1\) e \(p(t) = 0 \forall t \in \SCal \setminus \set{s}\) si ha che
+  \[H(S) = 1 \cdot \log\left(\frac{1}{1}\right) - \sum_{t \in \SCal \setminus \set{s}} 0 \cdot \log\left(0\right) = 0 - 0 = 0\]
+  Viceversa, se \(H(S) = 0\), deve aversi che \(\forall s \in \SCal: p(s) \log\left(\frac{1}{p(s)}\right) = 0\), che può avvenire solo in due casi, ovvero \(\forall s \in \SCal p(s) = 0 \lor p(s) = 1\).
+  Ma essendo che \(p\) è una distribuzione, \(\sum_{s \in \SCal} p(s) = 1\), e dunque
+  \[\exists!\bar{s} \in \SCal: p(\bar{s}) = 1\]
+\end{proof}
+
+\begin{proof}[Dimostrazione di~\ref{eq:upper_bound_entropy}]
+  Si può utilizzare la disuguaglianza di Gibbs.
+  Tale disuguaglianza afferma che, date due distribuzioni \(p\) e \(q\) su \(\SCal\), Allora:
+  \begin{equation}\label{eq:gibbs}
+    \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) \leq -\sum_{s \in \SCal} p(s) \log\left(\frac{1}{q(s)}\right)
+  \end{equation}
+  Ovvero che l'entropia di \(S\) rispetto a \(p\) è minore o uguale alla media in probabilità \(p\) dell'inverso del logaritmo della probabilità secondo \(q\), e vale l'uguaglianza se e solo se \(p = q\).
+  \begin{note}{}
+    È importate notare che il lato destro della disuguaglianza può divergere, poiché essendo le distribuzioni diverse non è possibile definire separatamente il caso dello \(0\), poiché le due distribuzioni potrebbero essere nulle in punti diversi.
+  \end{note}
+  Posto \(q(s) = \frac{1}{\#\SCal}, \forall s \in \SCal\), per la disuguaglianza di Gibbs si ha che
+  \[H(S) \leq \sum_{s \in \SCal} p(s) \log\left(\#\SCal\right) = \log\left(\#\SCal\right)\sum_{s \in \SCal} p(s) = \log\left(\#\SCal\right)\]
+  Inoltre, per l'uguaglianza, deve aversi che \(p = q\). Dunque, essendo \(H(S)\) superiormente limitata da un valore che può assumere, tale valore è il massimo di \(H(S)\), e si ha che tale massimo è raggiunto se e solo se \(p\) è la distribuzione uniforme su \(\SCal\).
+\end{proof}
+
+Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l'entropia di una sorgente al costo di codifica, ovvero il teorema di Shannon.
+
+\begin{theorem}{Shannon}
+  Sia \(S = (\SCal,p)\) sorgente, \(A\) alfabeto di codice con \(\#\SCal = d \geq 2\) e \(X \subseteq A^+\) codice adattato a \(S\) mediante \(\varphi\).
+  Allora
+  \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
+  Inoltre, vale l'uguaglianza se e solo se:
+  \begin{itemize}
+    \item \(X\) è massimale;
+    \item \(\forall s\in \SCal, p(s) = d^{-\abs{\varphi(s)}}\).
+  \end{itemize}
+\end{theorem}
+\begin{proof}
+  Definiamo la funzione \(q\) su \(\SCal\) come
+  \[\forall s \in \SCal, q(s) = \frac{d^{-\abs{\varphi(s)}}}{\sum_{t \in \SCal} d^{-\abs{\varphi(t)}}}\]
+  Essendo \(\varphi_{|_X}\) biettiva, possiamo riscrivere la distribuzione come
+  \[\forall s \in \SCal: q(s) = \frac{d^{-\abs{\varphi(s)}}}{\sum_{x\in X} d^{-\abs{x}}} = \frac{d^{-\abs{\varphi(s)}}}{\pi(X)}\]
+  Dove ricordiamo che \(\pi(X) = \sum_{x\in X} d^{-\abs{x}}\) è la distribuzione su \(X\) indotta dalla distribuzione uniforme su \(A\).
+  Tale funzione è una distribuzione su \(\SCal\) poiché \(\sum_{s\in\SCal}q(s) = 1\). Inoltre è una distribuzione positiva poiché, per definizione di codice, \(\varepsilon \not\in X \implies \forall s \in \SCal, \abs{\varphi(s)} > 0\).
+  Per Gibbs~\eqref{eq:gibbs}, si ha che:
+  \[H(S) = \sum_{s \in \SCal} p(s)\log\left(\frac{1}{p(s)}\right) \leq \sum_{s \in \SCal} p(s) \log\left(\frac{1}{q(s)}\right) = \sum_{s \in \SCal} p(s) \log\left(\frac{\pi(X)}{d^{-\abs{\varphi(s)}}}\right)\]
+  Dalle proprietà dei logaritmi segue che:
+  \[H(S)\leq \sum_{s \in \SCal} p(s) \log\left(\frac{\pi(X)}{d^{-\abs{\varphi(s)}}}\right)= \sum_{s \in \SCal}p(s)\left(\log\left(\pi(X)\right)-\log\left(d^{-\abs{\varphi(s)}}\right)\right) = \]
+  \[=\log\left(\pi(X)\right) + \sum_{s \in \SCal}p(s)\abs{\varphi(s)}\log\left(d\right) = \log\left(\pi(X)\right) + c(X,\varphi)\log\left(d\right)\]
+  Da cui
+  \[H(S) \leq \log\left(\pi(X)\right) + c(X,\varphi)\log\left(d\right) \implies c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)} - \log_{d}(\pi(X))\]
+  Essendo \(X\) un codice, per la disuguaglianza di Kraft---McMillan (~\ref{cor:kraft-mcmillan_inequality}) si ha che \(\pi(X) \leq 1\).
+  Dunque:
+  \[\pi(X)\leq 1 \implies \log_{d}(\pi(X)) \leq 0 \implies -\log_{d}(\pi(X)) \geq 0\]
+  Togliendo quindi tale quantità la disequazione è solo rafforzata, e dunque
+  \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
+
+  Inoltre, per far si che valga l'uguaglianza è necessario in primo luogo che valga l'uguaglianza nella disuguaglianza di Gibbs~\eqref{eq:gibbs}, ovvero che \(p = q\).
+  In questo caso si otterrbe:
+  \[c(X,\varphi) = \frac{H(S)}{\log\left(d\right)} - \log_{d}(\pi(X))\]
+  A questo punto, è necessario che \(\log_{d}(\pi(X)) = 0\), ovvero che \(\pi(X) = 1\). Come osservato numerose volte, tale condizione è equivalente a dire che \(X\) è massimale.
+
+  Inoltre, sapendo che \(p = q\), si ha che
+  \[\forall s \in \SCal: p(s) = q(s) = \frac{d^{-\abs{\varphi(s)}}}{\pi(X)} = d^{-\abs{\varphi(s)}}\]
+
+  Viceversa, se \(X\) è massimale si ha che:
+  \todo{Chiedere dove viene usata l'ipotesi di massimalità}
+  \[c(X,\phi) = \sum_{s \in \SCal} p(s)\abs{\phi(s)}\]
+  Inoltre, essendo che \(x = \log_{b}(b^x)\) possiamo riscrivere la somma come
+  \[c(X,\phi) = \sum_{s \in \SCal} p(s)\log_{d}\left(d^{\abs{\varphi(s)}}\right) =\sum_{s \in \SCal} p(s)\log_{d}\left(\frac{1}{d^{-\abs{\varphi(s)}}}\right) \]
+  Dato che per ipotesi \(p(s) = d^{-\abs{\varphi(s)}}\), si ha che
+  \[c(X,\phi) = \sum_{s \in \SCal} p(s)\log_{d}\left(\frac{1}{p(s)}\right) \]
+  Con la formula del cambio di base dei logaritmi, si ottiene
+  \[c(X,\phi) = \frac{1}{\log\left(d\right)} \sum_{s \in \SCal} p(s)\log\left(\frac{1}{p(s)}\right) = \frac{H(S)}{\log\left(d\right)}\]
+\end{proof}
+
+\begin{corollary}{}
+  Nelle stesse ipotesi del teorema di Shannon, si ha che
+  \[c(X) \geq \frac{H(S)}{\log(d)}\]
+  Inoltre, vale l'uguaglianza (\(X\) è \keyword{assolutamente ottimale}) se e solo se:
+  \begin{itemize}
+    \item \(X\) è massimale;
+    \item \(\forall x \in X, \abs{x} = -\log_d (p(\varphi^{-1}(x)))\).
+  \end{itemize}
+  Dove \(\varphi\) è un morfismo che realizza il costo assoluto di \(X\) (\(c(X,\varphi) = c(X)\)).
+\end{corollary}
+Infatti, \(p(s) = d^{-\abs{\varphi(s)}} \iff \abs{\varphi(s)} = -\log_d(p(s))\). Essendo \(\phi_{|_X}\) biettiva, è possibile riscrivere la condizione come da corollario.
+
+Da questo corollario è chiaro che non è sempre possibile avere un codice assolutamente ottimale, poiché per fare ciò è necessario che \(-\log_d (p(\varphi^{-1}(x))) \in \N\) per ogni \(x \in X\), per poter rappresentare le lunghezze delle parole, è ciò accade se e solo se le probabilità sono potenze negative di \(d\).
+È però sempre possibile, per ogni sorgente e alfabeto di codice (con almento \(2\) lettere) avere un codice ottimale, e lo si può scegliere prefisso.
+
+\section{Codici prefissi}
+
+\paragraph{Terminologia}
+Essendo che la teoria dei codici è stata sviluppata in due comunità differenti, una più teorica e vicina alla matematica e una più applicativa e vicina all'ingegneria, stessi concetti possono assumere nomenclature differenti.
+Alcuni esempi sono:
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{\q{Matematica}} & \textbf{\q{Ingegneria}} \\
+\hline
+\emph{linguaggio} & \emph{codice} (eng.\ \emph{codebook}) \\
+\emph{morfismo (di codifica)} & \emph{codice} (eng.\ \emph{code}) \\
+\emph{codice} & \emph{codice univocamente decifrabili} (eng.\ \emph{univocally decifrable code}) \\
+\emph{codice prefisso} & \emph{codice istantaneo} (eng.\ \emph{instantaneous code}) \\
+\hline
+\end{tabular}
+\caption{Differenti terminologie per la teoria dei codici a confronto}\label{tab:code_theory_terms}
+\end{table}
+
+In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codice prefisso, ogni parola codificata può essere decifrata non appena viene ricevuta, senza dover attendere di riceverne altre.
+
+\begin{example}{}
+  Con \(\SCal = \set{s_1,s_2,s_3}\), \(A = \set{a,b}\), \(X = \set{a,ba,bb}\) con \(\varphi(s_1) = a, \varphi(s_2) = ba, \varphi(s_3) = bb\), allora un messaggio in codice \(\varphi(w)\) che inizia per \(a\) corrisponde necessariamente a un messaggio \(w \in \SCal^*\) che inizia per \(s_1\).
+  Invece, utilizzando il codice \(Z = \set{a,aba,bb}\) con \(\varphi'(s_1) = a, \varphi'(s_2) = aba, \varphi'(s_3) = bb\), un messaggio in codice \(\varphi'(w)\) che inizia per \(a\) potrebbe sia corrispondere a un messaggio \(w\) che inizia per \(s_1\) che a un messaggio \(w\) che inizia per \(s_2\).
+  È necessario dunque aspettare altri simboli per poter decifrare il messaggio.
+\end{example}
+
+Come già visto nel capitolo precedente nella \Cref{def:prefix_suffix}, diremo che \(X \subseteq X^*\) è prefisso (o suffisso) se e solo se non ci sono parole di \(X\) che sono prefissi (o suffissi) di altre parole di \(X\), ovvero:
+\[X\cap XA^+ = \emptyset\]
+
+In oltre, nel \Cref{thm:prefix_suffix_code} abbiamo visto che a un insieme prefisso (o suffisso) per essere codice è sufficiente che non sia \(\set{\varepsilon}\), che è ovviamente sia prefisso che suffisso ma non codice.
+Come casi particolari tra tali codici troviamo:
+\begin{itemize}
+  \item \keyword{Codici bifissi}: codici che sono sia prefisso che suffisso
+  \item \keyword{Codici uniformi}: codici in cui tutte le parole hanno la stessa lunghezza (\(X \subseteq A^k\) con \(k\) fisso)
+\end{itemize}
