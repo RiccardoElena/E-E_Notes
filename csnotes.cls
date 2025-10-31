@@ -34,7 +34,9 @@
 % Graphics and colors
 \RequirePackage{graphicx}
 \RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
+\RequirePackage{forest}
 \RequirePackage{tikz}
+\usetikzlibrary{trees,positioning,arrows.meta}
 \usetikzlibrary{calc}
 \usetikzlibrary{cd}
 \usetikzlibrary{shapes.geometric}
@@ -194,6 +196,8 @@
 \Crefname{example}{Esempio}{Esempi}
 \crefname{note}{nota}{note}
 \Crefname{note}{Nota}{Note}
+\crefname{observation}{osservazione}{osservazioni}
+\Crefname{observation}{Osservazione}{Osservazioni}
 \crefname{warning}{attenzione}{attenzioni}
 \Crefname{warning}{Attenzione}{Attenzioni}
 \crefname{algorithm}{algoritmo}{algoritmi}
@@ -387,6 +391,14 @@
     theorembox=notecolor,
     title={Nota~\thetcbcounter\ifstrempty{#2}{}{:~#2}},
     label type=note,
+    #1
+}
+
+% Observation environment
+\newtcolorbox[auto counter, number within=section]{observation}[2][]{
+    theorembox=notecolor,
+    title={Osservazione~\thetcbcounter\ifstrempty{#2}{}{:~#2}},
+    label type=observation,
     #1
 }
 

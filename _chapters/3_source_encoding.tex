@@ -202,7 +202,7 @@ Da questo corollario è chiaro che non è sempre possibile avere un codice assol
 
 \section{Codici prefissi}
 
-\paragraph{Terminologia}
+\subsubsection{Terminologia}
 Essendo che la teoria dei codici è stata sviluppata in due comunità differenti, una più teorica e vicina alla matematica e una più applicativa e vicina all'ingegneria, stessi concetti possono assumere nomenclature differenti.
 Alcuni esempi sono:
 \begin{table}[h]
@@ -228,6 +228,7 @@ In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codi
   È necessario dunque aspettare altri simboli per poter decifrare il messaggio.
 \end{example}
 
+\subsubsection{Proprietà dei codici prefissi}
 Come già visto nel capitolo precedente nella \Cref{def:prefix_suffix}, diremo che \(X \subseteq X^*\) è prefisso (o suffisso) se e solo se non ci sono parole di \(X\) che sono prefissi (o suffissi) di altre parole di \(X\), ovvero:
 \[X\cap XA^+ = \emptyset\]
 
@@ -237,3 +238,276 @@ Come casi particolari tra tali codici troviamo:
   \item \keyword{Codici bifissi}: codici che sono sia prefisso che suffisso
   \item \keyword{Codici uniformi}: codici in cui tutte le parole hanno la stessa lunghezza (\(X \subseteq A^k\) con \(k\) fisso)
 \end{itemize}
+
+Un'importante proprietà dei codici prefissi è che essi possono essere rappresentati mediante alberi di derivazione delle parole del codice.
+Sia dato infatti un alfabeto \(A = \set{a_1,\ldots,a_d}\), con \(d \geq 2\), possiamo considerare l'albero generale \(d\)-ario con radice etichettata \(\varepsilon\), e di cui ogni nodo di etichetta \(w\in A^*\) ha per figli \(d\) nodi etichettati \(w a_1, w a_2, \ldots, w a_d\).
+
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    for tree={
+      inner sep=1pt, minimum size=4mm,
+      s sep=10mm, % sibling separation
+      l sep=12mm, % level separation
+      edge={-}
+    }
+    [\(\varepsilon\)
+      [\(a_1\)
+        [\(a_{1}a_1\)]
+        [\(\ldots\), no edge, draw=none, circle=none, shape=rectangle]
+        [\(a_{1}a_{d}\) ]
+      ]
+      [\(a_2\), phantom]
+      [{\(\ldots\)}, no edge, draw=none, circle=none, shape=rectangle]
+      [\(a_{d-1}\), phantom]
+      [\(a_d\)
+        [\(a_{d}a_{1}\)  ]
+        [\(\ldots\), no edge, draw=none, circle=none, shape=rectangle]
+        [\(a_{d}a_{d}\)  ]
+      ]
+    ]
+  \end{forest}
+  \caption{Albero di derivazione per l'alfabeto \(A = \set{a_1,\ldots,a_d}\)}\label{fig:derivation_tree}
+\end{figure}
+
+Dato un nodo etichettato con \(w \in A^*\) nell'albero in \Cref{fig:derivation_tree}, i prefissi di \(w\) etichettano tutti e soli i nodi sul cammino dalla radice al nodo \(w\).
+Viceversa, il sottoalbero radicato in \(w\) contiene tutte e sole le parole che hanno \(w\) come prefisso, ovvero \(\set{w}A^*\).
+
+L'albero \(d\)-ario generale è ovviamente infinito, rappresentando tutte le parole possibili sull'alfabeto \(A\), e dunque non ha foglie.
+Di conseguenza, qualsiasi albero \(d\)-ario può essere ottenuto dall'albero generale \qi{potando} opportunamente alcuni sottoalberi radicati in nodi che diventano foglie.
+
+Dalle ultime due osservazioni, deriva naturalmente la seguente proposizione
+
+\begin{proposition}{}
+  Sia \(X \subseteq A^*\) un insieme di parole su un alfabeto \(A\). Allora
+  \[X \text{ prefisso } \iff X \text{è l'insieme delle (etichette delle) foglie di un albero d-ario}\]
+  Inoltre, se l'albero ha profondità maggiore di \(0\), allora \(X\) è anche un codice.
+\end{proposition}
+
+Ovviamente tale rappresentazione non è univoca, poiché, ad esempio, è possibile potare l'albero generale sia \qi{quanto basta} per ottenere foglie etichettate con le parole di \(X\), sia potare l'albero affinché tutti i rami abbiano foglie etichettate con le parole di \(X\).
+Se consideriamo infatti \(A=\set{a,b}\) e \(X=\set{a,bb}\), \(X\) etichetta le foglie di entrambi gli alberi in \Cref{fig:prefix_code_trees}.
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    for tree={
+      inner sep=1pt, minimum size=4mm,
+      s sep=10mm, % sibling separation
+      l sep=12mm, % level separation
+      edge={-}
+    }
+    [\(\varepsilon\)
+      [\(a\)]
+      [\(b\)
+        [\(bb\)]
+      ]
+    ]
+  \end{forest}
+  \hspace{2cm}
+  \begin{forest}
+    for tree={
+      inner sep=1pt,
+      s sep=10mm, % sibling separation
+      l sep=12mm, % level separation
+      edge={-}
+    }
+    [\(\varepsilon\)
+      [\(a\)]
+      [\(b\)
+        [, 
+          [\(\ldots\),]
+          [\(\ldots\),]
+        ]
+        [\(bb\)]
+      ]
+    ]
+  \end{forest}
+  \caption{Albero di derivazione per l'alfabeto \(A = \set{a_1,\ldots,a_d}\)}\label{fig:prefix_code_trees}
+\end{figure}
+
+Tuttavia, è unico\footnote{A essere precisi è unico a meno di isomorfismi con scambio di etichettamento. In altre parole fissato il criterio di etichettamento dei nodi è unico. Cambiandolo si ottengono alberi isomorfi} l'albero \keyword{minimale} nel numero dei nodi \(T_X\) che rappresenta \(X\).
+L'insieme dei nodi di \(T_X\) è esattamente \(Pref(X)\).
+
+\begin{definition}[label=def:complete_tree]{Albero completo}
+  Un albero \(d\)-ario si dice \keyword{completo} se ogni nodo interno ha esattamente \(d\) figli.
+\end{definition}
+
+\begin{note}{}
+  I nomi assegnati alle classi di alberi non è priva di ambiguità.
+  In altri contesti un albero è definito completo se tutti \textit{i suoi livelli} sono completi, \textit{tranne al più l'ultimo}.
+  Ovviamente questa non è una definizione equivalente a quella data in questo corso poiché l'albero minimale per \(X\) della \Cref{fig:prefix_code_trees} \textbf{non} è completo per la \Cref{def:complete_tree} ma lo è per la definizione data in questa nota e in altri corsi.
+
+  Nei contesti in cui si utilizza la definizione di albero completo data in questa nota, gli alberi descritti dalla \Cref{def:complete_tree} sono chiamati alberi pieni.
+  Nei contesti in cui per albero completo si utilizza la \Cref{def:complete_tree}, gli alberi come quello in \Cref{fig:prefix_code_trees} sono detti \keyword{quasi completi}.
+
+  Chiaramente, questi appunti si adatteranno alla nomenclatura usata nel corso.
+\end{note}
+
+\begin{definition}{Codice prefisso massimale}
+  Sia \(X \subseteq A^+\) un codice prefisso. Diremo che \(X\) è \keyword{massimale (come prefisso)} se
+  \[X \subseteq Y \subseteq A^+, Y \text{ codice prefisso} \implies Y = X\]
+\end{definition}
+
+\begin{theorem}[label=thm:prefix_code_properties]{}
+  Sia \(X \subseteq A^+\) un codice prefisso, con \(\# A = d \geq 2\). Allora le seguenti affermazioni sono equivalenti:
+  \begin{enumerate}
+    \item \(X\) è prefisso massimale
+    \item L'albero \(T_X\) è completo
+    \item \(\forall w \in A^*, \set{w}A^*\cap X^* \neq \emptyset\), ovvero \(X\) è completo a destra
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{description}
+    \item[\(1 \implies 2\)]
+      Supponiamo che \(T_X\) non sia completo, allora esiste un nodo interno che non ha grado massimo.
+      Di conseguenza, esiste \(w \in Pref(X)\) che etichetta un nodo di \(T_X\) con meno di \(d\) figli.
+      Sia dunque \(a \in A\) tale che \(wa \not\in X\). Ma allora \(X' = X \cup \set{wa}\) corrisponde alle etichette di un albero \(d\)-ario, cioè è ancora prefisso.
+      Dunque se \(T_X\) non è completo, \(X\) non è prefisso massimale.
+    \item[\(2 \implies 3\)]
+      Sia \(T_X\) completo e sia \(w \in A^*\). Se \(w \in Pref(X)\), evidentemente si completa a destra in \(X\), e dunque in \(X^*\).
+      Se invece \(w \not\in Pref(X)\), sia \(x\) il più lungo prefisso di \(w\) che appartiene a \(Pref(X)\).
+      Tale \(x\) non può che essere foglia, poiché altrimenti, essendo \(T_X\) completo, \(xa\) apparterrebbe all'albero \(\forall a \in A\), e tra queste sarebbe presente necessariamente un altro prefisso di \(w\) più lungo di \(x\).
+      Sia dunque \(w=xw_1\) per qualche \(w_1 \in A^+\). Se \(w_1\in Pref(X)\), allora \(w_1\) si completa in \(X\) e dunque \(w\) si completa in \(X^2\subseteq X^*\).
+      Iterando tale ragionamento, si ottiene una successione di parole \(w, w_1, w_2, \ldots\) tali che \(w = x w_1 = x x_1 w_2 = \ldots\).
+      Di conseguenza \(\abs{w} > \abs{w_1} > \abs{w_2} > \ldots\), dunque, essendo \(\abs{w_i} \in \N\), tale successione deve terminare;
+      In particolare quando \(\abs{w_i}\leq \min_{x\in X}\abs{x}\), allora \(w_i \in Pref(X)\) necessariamente.
+      Dunque \(w\) si completa in \(X^{i+1} \subseteq X^*\).
+    \item[\(3 \implies 1\)]
+      Sia \(X\) non prefisso massimale, e sia \(w \in A^*\setminus X\) tale che \(X \cup \set{w}\) sia ancora prefisso.
+      Allora \(w\) \textbf{non} si completa a destra in \(X^*\).
+      Infatti se per assurdo \(\set{w}A^* \cap X^* \neq \emptyset\), allora esisterebbe \(\rho \in A^*\st w\rho \in X^*\).
+      Di conseguenza, esisterebbero \(x_1,\ldots,x_n \in X\) tali che \(w\rho = x_1 x_2 \ldots x_n\).
+      \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \foreach \x in {0,2,4,5,7,10}{
+        \coordinate (P\x) at (\x,0);
+        }
+      \draw[thick] (P0) -- ++(0,-0.3);
+      \draw[thick] (P0) -- ++(0,0.3);
+      \draw[thick] (P4) -- ++(0,-0.3);
+      \draw[thick] (P4) -- ++(0,0.3);
+      \draw[thick] (P10) -- ++(0,-0.3);
+      \draw[thick] (P10) -- ++(0,0.3);
+      
+      \draw[thick] (P0) -- (P10);
+
+      \node at ($(P0)!0.5!(P4)$) [above] {\(w\)};
+      \node at ($(P4)!0.5!(P10)$) [above] {\(\rho\)};
+
+      \draw[thick, red, bend right=45] (P0) to node[midway, below, red] {\(x_1\)} (P2);
+      \draw[thick, red, bend right=45] (P2) to node[midway, below, red] {\(x_2\)} (P5);
+      \draw[thick, red, bend right=45] (P5) to node[midway, below, red] {\(\ldots\)} (P7);
+      \draw[thick, red, bend right=45] (P7) to node[midway, below, red] {\(x_n\)} (P10);
+      
+    \end{tikzpicture}
+  \end{figure}
+  Com'è chiaro dall'immagine però \(x_1\) sarebbe prefisso di \(w\), e dunque \(X\cup\set{w}\) non sarebbe prefisso.
+  \end{description}
+\end{proof}
+
+\begin{corollary}{}
+  Sia \(X \subseteq A^+\) codice prefisso non denso, con \(\# A = d \geq 2\). Sono equivalenti:
+  \begin{enumerate}
+    \item \(X\) è \textit{prefisso} massimale
+    \item \(X\) è completo a destra
+    \item \(X\) è completo
+    \item \(\forall \mu\) distribuzione positiva su \(A\), \(\mu(X) = 1\)
+    \item \(\exists \mu\) distribuzione positiva su \(A\st\) \(\mu(X) = 1\)
+    \item \(X\) è \textit{codice} massimale
+  \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+  Si ha che \(1 \implies 2\) da \Cref{thm:prefix_code_properties}, e \(2 \implies 3\) è ovvio, \(3,4,5,6\) sono equivalenti da \Cref{cor:schutz_maximality_completeness} e \(6 \implies 1\) è ovvio.
+\end{proof}
+
+Riprendendo il concetto di funzione di struttura della \Cref{def:structure_function} e la disuguaglianza di Kraft---McMillan del \Cref{cor:kraft-mcmillan_inequality_alt}, possiamo mostrare come per qualsiasi codice, esiste un codice prefisso con la stessa funzione di struttura
+
+\begin{theorem}[label=thm:kraft]{Kraft}
+  Sia \(d \geq 1\) un intero e sia \(f: \N \to \N\) tale che \(f(0) = 0\) e \(\sum_{n=0}^\infty f(n)d^{-n} \leq 1\). 
+  
+  Allora esiste \(X\) codice prefisso su alfabeto \(A\) con \(\#A = d\) tale che \(f_X = f\)
+\end{theorem}
+
+\begin{observation}{}
+  In particolare, se \(X\) è un codice non contiene \(\varepsilon\), e dunque \(f(0) = 0\).
+  Inoltre, per la disuguaglianza di Kraft---McMillan, si ha che \(\sum_{n=0}^\infty f(n)d^{-n} = \pi(X) \leq 1\).
+  Dunque, ogni funzione di struttura di codice rispetta le condizioni del teorema di Kraft, per cui sono vere:
+
+  \begin{itemize}
+    \item \(f: \N \to \N\) è funzione di struttura di un codice su alfabeto \(d\)-ario \textit{se e solo se} \(f(0) = 0\) e \(\sum_{n=0}^\infty f(n)d^{-n} \leq 1\)
+    \item Per ogni codice \(X\) su alfabeto \(A\) con \(\#A = d\), esiste un codice prefisso \(X'\) su \(A\) tale che \(f_X = f_{X'}\)
+  \end{itemize}
+  
+\end{observation}
+
+\begin{proof}
+  Sia \(k \geq 1\). Allora 
+  \[\sum_{n=0}^{k}f(n)d^{-n} \leq \sum_{n=0}^{\infty}f(0)d^{-n} \leq 1 \]
+  \[ f(k)d^{-k} + \sum_{n=0}^{k-1}f(n)d^{-n} \leq 1\]
+  \[ f(k)\leq d^{k}-\sum_{n=0}^{k-1}f(n)d^{-n}\]
+  Definiamo dunque la funzione \(\nu: \N \to \N\) come:
+  \[v(k)=d^k-\sum_{n=0}^{k}f(n)d^{k-n} = d(d^{k-1}-\sum_{n=0}^{k}f(n)d^{k-n-1}) = \]
+  \[= d(d^{k-1}-\sum_{n=0}^{k-1}f(n)d^{k-n-1}-f(k)d^{0}) = d(\nu(k-1)-f(k))\]
+
+  Si ha ovviamente per costruzione che \(f(n)\leq\nu(n), \forall n \in \N\)
+  In particolare si ha che \(f(1) \leq \nu(1) = d\).
+  Considerando dunque l'albero \(d\)-ario generico possiamo scegliere \(f(1)\) nodi al primo livello per potarne i sottolaberi corrispondenti rendendoli foglie.
+  Ognuno dei rimanenti \(d - f(1)\) nodi al primo livello ha \(d\) figli al secondo, e \(d(d-f(1))=d(\nu(1)- f(1)) = \nu(2)\).
+  Dunque possiamo scegliere \(f(2) \leq \nu(2)\) nodi al secondo livello e potarne i sottolaberi corrispondenti rendendoli foglie.
+
+  In generale quindi a ogni livello \(k\) scelgo \(f(k)\) nodi dall'insieme dei \(\nu(k)\) rimasti e li rendo foglie.
+  L'albero così costruito ha dunque esattamente \(f(k)\) foglie al livello \(k\) per ogni \(k\), e dunque corrisponde a un codice prefisso su un alfabeto \(d\)-ario con \(f\) come struttura.
+\end{proof}
+
+\begin{example}{}
+  Sia \(f(0) = 0, f(1) = f(2) =1, f(3) = 3, f(k) = 0 \forall k \geq 4\).
+  Allora 
+  \[\sum_{n=0}^\infty f(n)2^{-n} = 0 + \frac{1}{2} + \frac{1}{4} + \frac{3}{8} = \frac{9}{8} \geq 1\]
+  quindi per la disuguaglianza di Kraft---McMillan non esiste un codice binario con \(f\) come struttura.
+
+  Scegliendo invece un alfabeto ternario si ha
+  \[\sum_{n=0}^{\infty}f(n)3^{-n} = 0 + \frac{1}{3} + \frac{1}{9} + \frac{3}{27} = \frac{15}{27} < 1\]
+  Dunque per il teorema di Kraft appena visto esiste un codice prefisso su \(A=\set{a,b,c}\) tale che \(f=f_X\), ad esempio:
+  
+\end{example}
+
+\begin{figure}[H]
+    \centering
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=4mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+        [\(a\)]
+        [
+          [\(ba\)]
+          [
+            [\(bba\)]
+            [\(bb^3\)]
+          ]
+        ]
+        [
+          [
+            [\(c^3\)]
+          ]
+        ]
+      ]
+    \end{forest}
+    \caption{Codice prefisso con struttura \(f\)}\label{fig:prefix_code_example_with_structure_f}
+\end{figure}
+
+Infine, formalizziamo l'intuizione citata nella nota precedente
+
+\begin{corollary}{}
+  Dato \(X \subseteq A^+\) codice,
+  \[\exists X' \text{ codice prefisso su} A \st f_{X'} = f_X\]
+\end{corollary}
+
+\begin{proof}
+  Segue direttamente dal \Cref{cor:kraft-mcmillan_inequality_alt} e dal \Cref{thm:kraft}.
+\end{proof}

@@ -194,7 +194,7 @@ Conclusa la dimostrazione del lemma, possiamo procedere con la dimostrazione del
   Tale \(x\) appartiene a \(R_n\), dunque per il \Cref{lem:sardinas-patterson-intermediate} esistono opportuni \(i,j \geq 1\) e \(x_1,\ldots,x_i,x_1',\ldots,x_j' \in X\) tali che valgano le condizioni elencate, in particolare che \(x_1\ldots x_i x = x_1'\ldots x_j'\) e \(x_1 \neq x_1'\), ovvero che \(X\) non è codice.
 \end{proof}
 
-\begin{note}{Osservazioni}
+\begin{observation}{}
   \begin{itemize}
     \item \(X \text{codice prefisso} \iff R_1 = \emptyset\).
       Questo poiché dalla definizione di prefisso si ha che \(X \cap XA^+ = \emptyset \iff X^{-1}X \setminus \set{\varepsilon} = \emptyset\)
@@ -202,7 +202,7 @@ Conclusa la dimostrazione del lemma, possiamo procedere con la dimostrazione del
       dove \(L_n\) sono gli insiemi resto sinistri di \(X\).
       La dimostrazione è analoga a quella del \Cref{thm:sardinas-patterson}, utilizzando il corrispondente lemma per gli insiemi resto sinistri.
   \end{itemize}
-\end{note}
+\end{observation}
 
 \begin{example}{}
   Sia \(X_2 = \set{a,ab,bb}\). Calcoliamo gli insiemi resto di \(X_2\):
@@ -319,7 +319,7 @@ Tale disuguaglianza è riportata come corollario poiché, come vedremo a breve, 
 \end{example}
 
 Un modo alternativo di esprimere la Disuguaglianza di Kraft-McMillan è dato dalla funzione di struttura di un insieme di parole.
-\begin{definition}{Funzione di struttura di un insieme}
+\begin{definition}[label=def:structure_function]{Funzione di struttura di un insieme}
   Sia \(X \subseteq A^*\), la \keyword{funzione di struttura} di \(X\) è la funzione:
   \begin{equation*}
     \begin{aligned}
@@ -944,7 +944,7 @@ A questo punto siamo in grado di dimostrare il Teorema di Schützenberger~\ref{t
 \end{note}
 
 Un diretto corollario del Teorema di Schützenberger è il seguente:
-\begin{corollary}{}
+\begin{corollary}[label=cor:schutz_maximality_completeness]{}
   Sia \(X \subseteq A^+\) codice non denso. Allora le seguenti affermazioni sono equivalenti:
   \begin{enumerate}
     \item \(X\) è massimale
