@@ -1,7 +1,6 @@
 \chapter{Lezione 30 Ottobre}
 
-Lunedì salta, ma dobbiamo recuperare almeno questa.
-Eventualmente un venerdì nell'orario originale.
+
 
 \begin{theorem}{}
   Sia \(S\) sorgente e \(A\) alfabeto di codice con \(\# A = d \geq 2\).
@@ -64,20 +63,25 @@ La correttezza dell'algoritmo si basa su due osservazioni fondamentali:
 Dobbiamo dunque dimostrare che se \(X_i\) è ottimale per \(S_i\), con \(2\leq i \leq k-1\) allora \(X_{i+1}\) è ottimale per \(S_{i+1}\) e viceversa.
 
 Assumiamo \(X_i = \set{z_1, \ldots,z_i}\) e \(X_{i+1} = \set{z_1,\ldots,z_{i-1},z_{i}a, z_{i}b}\), con queste ultime associate a simboli di probabilità \(q_1\geq q_2 \geq \ldots \geq q_{i-1} \geq q_i \geq q_{i+1}\) e \(z_i\) associata a un simbolo di \(S_i\) di probabilità \(q_i + q_{i+1}\).
-Supponiamo per assurdo che \(X_{i+1}\) non sia ottimale per \(S_{i+1}\) e sia \(X'_{i+1} \) prefisso ottimale (binario) per \(S_{i+1}\).
-Poiché \(X'_{i+1}\) è ottimale, è massimale e dunque \(T_{X'_{i+1}}\) è completo. Dunque esistono \(z_i', z_{i+1}' \in X'_{i+1}\) tali che \(z_i' = z_{i,i+1}'a\) e \(z_{i+1}' = z_{i,i+1}'b\) con \(a,b \in A, a \neq b\).
+Supponiamo per assurdo che \(X_{i+1}\) \textbf{non} sia ottimale per \(S_{i+1}\) e chiamiamo \(X'_{i+1} \) il prefisso ottimale (binario) per \(S_{i+1}\).
+Poiché \(X'_{i+1}\) è ottimale, è massimale e dunque \(T_{X'_{i+1}}\) è completo.
+
+Dunque \(\exists z_{i/i+1}' \in Pref(X'),z_i', z_{i+1}' \in X'_{i+1}\) tali che \(z_i' = z_{i/i+1}'a\) e \(z_{i+1}' = z_{i/i+1}'b\) con \(a,b \in A, a \neq b\).
 Nel calcolo di \(c(X_{i+1}')\) tali parole dovranno essere associate a simboli di probabilità \(q_i\) e \(q_{i+1}\).
-Sia allora \(X_{i+1}' = \set{z_1',\ldots,z_{i-1}'}, z_i'=z_{i,i+1}'a,z_{i+1}' = z_{i,i+1}'b\) e definiamo \(X_i' = \set{z_1',\ldots,z_{i-1}', z_{i,i+1}'}\).
-Si ha \(c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + (q_i+q_{i+1})\abs{z_{i,i+1}'}\).
+
+Sia allora \(X_{i+1}' = \set{z_1',\ldots,z_{i-1}'} \text{ con } z_i'=z_{i/i+1}'a,z_{i+1}' = z_{i/i+1}'b\) e definiamo \(X_i' = \set{z_1',\ldots,z_{i-1}', z_{i/i+1}'}\).
+
+Si ha \(c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + (q_i+q_{i+1})\abs{z_{i/i+1}'}\).
 Possiamo osservare che \(\abs{z_{i,i+1}'} = \abs{z_{i}}-1 = \abs{z_{i+1}}-1\).
 Dunque
 \[c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + q_i(\abs{z_{i}}-1) + q_{i+1}(\abs{z_{i+1}}-1) = \]
 \[=\sum_{j=1}^{i+1} q_j\abs{z_j'} - (q_i + q_{i+1}) = c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1})\]
+essendo \(X_{i+1}'\) ottimale.
 
-Ma il codic \(X_i\) è ottenuto da \(X_{i+1}\) nello stesso modo in cui \(X_i'\) è ottenuto da \(X_{i+1}'\).
+Ma il codice \(X_i\) è ottenibile da \(X_{i+1}\) nello stesso modo in cui \(X_i'\) è ottenuto da \(X_{i+1}'\).
 Dunque \(c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1})\).
 Avendo detto che \(X_i\) è ottimale per \(S_i\), ed è ottenuto associando a \(z_i\) un simbolo di probabilità \(q_i + q_{i+1}\), si ha che
 \[c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1}) = \]
 \[=\sum_{j=1}^{i-1} q_j\abs{z_j} + q_i(\abs{z_i a}-1) + q_{i+1}(\abs{z_{i+1}b}-1) = \sum_{j=1}^{i-1} q_j\abs{z_j} + (q_i+q_{i+1})\abs{z_{i}} = c(X_i)\]
 
-Abbiamo dunque trovato che \(c(X_i')<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\).
+Abbiamo dunque trovato che \(c(X_i')<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\), portando all'assurdo

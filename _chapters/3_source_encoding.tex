@@ -136,7 +136,7 @@ Andiamo dunque a dimostrare tali affermazioni.
 
 Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l'entropia di una sorgente al costo di codifica, ovvero il teorema di Shannon.
 
-\begin{theorem}{Shannon}
+\begin{theorem}[label=thm:shannon]{Shannon}
   Sia \(S = (\SCal,p)\) sorgente, \(A\) alfabeto di codice con \(\#\SCal = d \geq 2\) e \(X \subseteq A^+\) codice adattato a \(S\) mediante \(\varphi\).
   Allora
   \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
@@ -202,7 +202,7 @@ Da questo corollario è chiaro che non è sempre possibile avere un codice assol
 
 \section{Codici prefissi}
 
-\subsubsection{Terminologia}
+\paragraph{Terminologia}
 Essendo che la teoria dei codici è stata sviluppata in due comunità differenti, una più teorica e vicina alla matematica e una più applicativa e vicina all'ingegneria, stessi concetti possono assumere nomenclature differenti.
 Alcuni esempi sono:
 \begin{table}[h]
@@ -246,7 +246,7 @@ Sia dato infatti un alfabeto \(A = \set{a_1,\ldots,a_d}\), con \(d \geq 2\), pos
   \centering
   \begin{forest}
     for tree={
-      inner sep=1pt, minimum size=4mm,
+      inner sep=1pt, minimum size=1mm,
       s sep=10mm, % sibling separation
       l sep=12mm, % level separation
       edge={-}
@@ -290,7 +290,7 @@ Se consideriamo infatti \(A=\set{a,b}\) e \(X=\set{a,bb}\), \(X\) etichetta le f
   \centering
   \begin{forest}
     for tree={
-      inner sep=1pt, minimum size=4mm,
+      inner sep=1pt, minimum size=1mm,
       s sep=10mm, % sibling separation
       l sep=12mm, % level separation
       edge={-}
@@ -359,7 +359,7 @@ L'insieme dei nodi di \(T_X\) è esattamente \(Pref(X)\).
 \begin{proof}
   \begin{description}
     \item[\(1 \implies 2\)]
-      Supponiamo che \(T_X\) non sia completo, allora esiste un nodo interno che non ha grado massimo.
+      Supponiamo che \(T_X\) \textbf{non} sia completo, allora esiste un nodo interno che non ha grado massimo.
       Di conseguenza, esiste \(w \in Pref(X)\) che etichetta un nodo di \(T_X\) con meno di \(d\) figli.
       Sia dunque \(a \in A\) tale che \(wa \not\in X\). Ma allora \(X' = X \cup \set{wa}\) corrisponde alle etichette di un albero \(d\)-ario, cioè è ancora prefisso.
       Dunque se \(T_X\) non è completo, \(X\) non è prefisso massimale.
@@ -477,7 +477,7 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
     \centering
     \begin{forest}
       for tree={
-        inner sep=1pt, minimum size=4mm,
+        inner sep=1pt, minimum size=1mm,
         s sep=10mm, % sibling separation
         l sep=12mm, % level separation
         edge={-}
@@ -503,11 +503,347 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
 
 Infine, formalizziamo l'intuizione citata nella nota precedente
 
-\begin{corollary}{}
+\begin{corollary}[label=cor:prefix_code_structure]{}
   Dato \(X \subseteq A^+\) codice,
   \[\exists X' \text{ codice prefisso su} A \st f_{X'} = f_X\]
 \end{corollary}
 
 \begin{proof}
   Segue direttamente dal \Cref{cor:kraft-mcmillan_inequality_alt} e dal \Cref{thm:kraft}.
+\end{proof}
+
+\begin{proposition}{}
+  Dato \(X \subseteq A^+\) codice adattato a \(S\), esiste \(X' \subseteq A^+\) codice prefisso adattato a \(S\) tale che
+  \[c(X') = c(X)\]
+\end{proposition}
+
+\begin{proof}
+  Dal \Cref{cor:prefix_code_structure} esiste \(X'\) codice prefisso tale che \(f_{X'} = f_X\).
+  In particolare \(\# X = \# X'\), dunque esiste una biiezione \(\delta: X \to X'\).
+  In particolare, avendo i due codici la stessa struttura, scegliamo \(\delta\) morfismo tale che
+  \[\forall x \in X, \abs{\delta(x)} = \abs{x}\]
+  Allora, per ogni codifica \(\varphi : \SCal \to X\), si ha che
+  \[c(X,\varphi) = \sum_{s \in \SCal} p(s)\abs{\varphi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta(\varphi(s))} = c(X', \delta \circ \varphi)\]
+  Dunque ogni costo di \(X\) per qualsiasi codifica è ottenibile come costo di \(X'\) per una codifica opportuna.
+  In oltre, essendo \(\delta\) invertibile è possibile mostrare il viceversa, ovvero, per ogni codifica \(\psi: \SCal \to X'\), si ha che
+  \[c(X',\psi) = \sum_{s \in \SCal} p(s)\abs{\psi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta^{-1}(\psi(s))} = c(X, \delta^{-1} \circ \psi)\]
+  Segue dunque che
+  \todo{Qui per indicare le codifiche usa \(\leftrightarrow\), che fare?}
+  \[\set{c(X,\varphi)}[\varphi:\SCal \to X] = \set{c(X',\psi)}[\psi:\SCal \to X']\]
+  e dunque coincide il loro minimo \(c(X) = c(X')\).
+\end{proof}
+
+Possiamo quindi infine dimostrare l'esistenza di un codice ottimale data una sorgente qualsiasi. Il fatto che, tale codice è possibile sempre sceglierlo prefisso, è dimostrato dalla proposizione appena vista.
+
+\begin{proposition}[label=prop:optimal_prefix_code]{}
+  Sia \(S = (\SCal, p)\) sorgente, \(A\) alfabeto di codice con \(\# A = d \geq 2\). Allora
+  \[\exists X \subseteq A^+ \text{ codice ottimale per } S\]
+\end{proposition}
+
+\begin{proof}
+  Poiché \(d \geq 2\), esistono codici su \(A\) di qualsiasi cardinalità (finita o infinita numerabile\footnote{Per infinita numerabile si intende un infinito \q{equipotente} a \(\N\)}).
+  Ad esempio se \(a,b \in A, a \neq b\), allora \(\set{a^k b}[0 \leq k \leq n-1]\) ha cardinalità \(n\), e \(\set{a^k b}[k \in \N]\) ha cardinalità infinita numerabile.
+
+  Potrebbe ancora però non esistere un codice di costo minimo per \(S\), nel caso in cui questi formassero una successione infinita decrescente senza minimo.
+  Consideriamo però \(Z\) codice adattato a \(S\). Possiamo mostrare che
+  \[\set{c(Y)}[Y \text{ codice adattato a } S, c(Y)\leq c(Z)] = \mathcal{C}_Z \text{ è finito}\]
+  In particolare, se \(\mathcal{C}_Z\) è finito, allora ammette minimo.
+  Restringiamoci a considerare le sorgenti con distribuzioni positive, poiché in caso di sorgente impropria è sempre possibile considerare la sorgente propria indotta dalla rimozione delle lettere con distribuzione \(0\) dall'alfabeto di sorgente.
+  Sia inoltre, \(\varphi: \SCal \to Z\) tale che realizza il costo assoluto, ovvero
+  \[c(Z) = c(Z,\varphi) = \sum_{s \in \SCal} p(s)\abs{\varphi(s)}\]
+  Se \(Y\) è tale che \(c(Y) = c(Y,\psi) \leq c(Z)\), allora \(\forall s \in \SCal\)
+  \[p(s)\abs{\psi(s)} \leq c(Y) \leq c(Z) \implies \abs{\psi(s)} \leq \frac{c(Z)}{p(s)} \leq \frac{c(Z)}{\min_{t \in \SCal} p(t)} =: M\]
+  Dunque, prendendo un codice \(Y\) con costo minore del costo di \(Z\), si ha che tutte le parole di \(Y\) devono avere lunghezza limitata da una costante \(M\).
+  Ma l'insieme delle parole su \(A\) di lunghezza minore o uguale a \(M\) è finito, ed essendo il costo dipendente solo dalla lunghezza delle parole, anche l'insieme \(\mathcal{C}_Z\) è finito.
+  Essendo che inoltre \(\mathcal{C}_Z\neq \emptyset\), poiché \(c(Z) \in \mathcal{C}_Z\) segue che \(\exists \min \mathcal{C}_Z\), e qualunque codice \(X\) realizzi tale costo è ottimale per \(S\).
+\end{proof}
+
+\begin{observation}{}
+  Ovviamente, dagli ultimi due risultati segue che per ogni sorgente \(S\) e alfabeto di codice \(A\) con \(\# A = d \geq 2\), esiste un codice \textbf{prefisso} ottimale per \(S\) su \(A\).
+\end{observation}
+
+Dal teorema di Shannon (\ref{thm:shannon}), se \(\#A = d \geq 2\) e \(\varphi: \SCal \leftrightarrow X\)
+\[c(X,\varphi) = \frac{H(S)}{\log(d)} \iff X \text{ massimale } \land \forall s \in \SCal, p(s)=d^{-\abs{\varphi(s)}}\]
+
+Ovvero, sappiamo che un codice assolutamente ottimale è necessariamente massimale. In caso di codice binario però, si può dimostrare che basta l'ottimalità per garantire la massimalità.
+\begin{proposition}{}
+  Sia \(X\) codice prefisso binario ottimale per \(S\) sorgente \textit{propria}\footnote{Come già accennato nella dimostrazione precedente, per sorgente propria si intende una sorgente con distribuzione positiva}.
+  Allora \(X\) è massimale.
+\end{proposition}
+
+\begin{proof}
+  Sia \(X\) prefisso binario \textbf{non} massimale e mostriamo che non è ottimale.
+  Essendo \(X\) prefisso, allora \(T_X\) non è completo, ovvero esiste un nodo interno con meno di \(2\) figli, ovvero \(\exists w \in Pref(X) \st wa \in Pref(X) \land wb \not\in Pref(X)\).
+  Dunque tutte le parole di \(X\) che iniziano per \(w\), iniziano per \(wa\).
+  Sia dunque \(X' = \set{wv \in A^*}[wav \in X] \cup (X\setminus \set{w}A^*)\), ovvero \(X\) a cui ogni parola che inizia per \(wa\) viene rimossa la \(a\) davanti alla \(w\).
+  È chiaro che \(X'\) è ancora prefisso, poiché nessuna parola di \(X\) inizia per \(wb\).
+  \begin{figure}[H]
+    \centering
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=1mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+        [\(\ldots\)]
+        [\(\ldots\)
+          [\(w\)
+            [\(wa\)
+              [\(\ldots\)]
+              [\(\ldots\)]
+            ]
+          ]
+        ]
+      ]
+    \end{forest}
+    \hspace{2cm}
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=1mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+                [\(\ldots\)]
+        [\(\ldots\)
+          [\(w\)
+            [\(\ldots\)]
+            [\(\ldots\)]
+          ]
+        ]
+      ]
+    \end{forest}
+    \caption{Costruzione del codice \(X'\) da \(X\)}\label{fig:prefix_code_not_maximal_construction}
+  \end{figure}
+
+  Essendo che \(\# X' = \# X\), questo nuovo codice è ancora adattabile a \(S\) ma,
+  considerando \(\phi: \SCal \leftrightarrow X\st c(X) = c(X,\varphi)\), definiamo 
+  \begin{equation*}
+    \begin{aligned}
+      \phi': \SCal  &\leftrightarrow X'\\
+                  s &\mapsto \begin{cases}
+                    \varphi(s) & \varphi(s) \not\in \set{wa}A^*\\
+                    wv, & \varphi(s) = wav \in \set{wa}A^*
+                  \end{cases} 
+    \end{aligned}
+  \end{equation*}
+
+  Allora, essendo \(S\) propria si ha che
+  \[c(X',\varphi') = \sum_{s\in\SCal} p(s)\abs{\varphi'(s)} < \sum_{s\in\SCal} p(s)\abs{\varphi(s)} = c(X)\]
+  Dunque \(X\) non è ottimale.
+\end{proof}
+
+Possiamo
+
+\begin{corollary}{}
+  Sia \(X\) codice su \(A\) binario ottimale per \(S\). Allora \(X\) è massimale
+\end{corollary}
+
+\begin{proof}
+  Sia \(X\) ottimale e sia \(X'\) prefisso su \(A\) tale che \(f_X = f_{X'}\).
+  Allora \(X'\) è ottimale e dunque massimale. Quindi \(\pi(X') = 1\).
+  Ma \(\pi(X') = \sum_{n=0}^{\infty} f_X(n)d^{-n} = \pi(X)\), dunque \(X\) è massimale.
+\end{proof}
+
+Nel caso una sorgente ammetta ottimo assoluto, abbiamo già dimostrato come il costo di codifica è pari all'entropia della sorgente diviso il logaritmo della base dell'alfabeto di codice.
+Ovviamente, in caso la sorgente non ammetta ottimo assoluto questo valore è superato, ma, come vedremo nel seguente teorema, mai per più di \(1\)
+\begin{theorem}{}
+  Sia \(S\) sorgente, \(A\) alfabeto di codice con \(\#A = d \geq 2\). Allora esiste \(X\) codice su \(A\) adattato a \(S\) tale che
+  \[\frac{H(S)}{\log_2(d)} \leq c(X) <\frac{H(S)}{\log_2(d)} +1\]
+\end{theorem}
+
+\begin{proof}
+  Per semplicità, ci ridurremmo al caso di sorgenti proprie, ma il teorema è valido in generale.
+  Per il \Cref{thm:shannon}, abbiamo che 
+  \[\frac{H(S)}{\log(d)} = c(X) \iff X \text{ massimale }\land \forall s \in \SCal, \abs{\varphi(s)}=-\log_d(p(s))=\log_d\left(\frac{1}{p(s)}\right)\]
+
+  Come già osservato, non è sempre possibile trovare un codice assolutamente ottimo, poiché non in tutte le sorgenti \(\log_d\left(\frac{1}{p(s)}\right) \in \N\), e dunque non sempre tali valori sono ammissibili come lunghezze di parole di codice.
+  Ovviamente, per provare ad avvicinarsi il più possibile a questo ottimo l'idea è di prendere il minimo intero maggiore di tali valori.
+  Definiamo dunque \(r: \SCal \to \N\) come
+  \[r(s) = \left\lceil \log_d\left(\frac{1}{p(s)}\right) \right\rceil\]
+  Per definizione della funzione \(\lceil\;\rceil\), si ha che
+  \[\log_d\left(\frac{1}{p(s)}\right) \leq r(s) < \log_d\left(\frac{1}{p(s)}\right) + 1\]
+  Dalla prima disuguaglianza, ovvero \(r(s) \geq -\log_d(p(s))\), abbiamo che \(d^{-r(s)} \leq p(s)\implies \sum_{s\in\SCal} d^{-r(s)} \leq \sum_{s\in\SCal} p(s) = 1\).
+  Sia dunque \(f: \N \to \N\) una funzione di conteggio dei simboli di \(\SCal\) tali che \(r(s)\) abbia un certo valore, ovvero:
+  \[f(n) = \#\set{s \in \SCal}[r(s) = n]\]
+  Utilizzando tale funzione, possiamo riscrivere le precedenti sommatorie come
+  \[1 \geq \sum_{s\in\SCal} d^{-r(s)} = \sum_{n=0}^{\infty} f(n)d^{-n}\]
+  Essendo \(S\) propria, \(p(s) > 0 \forall s \in \SCal\), dunque \(\log_d\left(\frac{1}{p(s)}\right)>0 \implies r(s) \geq 1\) per definizione di \(\lceil\;\rceil\).
+  Da cui \(f(0) = 0\). Sono dunque valide le ipotesi del \Cref{thm:kraft}, e dunque esiste \(X\) codice prefisso su \(A\) tale che \(f_X = f\), e in particolare si ha che \(\lvert\; \rvert \circ \varphi = r\), ovvero la funzione lunghezza delle parole di \(X\) coincide con \(r\).
+  In oltre si ha che \(\# X = \# \SCal\). Allora
+  \(c(X) \leq \sum_{s\in\SCal} p(s)r(s) < \sum_{s\in\SCal} p(s)\left(\log_d\left(\frac{1}{p(s)}\right) + 1\right) = \frac{\sum_{s\in\SCal} p(s)\log\left(\frac{1}{p(s)}\right)}{\log(d)} + \sum_{s\in\SCal} p(s) = \frac{H(S)}{\log(d)} + 1\)
+\end{proof}
+
+\begin{observation}{}
+  Come già detto alla fine dello scorso capitolo, in generale non è detto che un codice finito ammetta completamento finito.
+  Per i codici prefisso invece sì. Questo poiché essere massimale per un codice prefisso è equivalente all'esistenza di un albero completo.
+  Dunque se non è massimale, posso aggiungere nodi fino a renderlo completo.
+\end{observation}
+
+\begin{example}{}
+  Sia \(X = \set{a,ba,bba,b^4}\) codice binario prefisso.
+  
+  \begin{figure}[H]
+    \centering
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=1mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+        [\(a\)]
+        [,
+          [\(ba\)]
+          [,
+            [\(bba\)]
+            [,
+              [\(b^4\)]
+            ]
+          ]
+        ]
+      ]
+    \end{forest}
+    \hspace{2cm}
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=1mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+        [\(a\)]
+        [,
+          [\(ba\)]
+          [,
+            [\(bba\)]
+            [,
+              [\(b^3 a\), edge=dashed]
+              [\(b^4\)]
+            ]
+          ]
+        ]
+      ]
+    \end{forest}
+    \caption{Completamento di \(X\)}\label{fig:prefix_code_example_incomplete}
+  \end{figure}
+
+  Dunque \(X\cup\set{b^3 a}\) è un completamento (finito) di \(X\).
+\end{example}
+
+\section{Codici di Huffman}
+
+Come visto nella \Cref{prop:optimal_prefix_code}, per ogni sorgente e alfabeto di codice con almeno due simboli, esiste un codice ottimale.
+Vediamo dunque un algoritmo per costruire un codice (prefisso) ottimale data una qualsiasi sorgente. Tale algoritmo è detto \keyword{algoritmo di Huffman}, e i codici da esso generati \keyword{codici di Huffman}.
+
+
+Sia \(S = (\SCal,p)\) sorgente con \(\SCal = \set{s_1, \ldots, s_k}\) e sia \(\forall i \in \set{1,\ldots,k}, p_i=p(s_i)\), supponendo \(p_1 \geq p_2 \geq \ldots \geq p_k\).
+Allora se \(X\) è codice binario adattato a \(S\), e \(X = \set{x_1,\ldots,x_k}\) con \(\varphi(s_i) = x_i\) tale che realizzi il costo minimo, si ha che \(\abs{x_1}\leq\abs{x_2}\leq\ldots\leq\abs{x_k}\), ovvero ai simboli più probabili sono associate parole più corte, e ai meno probabili le più lunghe.
+
+Se \(X\) è prefisso e ottimale per \(S\), allora è massimale. 
+Poiché allora \(T_X\) è completo, nell'ultimo livello il numero di foglie è pari, poiché tutti i nodi al livello precedente devono avere due figli,
+e dunque tutte le parole associate a tali foglie hanno la stessa lunghezza.
+Assumiamo quindi senza perdita di generalità\footnote{Non c'è perdita di generalità poiché tutte le parole associate alle foglie dell'ultimo livello avendo la stessa lunghezza possono essere permutate nella successione \(\abs{x_1}\leq\abs{x_2}\leq\ldots\leq\abs{x_k}\) senza alterarne il significato.}
+che \(x_k\) e \(x_{k-1}\) siano figlie dello stesso nodo.
+Si ha che \(\exists x_{k-1/k}\in Pref(X)\), massimo prefisso comune, tale che \(x_{k-1} = x_{k-1/k}a\) e \(x_k = x_{k-1/k}b\) con \(a,b \in A, a \neq b\).
+
+L'idea dell'algoritmo è passare a una sorgente ridotta \(S_{k-1} =(\SCal_{k-1}, p')\), con
+\[\SCal_{k-1} = \set{s_1,\ldots,s_{k-2}, s_{k-1/k}} \text{ e}\]
+\[p'(s_i)=p_i, \forall i \in \set{1,\ldots,k-2} \land p_{k-1,k}' = p_{k-1} + p_k\] 
+dove \(s_{k-1/k}\) è un nuovo simbolo che sostituisce \(s_{k-1}\) e \(s_k\).
+
+A tale sorgente viene adattato il codice \(X_{k-1} = \set{x_1,\ldots,x_{k-2}, x_{k-1/k}}\), ovvero un codice in cui andiamo a sostituire le parole \(x_{k-1}\) e \(x_k\) con il loro prefisso comune \(x_{k-1/k}\).
+L'albero di codice \(T_{X_{k-1/k}}\) rimane ovviamente completo e quindi il codice rimane massimale.
+
+Vedremo a breve che \(X_{k-1}\) è ottimale per \(S_{k-1}\) se e solo se \(X\) è ottimale per \(S\).
+Dimostrato questo, è possibile definire una procedura iterando il procedimento fino a ottenere una sorgente con due soli simboli, per la quale l'ottimo è banale da calcolare.
+Infatti, in tal caso l'unico codice prefisso ottimale è \(X_2 = \set{a,b}\) con \(a,b \in A, a \neq b\).
+Da lì, avendo tenuto traccia delle \qi{fusioni} operate, potremmo ottenere il codice \(X_3\) ottimale per \(S_3\) e così via fino a risalire a \(X\).
+
+\begin{example}{}
+  Sia \(\SCal = \set{s_1,\ldots, s_6}\) e \(p_1 = 0.3,p_2=0.25,p_3=0.2,p_4=p_5=0.1,p_6=0.05\). Costruiamo dunque un\footnote{Da notare che si andrà a trovare \qi{un} codice e non \qi{il} codice, poiché nella procedura sono presenti punti in cui vanno effettuate scelte arbitrarie, che possono portare alla generazione di codici diversi, ugualmente ottimali} codice di Huffman per \(S\).
+  Una possibile prima sorgente ridotta è \(S_5\) con \(\SCal_5 = \set{s_1,s_2,s_3,s_4,s_{5/6}}\) e \(p_{5/6} = 0.15\).
+
+  Dunque \(p_3 = 0.2 > p_{5/6} > p_4 = 0.1\). La successiva riduzione darà quindi \(\SCal_4 = \set{s_1,s_2,s_{3},s_{4/5/6}}\) con \(p_{4/5/6} = 0.25\).
+  Ora \(p_2 = p_{4/5/6} = 0.25 > p_3\). Scegliamo dunque di formare \(\SCal_3 = \set{s_1,s_{2/3},s_{4/5/6}}\) con \(p_{2/3} = 0.45\).
+  
+  Infine siamo a \(\SCal_2 = \set{s_{2/3}, s_{1/4/5/6}}\) con \(p_{1/4/5/6} = 0.55\).
+  A questo punto per individuare il codice sarà sufficiente risalire le fusioni al contrario.
+
+  \begin{center}
+    \begin{forest}
+      for tree={
+        inner sep=1pt, minimum size=1mm,
+        s sep=10mm, % sibling separation
+        l sep=12mm, % level separation
+        edge={-}
+      }
+      [\(\varepsilon\)
+        [{\(x_{2/3} = a\)}
+          [{\(x_2 = aa\)}]
+          [{\(x_3 = ab\)}]
+        ]
+        [{\(x_{1/4/5/6} = b\)}
+          [{\(x_1 = ba\)}]
+          [{\(x_{4/5/6} = bb\)}
+            [{\(x_4 = bba\)}]
+            [{\(x_{5/6} = b^4\)}
+              [{\(x_5 = b^3a\)}]
+              [{\(x_6 = b^4\)}]
+            ]
+          ]
+        ]
+      ]
+    \end{forest}
+  \end{center}
+
+  Dunque \(\set{a^2,ab,ba,b^2a,b^3a,b^4}\) è ottimale per \(S\). Inoltre l'algoritmo fornisce anche una codifica che realizza il costo ottimale, ovvero \(\phi(s_i) = x_i,\forall i \in \set{1,\ldots,\#\SCal}\)
+\end{example}
+
+Per la dimostrazione di correttezza dell'algoritmo, come accennato durante la sua esposizione, è necessario assicurarsi che la successione di sorgenti e codici ridotti mantenga sempre la proprietà di ottimalità.
+
+Per tale dimostrazione, saranno utili due osservazioni preliminari, ovvero:
+\begin{enumerate}
+  \item \(X\) codice prefisso (massimale) su \(A\), \(x \in X \implies X \setminus \set{x} \cup \set{x}A\) codice prefisso (massimale).
+  \item \(X\) codice prefisso (massimale) su \(A\) e \(\exists x' \st \set{x'}A \subseteq X \implies X\setminus \set{x'}A \cup \set{x'}\) codice prefisso (massimale).
+\end{enumerate}
+
+In altre parole, queste due proprietà ci dicono che sostituendo in un codice prefisso (massimale) alcune parole col loro prefisso comune o viceversa non inficia l'essere prefisso (massimale).
+Ciò è banale da dimostrare osservando gli alberi di codice corrispondenti.
+
+Andiamo dunque a dimostrare la proposizione lasciata in sospeso necessaria all'algoritmo di Huffman.
+
+\begin{proposition}{}
+  Sia \(X_i \subseteq A^+\) codice ottimale per \(S_i\) sorgente, \(\forall i \in \set{2,\ldots,k-1}\), con \(k \geq 3\).
+  Allora \(X_{i+1}\) è codice ottimale per \(S_{i+1}\) (ponendo \(S_k=S\) e \(X_k = X\))
+\end{proposition}
+
+\begin{proof}
+  Assumiamo \(X_i = \set{z_1, \ldots,z_i}\) e \(X_{i+1} = \set{z_1,\ldots,z_{i-1},z_{i}a, z_{i}b}\), con queste ultime associate a simboli di probabilità \(q_1\geq q_2 \geq \ldots \geq q_{i-1} \geq q_i \geq q_{i+1}\) e \(z_i\) associata a un simbolo di \(S_i\) di probabilità \(q_i + q_{i+1}\).
+  
+  Supponiamo per assurdo che \(X_{i+1}\) \textbf{non} sia ottimale per \(S_{i+1}\) e chiamiamo \(X'_{i+1} \) il prefisso ottimale (binario) per \(S_{i+1}\).
+  Poiché \(X'_{i+1}\) è ottimale, è massimale e dunque \(T_{X'_{i+1}}\) è completo.
+
+  Dunque \(\exists z_{i/i+1}' \in Pref(X'),z_i', z_{i+1}' \in X'_{i+1}\) tali che \(z_i' = z_{i/i+1}'a\) e \(z_{i+1}' = z_{i/i+1}'b\) con \(a,b \in A, a \neq b\).
+  Nel calcolo di \(c(X_{i+1}')\) tali parole dovranno essere associate a simboli di probabilità \(q_i\) e \(q_{i+1}\).
+  Sia allora \(X_{i+1}' = \set{z_1',\ldots,z_{i-1}'} \text{ con } z_i'=z_{i/i+1}'a,z_{i+1}' = z_{i/i+1}'b\) e definiamo \(X_i' = \set{z_1',\ldots,z_{i-1}', z_{i/i+1}'}\).
+
+  Si ha \(c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + (q_i+q_{i+1})\abs{z_{i/i+1}'}\).
+  Possiamo inoltre osservare che \(\abs{z_{i,i+1}'} = \abs{z_{i}}-1 = \abs{z_{i+1}}-1\).
+  Dunque
+  \[c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + q_i(\abs{z_{i}}-1) + q_{i+1}(\abs{z_{i+1}}-1) = \]
+  \[=\sum_{j=1}^{i+1} q_j\abs{z_j'} - (q_i + q_{i+1}) = c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1})\]
+  essendo \(X_{i+1}'\) ottimale.
+
+  Ma il codice \(X_i\) è ottenibile da \(X_{i+1}\) nello stesso modo in cui \(X_i'\) è ottenuto da \(X_{i+1}'\).
+  Dunque \(c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1})\).
+  Avendo detto che \(X_i\) è ottimale per \(S_i\), ed è ottenuto associando a \(z_i\) un simbolo di probabilità \(q_i + q_{i+1}\), si ha che
+  \[c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1}) = \]
+  \[=\sum_{j=1}^{i-1} q_j\abs{z_j} + q_i(\abs{z_i a}-1) + q_{i+1}(\abs{z_{i+1}b}-1) = \sum_{j=1}^{i-1} q_j\abs{z_j} + (q_i+q_{i+1})\abs{z_{i}} = c(X_i)\]
+  Abbiamo dunque trovato che \(c(X_i')<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\), portando all'assurdo
 \end{proof}

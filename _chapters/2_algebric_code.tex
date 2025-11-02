@@ -13,10 +13,10 @@ Le loro proprietà legate alla teoria dell'informazione e alla crittografia verr
   Dato \(A\) alfabeto finito, diremo che \(\emptyset \neq X \subseteq A^*\) è un \keyword{codice} se \(X\) è base di (un sottomonoide libero di) \(A^*\)
 \end{definition}
 
-\begin{note}{}
-  Come già osservato nella \Cref{note:no_neutral_in_base}, per definizione di base, nessun codice può contenere la parola vuota \(\varepsilon\).
+\begin{observation}{}
+  Come già osservato nella \Cref{obs:no_neutral_in_base}, per definizione di base, nessun codice può contenere la parola vuota \(\varepsilon\).
   Di conseguenza, la notazione \(X \subseteq A^*\) può essere sostituita con \(X \subseteq A^+\) se \(X\) è codice.
-\end{note}
+\end{observation}
 
 \begin{definition}[label=def:prefix_suffix]{Prefisso e Suffisso}
   Dato \(A\) alfabeto finito, diremo che \(\emptyset \neq X \subseteq A^*\) è
@@ -804,7 +804,7 @@ A questo punto siamo in grado di dimostrare il Teorema di Schützenberger~\ref{t
       Possiamo scegliere senza perdita di generalità \(y\) senza bordi dal \Cref{lem:code_not_complete_boredless_word}.
 
       Consideriamo dunque l'insieme \(Y=X\cup\set{y}\). Se tale insieme fosse codice, si avrebbe che \(X\) non è massimale, come volevamo dimostrare.
-      Supponiamo dunque per assurdo che non lo sia.
+      Supponiamo dunque per assurdo che \textbf{non} lo sia.
       Allora esiste una parola di \(Y^*\) con multipla fattorizzazione, ovvero esistono \(y_1,y_2,\ldots y_m,y_1',y_2',\ldots,y_n' \in Y\) tali che \(y_1y_2\ldots y_m = y_1y_2\ldots y_n'\), con \(y_1\neq y_1'\).
       Tra queste parole deve necessariamente esserci almeno una occorrenza di \(y\), poiché altrimenti tale parola apparterrebbe a \(X^*\), contraddicendo l'ipotesi che \(X\) è codice.
       Inoltre, essendo che \(y\) non si completa in \(X^*\), dev'esserci almeno un occorrenza di \(y\) in entrambe le fattorizzazioni.
@@ -938,10 +938,10 @@ A questo punto siamo in grado di dimostrare il Teorema di Schützenberger~\ref{t
   \end{enumerate}
 \end{proof}
 
-\begin{note}{}
+\begin{observation}{}
   L'ipotesi \emph{non denso} nel secondo punto del \Cref{thm:schutz_maximality_completeness} è necessaria. Infatti il codice \(Z = \{a^{|u|+1}bu | u \in {\{a,b\}}^*\}\) è un codice denso (e quindi completo), ma non massimale.
   Infatti \(Z\cup\{b\}\) è ancora un codice (prefisso).
-\end{note}
+\end{observation}
 
 Un diretto corollario del Teorema di Schützenberger è il seguente:
 \begin{corollary}[label=cor:schutz_maximality_completeness]{}

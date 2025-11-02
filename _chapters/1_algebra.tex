@@ -52,9 +52,9 @@ Un esempio di semigruppo è dato da \((\N',+)\) dove l'operazione binaria è la 
 
 Analizziamo ora alcune notazioni e proprietà di monoidi e semigruppi.
 
-\begin{note}[label=note:power_notation]{}
+\begin{observation}[label=obs:power_notation]{}
   Dato \((M,\cdot,1_M)\) monoide, si ha che, \(\forall m \in M\), \(m^0 = 1_M\) e \(m^{n+1} = m \cdot m^n, \quad \forall n \geq 0\).
-\end{note}
+\end{observation}
 
 \begin{definition}{Morfismi di semigruppi e monoidi}
   Siano \((S,\cdot)\) e \((T,*)\) semigruppi.
@@ -97,7 +97,7 @@ Dato un qualsiasi semigruppo \((S,\cdot)\), è possibile costruire un semigruppo
 \end{definition}
 Tale costruzione è estendibile anche a un qualsiasi monoide \((M,\cdot,1_M)\), usando come elemento neutro l'insieme \(\set{1_M}\).
 
-Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché, grazie alle notazioni introdotte nella \Cref{note:power_notation}, è possibile definire le potenze di un qualsiasi sottoinsieme \(Y \subseteq S\).
+Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché, grazie alle notazioni introdotte nella \Cref{obs:power_notation}, è possibile definire le potenze di un qualsiasi sottoinsieme \(Y \subseteq S\).
 
 Tale notazione permette di formulare in modo più compatto la chiusura di un sottoinsieme \(Y\) di un semigruppo.
   \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
@@ -145,10 +145,10 @@ In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come 
   Contrariamente a quello che si potrebbe pensare, l'insieme dei numeri primi \textbf{non} è una base di \((\N, \cdot, 1)\), poiché \(6 = 2 \cdot 3 = 3 \cdot 2\) ammette due fattorizzazioni distinte.
 \end{example}
 
-\begin{note}[label=note:no_neutral_in_base]{}
+\begin{observation}[label=obs:no_neutral_in_base]{}
   Per definizione di base, nessuna base di un monoide può contenere l'elemento neutro.
   Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{+}\) si fattorizza in un modo non univoco.
-\end{note}
+\end{observation}
 
 \begin{definition}{Semigruppi e monoidi liberi}
   Data \(X \subseteq S\) base di un semigruppo \(S\), si dice che \(S\) è \keyword{libero} se \(S = X^{+}\).
@@ -208,10 +208,10 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
   Il \keyword{morfismo di lunghezza} è \(|\;|: M \to(\N,+,0)\) tale che \[\forall x \in X, |x| = 1\]
 \end{definition}
 
-\begin{note}{}
+\begin{observation}{}
   È importate notare che il morfismo di lunghezza è ben definito per ogni valore di \(M\), poiché ogni elemento di \(M\) si fattorizza in modo univoco come prodotto di elementi di \(X\).
   Non fosse stato così, non sarebbe possibile definire in modo univoco la lunghezza di un elemento di \(M\) a partire dagli elementi della sua base.
-\end{note}
+\end{observation}
 
 \begin{lemma}[label=lem:levi]{Levi}
   Sia \(M\) un monoide libero, \(m_1,m_2,m_3,m_4 \in M\) tali che \(m_1m_2=m_3m_4 \text{ e } |m_1| \geq |m_3|\).

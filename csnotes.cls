@@ -335,6 +335,26 @@
         drop fuzzy shadow,
         before skip=15pt plus 2pt,
         after skip=15pt plus 2pt,
+    },
+    theoremboxwhite/.style={
+        enhanced,
+        colback=white,              % Sfondo bianco
+        colframe=#1!80!black,
+        colbacktitle=white,
+        coltitle=#1!80!black,
+        fonttitle=\bfseries,
+        top=8pt,
+        bottom=8pt,
+        left=8pt,
+        right=8pt,
+        arc=3pt,
+        boxrule=1pt,
+        titlerule=0pt,
+        toptitle=4pt,
+        bottomtitle=4pt,
+        drop fuzzy shadow,
+        before skip=15pt plus 2pt,
+        after skip=15pt plus 2pt,
     }
 }
 
@@ -388,8 +408,8 @@
 
 % Note environment
 \newtcolorbox[auto counter, number within=section]{note}[2][]{
-    theorembox=notecolor,
-    title={Nota~\thetcbcounter\ifstrempty{#2}{}{:~#2}},
+    theoremboxwhite=notecolor,
+    title={\infosymbol{}  Nota~\thetcbcounter\ifstrempty{#2}{}{:~#2}},
     label type=note,
     #1
 }
@@ -433,8 +453,8 @@
 \newcommand{\code}[1]{\texttt{\colorbox{codebg}{#1}}}
 
 % Commands for correct quotes (avoid warnings)
-\newcommand{\q}[1]{\enquote{#1}}           % Standard quotes
-\newcommand{\qi}[1]{\enquote{\textit{#1}}} % Quotes with italic text
+\newcommand{\q}[1]{``{#1}''}           % Standard quotes
+\newcommand{\qi}[1]{``\textit{#1}''} % Quotes with italic text
 
 % Commands for computational complexity
 \newcommand{\BigO}[1]{\mathcal{O}\left(#1\right)}
@@ -629,7 +649,7 @@
 % TODOs 
 % ==========================
 \RequirePackage[
-  %disable,
+  disable,
   colorinlistoftodos,
   prependcaption,
   textsize=small
