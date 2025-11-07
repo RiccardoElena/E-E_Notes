@@ -56,7 +56,7 @@ Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
 \section{Insiemi Resto e Decisione dei Codici}
 
 Dagli insiemi quozienti, definiti nella \Cref{def:quotient_sets}, è possibile definire gli insiemi \emph{resto} da essi derivati.
-\begin{definition}{Insiemi resto}
+\begin{definition}[label=def:remainder]{Insiemi resto}
   Per \(X \subseteq A^+\) definiamo la successione di insiemi resto destri come:
   \begin{equation}
     R_n=\begin{cases}
@@ -157,7 +157,8 @@ Per dimostrare questo teorema, è utile utilizzare un risultato intermedio per s
             \item \(x_1'\ldots x_{j-1}' v = x_1\ldots x_i\)
             \item \(i + (j-1) = n\)
             \item \(x_1 \neq x_1'\)
-            \item \(\abs{v} \leq \abs{x_j'}\), poiché da \(vw = x_j'\) si ha che \(\abs{v} = \abs{x_j'} - \abs{w} \leq \abs{x_j'}\)
+            \item \(\abs{v} \leq \abs{x_i}\), poiché da \(vw = x_j'\) e \(\abs{x_{i}w} > \abs{x_j'}\) si ha:
+            \[\abs{x_{i}w}  > \abs{vw} \implies \abs{x_{i}} > \abs{v}\]
         \end{enumerate}
         Similmente a prima, per come è stato definito \(v\), si ha che \(w \in R_n\) poiché \(vw = x_j'\) implica che \(w \in {R_{n-1}}^{-1} X \subseteq R_n\).
       \end{enumerate}
@@ -605,7 +606,7 @@ Continuando a esplorare nozioni di teoria dei codici, andiamo ad analizzare altr
 
 \begin{example}{}
   Vediamo esempi di codici massimali.
-  Iniziamo con l'insieme \(X = \set{bb,ab}\). Tale insieme è codice su \(A = \set{a,b}\), ma \textbf{non} è massimale, poiché l'insieme \(X_1 = \set{a,ba,bb}\) è ancora codice e lo contiene propriamente.
+  Iniziamo con l'insieme \(X = \set{bb,ba}\). Tale insieme è codice su \(A = \set{a,b}\), ma \textbf{non} è massimale, poiché l'insieme \(X_1 = \set{a,ba,bb}\) è ancora codice e lo contiene propriamente.
   D'altra parte \(X_1\) stesso è massimale. Questo si può vedere come semplice conseguenza del fatto che la misura di \(X_1\) rispetto alla distribuzione uniforme è pari a \(1\).
   \[\pi(X) = \frac{1}{2} + \frac{1}{4} + \frac{1}{4} = 1\]
   Dunque qualsiasi altro insieme che contenga propriamente \(X_1\) andrebbe ad aggiungere a tale misura un addendo non negativo, e di conseguenza si otterrebbe che una misura per tale insieme che supera \(1\).

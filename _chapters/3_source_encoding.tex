@@ -505,7 +505,7 @@ Infine, formalizziamo l'intuizione citata nella nota precedente
 
 \begin{corollary}[label=cor:prefix_code_structure]{}
   Dato \(X \subseteq A^+\) codice,
-  \[\exists X' \text{ codice prefisso su} A \st f_{X'} = f_X\]
+  \[\exists X' \text{ codice prefisso su } A \st f_{X'} = f_X\]
 \end{corollary}
 
 \begin{proof}
@@ -636,9 +636,9 @@ Ovvero, sappiamo che un codice assolutamente ottimale è necessariamente massima
   Dunque \(X\) non è ottimale.
 \end{proof}
 
-Possiamo
+Possiamo dunque estendere questo risultato a qualsiasi codice binario, non necessariamente prefisso.
 
-\begin{corollary}{}
+\begin{corollary}[label=cor:binary-optimality-maximality]{}
   Sia \(X\) codice su \(A\) binario ottimale per \(S\). Allora \(X\) è massimale
 \end{corollary}
 
@@ -740,6 +740,7 @@ Ovviamente, in caso la sorgente non ammetta ottimo assoluto questo valore è sup
 
 Come visto nella \Cref{prop:optimal_prefix_code}, per ogni sorgente e alfabeto di codice con almeno due simboli, esiste un codice ottimale.
 Vediamo dunque un algoritmo per costruire un codice (prefisso) ottimale data una qualsiasi sorgente. Tale algoritmo è detto \keyword{algoritmo di Huffman}, e i codici da esso generati \keyword{codici di Huffman}.
+Iniziamo mostrando il caso binario, per poi estenderlo al caso \(d\)-ario.
 
 
 Sia \(S = (\SCal,p)\) sorgente con \(\SCal = \set{s_1, \ldots, s_k}\) e sia \(\forall i \in \set{1,\ldots,k}, p_i=p(s_i)\), supponendo \(p_1 \geq p_2 \geq \ldots \geq p_k\).
@@ -751,27 +752,26 @@ e dunque tutte le parole associate a tali foglie hanno la stessa lunghezza.
 Assumiamo quindi senza perdita di generalità\footnote{Non c'è perdita di generalità poiché tutte le parole associate alle foglie dell'ultimo livello avendo la stessa lunghezza possono essere permutate nella successione \(\abs{x_1}\leq\abs{x_2}\leq\ldots\leq\abs{x_k}\) senza alterarne il significato.}
 che \(x_k\) e \(x_{k-1}\) siano figlie dello stesso nodo.
 Si ha che \(\exists x_{k-1/k}\in Pref(X)\), massimo prefisso comune, tale che \(x_{k-1} = x_{k-1/k}a\) e \(x_k = x_{k-1/k}b\) con \(a,b \in A, a \neq b\).
-
-L'idea dell'algoritmo è passare a una sorgente ridotta \(S_{k-1} =(\SCal_{k-1}, p')\), con
-\[\SCal_{k-1} = \set{s_1,\ldots,s_{k-2}, s_{k-1/k}} \text{ e}\]
-\[p'(s_i)=p_i, \forall i \in \set{1,\ldots,k-2} \land p_{k-1,k}' = p_{k-1} + p_k\] 
-dove \(s_{k-1/k}\) è un nuovo simbolo che sostituisce \(s_{k-1}\) e \(s_k\).
-
-A tale sorgente viene adattato il codice \(X_{k-1} = \set{x_1,\ldots,x_{k-2}, x_{k-1/k}}\), ovvero un codice in cui andiamo a sostituire le parole \(x_{k-1}\) e \(x_k\) con il loro prefisso comune \(x_{k-1/k}\).
-L'albero di codice \(T_{X_{k-1/k}}\) rimane ovviamente completo e quindi il codice rimane massimale.
-
-Vedremo a breve che \(X_{k-1}\) è ottimale per \(S_{k-1}\) se e solo se \(X\) è ottimale per \(S\).
-Dimostrato questo, è possibile definire una procedura iterando il procedimento fino a ottenere una sorgente con due soli simboli, per la quale l'ottimo è banale da calcolare.
-Infatti, in tal caso l'unico codice prefisso ottimale è \(X_2 = \set{a,b}\) con \(a,b \in A, a \neq b\).
-Da lì, avendo tenuto traccia delle \qi{fusioni} operate, potremmo ottenere il codice \(X_3\) ottimale per \(S_3\) e così via fino a risalire a \(X\).
+\begin{algorithmdesc}{Huffman (caso binario)}
+  
+  L'idea dell'algoritmo è passare a una sorgente ridotta \(S_{k-1} =(\SCal_{k-1}, p')\), con
+  \[\SCal_{k-1} = \set{s_1,\ldots,s_{k-2}, s_{k-1/k}} \text{ e}\]
+  \[p'(s_i)=p_i, \forall i \in \set{1,\ldots,k-2} \land p_{k-1,k}' = p_{k-1} + p_k\] 
+  dove \(s_{k-1/k}\) è un nuovo simbolo che sostituisce \(s_{k-1}\) e \(s_k\).
+  A tale sorgente viene adattato il codice \(X_{k-1} = \set{x_1,\ldots,x_{k-2}, x_{k-1/k}}\), ovvero un codice in cui andiamo a sostituire le parole \(x_{k-1}\) e \(x_k\) con il loro prefisso comune \(x_{k-1/k}\).
+  L'albero di codice \(T_{X_{k-1/k}}\) rimane ovviamente completo e quindi il codice rimane massimale.
+  Vedremo a breve che \(X_{k-1}\) è ottimale per \(S_{k-1}\) se e solo se \(X\) è ottimale per \(S\).
+  Dimostrato questo, è possibile definire una procedura iterando il procedimento fino a ottenere una sorgente con due soli simboli, per la quale l'ottimo è banale da calcolare.
+  Infatti, in tal caso l'unico codice prefisso ottimale è \(X_2 = \set{a,b}\) con \(a,b \in A, a \neq b\).
+  Da lì, avendo tenuto traccia delle \qi{fusioni} operate, potremmo ottenere il codice \(X_3\) ottimale per \(S_3\) e così via fino a risalire a \(X\).
+\end{algorithmdesc}
 
 \begin{example}{}
-  Sia \(\SCal = \set{s_1,\ldots, s_6}\) e \(p_1 = 0.3,p_2=0.25,p_3=0.2,p_4=p_5=0.1,p_6=0.05\). Costruiamo dunque un\footnote{Da notare che si andrà a trovare \qi{un} codice e non \qi{il} codice, poiché nella procedura sono presenti punti in cui vanno effettuate scelte arbitrarie, che possono portare alla generazione di codici diversi, ugualmente ottimali} codice di Huffman per \(S\).
+  Sia \(\SCal = \set{s_1,\ldots, s_6}\) e \(p_1 = 0.3,p_2=0.25,p_3=0.2,p_4=p_5=0.1,p_6=0.05\). Costruiamo dunque un  codice di Huffman per \(S\)
   Una possibile prima sorgente ridotta è \(S_5\) con \(\SCal_5 = \set{s_1,s_2,s_3,s_4,s_{5/6}}\) e \(p_{5/6} = 0.15\).
-
   Dunque \(p_3 = 0.2 > p_{5/6} > p_4 = 0.1\). La successiva riduzione darà quindi \(\SCal_4 = \set{s_1,s_2,s_{3},s_{4/5/6}}\) con \(p_{4/5/6} = 0.25\).
   Ora \(p_2 = p_{4/5/6} = 0.25 > p_3\). Scegliamo dunque di formare \(\SCal_3 = \set{s_1,s_{2/3},s_{4/5/6}}\) con \(p_{2/3} = 0.45\).
-  
+
   Infine siamo a \(\SCal_2 = \set{s_{2/3}, s_{1/4/5/6}}\) con \(p_{1/4/5/6} = 0.55\).
   A questo punto per individuare il codice sarà sufficiente risalire le fusioni al contrario.
 
@@ -804,6 +804,10 @@ Da lì, avendo tenuto traccia delle \qi{fusioni} operate, potremmo ottenere il c
 
   Dunque \(\set{a^2,ab,ba,b^2a,b^3a,b^4}\) è ottimale per \(S\). Inoltre l'algoritmo fornisce anche una codifica che realizza il costo ottimale, ovvero \(\phi(s_i) = x_i,\forall i \in \set{1,\ldots,\#\SCal}\)
 \end{example}
+
+\begin{note}{}
+  Da notare che si andrà a trovare \qi{un} codice e non \qi{il} codice, poiché nella procedura sono presenti punti in cui vanno effettuate scelte arbitrarie, che possono portare alla generazione di codici diversi, ugualmente ottimali
+\end{note}
 
 Per la dimostrazione di correttezza dell'algoritmo, come accennato durante la sua esposizione, è necessario assicurarsi che la successione di sorgenti e codici ridotti mantenga sempre la proprietà di ottimalità.
 
@@ -847,3 +851,176 @@ Andiamo dunque a dimostrare la proposizione lasciata in sospeso necessaria all'a
   \[=\sum_{j=1}^{i-1} q_j\abs{z_j} + q_i(\abs{z_i a}-1) + q_{i+1}(\abs{z_{i+1}b}-1) = \sum_{j=1}^{i-1} q_j\abs{z_j} + (q_i+q_{i+1})\abs{z_{i}} = c(X_i)\]
   Abbiamo dunque trovato che \(c(X_i')<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\), portando all'assurdo
 \end{proof}
+
+
+Passando al caso \(d\)-ario, l'idea va modificata leggermente.
+L'algoritmo infatti si basa sulla \qi{decostruzione} di alberi binari completi associati a codici ottimali in modo da ottenere alberi binari completi più piccoli, fino ad arrivare a un albero con \(2\) foglie, per il quale il codice ottimo è l'alfabeto. 
+
+In caso \(d\)-ario, partendo da un albero \(d\)-ario completo il procedimento è analogo. Il problema risiede nel fatto che nel caso binario, come visto nel \Cref{cor:binary-optimality-maximality}, l'ottimalità implica la massimalità, e dunque qualsiasi sia l'ottimo su una sorgente, ho garanzia di partire nella decostruzione da un albero completo.
+Questo purtroppo non vale nel caso \(d\)-ario, ed è facilmente osservabile dal fatto che, dalla \Cref{prop:optimal_prefix_code} per ogni sorgente esiste un codice ottimale prefisso, ma, essendo che gli alberi pieni hanno un numero di foglie\footnote{Questo si può facilmente vedere per costruzione (o per induzione): un albero pieno \(d\)-ario di altezza con un unico nodo ha solo tale nodo come foglia e dunque \(n = 1 \equiv_{d-1} 1\). Ogni altro albero pieno si ottiene sostituendo una foglia con un nodo interno con \(d\) figli, aumentando così il numero di foglie di \(d-1\), e dunque mantenendo la congruenza modulo \(d-1\).}
+\(n\) tale che \(n \equiv_{d-1} 1\), non è detto che per ogni sorgente esista un codice massimale adattabile a essa.
+
+Di conseguenza, l'algoritmo di Huffman \(d\)-ario può essere ricavato in maniera diretta da quello binario (sostituendo opportunamente \(2\) con \(d\)) solo se l'alfabeto di sorgente (e dunque il codice) ha cardinalità \(k\) tale che \(k \equiv_{d-1} 1\).
+
+Nel caso generale, se \(\# \SCal = n \not\equiv_{d-1} 1\), significa che ad uno step della costruzione dell'albero non tutti i nodi avranno \(d\) figli.
+Si può facilmente mostrare però che è sempre possibile farlo come ultimo (primo) step, riconducendoci al caso precedente.
+Sia dunque \(n \equiv_{d-1} r\), con \(r \in \{2, \ldots, d-1\}\), allora l'algoritmo prevede che per il passaggio alla prima sorgente ridotta \(S_{n-1}\) vengano fusi solo i \(r\) simboli
+meno probabili, invece di \(d\). In questo modo si ottiene un albero a cui sono state rimosse \(r\) foglie e aggiune una, dunque si avrà che il nuovo albero avrà \(n - r + 1\) foglie, che soddisfa
+\[n - r + 1 \equiv_{d-1} 1\]
+
+\section{Ritardo di decifrazione e sincronizzazione}
+
+\subsection{Ritardo di decifrazione}
+Come detto in precedenza, i codici prefissi sono anche detti codici istantanei, poiché
+la decifrazione di un messaggio codificato con un codice prefisso può essere iniziata alla prima parola ricevuta.
+Un altro modo per esprimere questo concetto è dire che il ritardo di decifrazione di un codice prefisso è \(0\).
+
+Consideriamo invece il codice \(X = \set{a,ab,bb}\). Ricevendo il messaggio \(abbbb\ldots\), non è possibile
+decifrare nulla fino a quando non si riceve l'intero messaggio.
+Essendo il numero di \(b\) potenzialmente infinito si dice che il ritardo di decifrazione è infinito.
+
+\begin{definition}{Ritardo di decifrazione}
+  Per \(k\geq 0\), definiamo l'insieme
+  \begin{equation*}
+    DD(k) = \set{C\subseteq A^* }[\forall x,x' \in X, (\set{x}X^k A^+ \cup \set{x'}X^* \neq \emptyset) \implies x = x']
+  \end{equation*}
+  che contiene tutti i codici \(X\) di cui ogni parola può essere decifrata dopo aver ricevuto al più \(k\) parole aggiuntive.
+  Il \keyword{ritardo di decifrazione} di un codice \(X\) è il minimo \(k\) tale che \(X \in DD(k)\), se esiste, altrimenti è infinito.
+\end{definition}
+
+\begin{observation}
+  Si noti che \(DD(0) \subseteq DD(1) \subseteq DD(2) \subseteq \ldots\).
+  Questo è il motivo per cui chiamiamo ritardo di decifrazione il minimo \(k\) tale che \(X \in DD(k)\).
+\end{observation}
+
+La definizione formale di ritardo di decifrazione risulta un po' ostica da interpretare, ma cattura esattamente l'idea che si vuole esprimere.
+Prendiamo ad esempio un codice con ritardo di decifrazione \(k\).
+Questo intuitivamente ci dice che, qualsiasi parola del codice può essere decifrata dopo aver ricevuto al più \(k\) parole aggiuntive.
+In altre parole, presa una qualsiasi parola \(x\) del codice, e preso il linguaggio \(\set{x}X^2 A^+\) delle parole che iniziano con \(x\) e sono seguite da almeno \(2\) parole di codice,
+tale linguaggio ha solo parole che si è certi inizino per \(x\), permettendo la fattorizzazione e dunque la decifrazione.
+Di conseguenza, presa una qualsiasi altra parole \(x'\) del codice, questa non può essere confusa con \(x\) nella fattorizzazione, e dunque qualsiasi parola di codice che inizia per \(x'\) non può appartenere a \(\set{x}X^2 A^+\).
+Da qui la definizione formale.
+
+È importante notare come sia fondamentale che nella definizione formale si faccia riferimento al linguaggio \(\set{x}X^k A^+\) e non a \(\set{x}X^k X^+\), poiché nel secondo caso l'intersezione sarebbe sempre vuota, o avremmo una doppia fattorizzazione di parole di \(X^*\).
+Questa accortezza matematica è anche giustificata nel contesto pratico, poiché la trasmissione dei messaggi non avviene necessariamente in blocchi di parole di codice, ma può essere interrotta in qualsiasi momento.
+
+Possiamo dunque facilmente osservare che i codici prefisso sono esattamente i codici con ritardo di decifrazione \(0\).
+\begin{proposition}{}
+  \(X\) codice prefisso \(\iff X \in DD(0)\)
+\end{proposition}
+
+\begin{proof}
+  Ponendo \(k=0\) nella definizione di \(DD(k)\), si ottiene un analogo della definizione di codice prefisso.
+\end{proof}
+
+\begin{example}{}
+  Il codice \(X' = \set{a,aba,bb}\) ha ritardo di decifrazione \(1\).
+  Infatti se un messaggio inizia per \(b\) allora la prima parola del codice che lo compone
+  è necessariamente \(bb\), mentre se inizia per \(a\) allora la prima parola del codice può essere sia 
+  \(a\) che \(aba\), ma in questo caso, dopo aver ricevuto una parola aggiuntiva, sarà possibile distinguere
+  quale delle due era la prima.
+  Infatti, sia in caso di recezione di \(aaA^*\) che di \(abbA^*\), la prima parola del codice è \(a\), mentre se si riceve \(abaA^*\) la prima parola del codice è \(aba\).
+\end{example}
+
+Nella definizione non è specificato che \(X\) debba essere un codice, ma si può dimostrare che se \(X\) ha ritardo di decifrazione finito allora è un codice.
+
+\begin{proposition}{}
+  Sia \(X \subseteq A^*\). Allora
+  \[\exists k \geq 0 \st X \in DD(k) \implies X \text{ è un codice}\]
+\end{proposition}
+
+\begin{proof}
+  Sia \(X \in DD(k)\) per qualche \(k \geq 0\), e per assurdo \(X^*\) contenga parole che ammettono doppia fattorizzazione in parole di \(X\), ovvero siano
+  \[x_1,\ldots,x_m,x_1',\ldots,x_n' \in X \st x_1\neq x_1' \land x_1\ldots x_m = x_1'\ldots x_n'\]
+
+  Se \(w \in X^k\), allora
+  \[x_1\ldots x_m w = x_1'\ldots x_n' w\]
+  Abbiamo dunque che \(x_1\) è seguita da almeno \(k\) parole\footnote{A prescindere dal valore di \(m\), essendo \(w \in X^k\) avremo che \(x_1\) è seguita da \(m-1+k>k\) parole di \(X\)} di \(X\), e quindi appartenendo a \(DD(k)\) dovrebbe essere \(x_1 = x_1'\), assurdo.
+\end{proof}
+
+Il concetto di ritardo di decifrazione è inoltre fortemente legato agli insiemi resto visti nella \Cref{def:remainder}.
+
+\begin{theorem}{Even}
+  Sia \(X \subseteq A^+\). Allora 
+  \[\exists k \geq 0 \st X \in DD(k) \iff \exists n \geq 1 \st R_n(X) = \emptyset\]
+\end{theorem}
+
+\begin{proof}
+  Per la dimostrazione di questo teorema è fondamentale il risultato del \Cref{lem:sardinas-patterson-intermediate}, usato per dimostrare il teorema di Sardinas-Patterson.
+
+  Andiamo dunque a dimostrare le due implicazioni.
+  \begin{description}
+    \item[\q{\(\impliedby\)}] 
+      Sia \(R_n = \emptyset\) e dimostriamo \(X \in DD(n-1)\).
+
+      Supponiamo per assurdo che \(X \not\in DD(n-1)\), e siano dunque
+      \[v \in A^*, x_1,\ldots,x_n,x_1',\ldots,x_m' \in X \st x_1\neq x_1' \land x_1\ldots x_m v = x_1'\ldots x_m'\]
+      Possiamo notare che chiaramente \(x_1\ldots x_n v \in \set{x_1}X^{n-1}A^*\) e \(x_1'\ldots x_m' \in \set{x_1'}X^* \), negando quindi la condizione per essere in \(DD(n-1)\).
+      Essendo che \(v\) è suffisso di \(x_1'\ldots x_m'\), esisterà  \(r\) tale che \(1 \leq r \leq m\) e \(v = u x_{r+1}'\ldots x_m'\) con \(u \in Suff(x_r')\).
+
+      Sostituendo, otteniamo
+      \[x_1\ldots x_n u x_{r+1}'\ldots x_m' = x_1'\ldots x_r' x_{r+1}'\ldots x_m'\implies x_1\ldots x_n u =x_1'\ldots x_r'\]
+      Quindi \(\abs{u} \leq \abs{x_r'}\).
+      Dunque in questa equazione sussistono tutte le condizioni del \Cref{lem:sardinas-patterson-intermediate}, e quindi \(u \in R_{n+r-1}\).
+      Ma avendo supposto che \(R_n = \emptyset\), otteniamo un assurdo, poiché \(n+r-1 \geq n\) e dunque \(R_{n+r-1} = \emptyset\).
+    \item[\q{\(\implies\)}]
+      Sia \(X \in DD(d)\) e mostriamo che \(R_n = \emptyset\) per \(n > 2d\).
+      Sia \(w \in R_n\) per un \(n\) qualsiasi, per il \Cref{lem:sardinas-patterson-intermediate} esistono \(i,j \geq 1, x_1,\ldots,x_i, x_1',\ldots,x_j' \in X\) tali che:
+      \begin{enumerate}
+        \item \(i+j - 1 = n\)
+        \item \(x_1 \neq x_1'\)
+        \item \(x_1\ldots x_i' w = x_1'\ldots x_j'\)\label{item:even-thm-dim-3}
+        \item \(\abs{w} \leq \abs{x_j'}\)\label{item:even-thm-dim-4}
+      \end{enumerate}
+      Dunque dall'equazione al punto~\ref{item:even-thm-dim-3} e dall'ipotesi \(X \in DD(d)\) segue che \(i-1 < d\implies i\leq d\).
+      Non fosse così, in maniera analoga alla dimostrazione precedente avremmo \(x_i\) seguita da almeno \(d\) parole di \(X\) uguali a \(x_1'\ldots x_j'\), il che contraddirebbe l'ipotesi che \(X \in DD(d)\).
+      Dal punto~\ref{item:even-thm-dim-4}, avendo che \(\abs{w} \leq \abs{x_j'}\), si ha che necessariamente \(\exists \lambda \in A^* \st x_j=\lambda w\).
+      Si ha dunque che 
+      \[x_1\ldots x_i' w = x_1'\ldots x_{j-1}' \lambda w\implies x_1\ldots x_i' = x_1'\ldots x_{j-1}' \lambda\]
+      Dunque \(j-2<d\implies j-1\leq d\).\footnote{Abbiamo inizialmente assunto \(j \geq 1\), ma questo potrebbe creare problemi nella costruzione poiché \(j-2\) potrebbe essere negativo. Tuttavia, se \(j=1\) si ha sempre che \(j-1 \leq d\) essendo \(d \in \N\). Dunque è possibile assumere \(j > 1\), poiché il caso \(j = 1\) risulta banale.}
+      Ne segue che \(2d \geq i+j-1 = n\) necessariamente. 
+      Avendo preso per la dimostrazione un arbitraria parola \(w\) di un arbitrario insieme \(R_n\), e avendo dedotto che in ogni caso tale \(n\) deve valere al più da \(2d\), si ha come conseguenza che non si possano prendere parole da insiemi \(R_n\) se \(n > 2d\), e dunque per tali \(n\) si ha \(R_n = \emptyset\).
+  \end{description}
+\end{proof}
+
+\begin{example}
+  Se \(X\) è prefisso, abbiamo già osservato che \(R_1(X) = \emptyset\)
+  Per \(X'\) visto prima, possiamo facilmente verificare che \(R_n(X) = \set{b}, \forall n \geq 1\).
+  Per \(X'' = \set{a,aba,bb}\), come abbiamo visto precedentemente, \(R_1\set{ba}\) e \(R_2 = \emptyset\).
+\end{example}
+
+Fino a ora abbiamo solo visto codici massimali con ritardo \(0\) (codici prefissi) o infinito come l'esempio precedente.
+
+Questo non è un caso, ma è risultato di un teorema
+
+\begin{theorem}{Schützenberger (the last one)}
+  Se \(X\) è codice finito massimale, allora o è prefisso (e quindi ha ritardo \(0\)) o ha ritardo infinito.
+\end{theorem}
+
+\begin{corollary}
+  Sia \(X\) codice binario ottimale per \(S\) propria. Allora ha ritardo \(0\) o infinito.
+\end{corollary}
+
+\subsection{Sincronizzazione}
+
+Nel parlare di ritardo di decifrazione, abbiamo fatto la fondamentale assunzione che il ricevitore conosca l'inizio della trasmissione.
+In molti casi pratici, questo non è vero, e il ricevitore può iniziare a ricevere il messaggio in un punto qualsiasi della trasmissione.
+Vediamo dunque come formalizzare questo concetto e di esprimere eventuali proprietà dei codici che permettono di risolvere questo problema.
+
+Sia \(X = \set{ab,ba,bb}\) e supponiamo di ricevere \(\ldots abababab\). 
+In questo caso non è possibile sapere se la prima \(a\) ricevuta è l'inizio di un \(ab\) o la fine di un \(ba\).
+Abbiamo dunque una doppia interpretazione mancando l'inizio.
+
+Se però questo pattern si interrompe, ricevendo ad un certo punto \(\ldots baab \ldots\), allora siamo sicuri che queste due parole sono \(ba\) e \(ab\), e quindi possiamo risincronizzarci.
+
+\begin{definition}{Coppia sincronizzante}
+  Dato \(X\subseteq A^*\), chiamiamo \keyword{coppia sincronizzante} due parole \(u,v \in X^+\) tali che
+  \[\forall \lambda \rho \in A^*, \lambda u v \rho \implies \lambda u, v\rho \in X^*\]
+\end{definition}
+
+\begin{definition}{Codice sincronizzante}
+  Un codice \(X\) si dice \keyword{sincronizzante} se esiste una coppia sincronizzante \(u,v \in X^+\).
+\end{definition}
+
+Ad esempio, il codice \(X = \set{ab,ba,bb}\) è sincronizzante, ma \(X' = \set{ab,ba,bb,aa}\) non lo è.
+In oltre, il codice Morse è sincronizzante, poiché ogni parola di codice finisce con uno spazio (pausa più lunga), e quindi ogni coppia di parole è sincronizzante.

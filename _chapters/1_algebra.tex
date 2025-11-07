@@ -158,7 +158,8 @@ Una modo meno formale ma più intuitivo di definire un semigruppo (monoide) libe
 La struttura è \emph{libera} poiché non ha vincoli aggiuntivi che la limitano, essendo dunque la più generale possibile dato l'insieme sottostante.
 Tale proprietà di generalità verrà formalizzata più avanti tramite una proprietà universale.
 
-\todo{Chiedere a De Luca se \((\N,+)\) è libero di base \(\set{1}\), se no perché? Neanche isomorfo a \(\set{1}^*\)? Non è sufficiente?}
+% FIXME SI
+\todo{Chiedere a De Luca se \((\N,+)\) è libero di base \(\set{1}\), se no perché? SI,}
 Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabeto \(A\), che è libero di base \(A\).
 
 \begin{proposition}{Unicità della base in un semigruppo (monoide) libero}
@@ -338,6 +339,8 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
   \end{theorem}
   In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
 \end{observation}
+% FIXME 
+% su A = a,b tutte le parole che non contengono bbb
   \todo{Chiedere esempio di \(N \leq M\) non libero con \(M\) libero}
 
 \begin{definition}{Sottomoide unitario}
@@ -347,5 +350,6 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
   \(N\) si dice \keyword{unitario} se è unitario a sinistra o a destra.
 \end{definition}
 
+% se è unitario è libero non viceversa
 Da tale definizione e dal teorema~\ref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se \(N \leq M\) è libero, allora è unitario.
 
