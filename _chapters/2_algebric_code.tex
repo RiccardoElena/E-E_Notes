@@ -38,12 +38,6 @@ Il concetto di codice e di prefisso (suffisso) sono strettamente collegati.
     \item \(X\) codice è prefisso (suffisso) \(\iff X^*\) unitario a sinistra (destra)
   \end{enumerate}
 \end{theorem}
-\todo{Altra domanda importante nel codice}
-% FIXME @TheFabbest
-% Sappiamo che A* è libero, e se X è contenuto in A* allora X* è sottomonoide di A*.
-% X* per sua definizione è libero. Ma dall'osservazione che già ci sembrava dubbi prima dovremmo avere che X* è sempre unitario.
-% Da quest'ultimo teorema si dovrebbe avere dunque che X è sempre sia prefisso che suffisso
-% C'è qualcosa che decisamente non abbiamo capito
 
 \begin{corollary}{}
   \(\emptyset \neq X \subseteq A^+\) è codice se e solo se valgono entrambe le seguenti condizioni:
@@ -263,8 +257,8 @@ Infatti, ogni \( x \in X \setminus \set{\varepsilon}\) ha esattamente \(\abs{x}\
 Di conseguenza, \(Suff(X)\) ha al più \(2^{KL+1}\) sottoinsiemi\footnote{\(\#(\mathcal{P}(S)) = 2^{\#S}\) è un risultato noto in combinatoria}, per cui \(\exists n \leq 2^{KL+1} \st R_n = R_m, m < n\), e conseguentemente \(R_{n+i} = R_{m+i}, \forall i \geq 0\), ovvero la successione degli insiemi resto si stabilizza entro un numero finito di passi, esponenziale in \(K\) e \(L\).
 Chiaramente tale limite è molto elevato, portando a complessità esponenziale nell'algoritmo di decisione basato sul Teorema di Sardinas-Patterson.
 Fortunatamente, è possibile mostrare come tale limite possa essere notevolmente ridotto, portando la complessità dell'algoritmo a essere lineare in \(K\) e \(L\).
-\todo{Chiedere il nome corretto}
-\begin{theorem}{Levanshtein???}
+
+\begin{theorem}{Levenshtein}
   Sia \(\emptyset \neq X \subseteq A^+\) finito e siano \(K = \# X\) e \(L = \max_{x \in X} \abs{x}\).
   Allora, \(X \text{ è codice } \iff \forall n \leq KL +1, R_n \cap X = \emptyset\)
 \end{theorem}
@@ -975,7 +969,7 @@ Vediamo dunque alcune proposizioni che seguono dai risultati appena dimostrati.
 
 
 
-\begin{proposition}{}
+\begin{proposition}[label=prop:finite_complete_codes_contains_powers]{}
   Sia \(X \subseteq A^*\) finito e completo. Allora \(\forall a \in A \exists n \geq 1 : a^n \in X\). Tale \(n\) è unico se \(X\) è un codice.
 \end{proposition}
 \begin{proof}
@@ -1068,7 +1062,7 @@ Da questa definizione sorgono alcune domande riguardo la completabilità dei cod
     \begin{itemize}
       \item I codici finiti prefissi ammettono sempre completamenti finiti.
         Caso particolare di questo caso qualsiasi codice finito con cardinalità \(1\) ammette sempre completamento finito.
-      \item Se \(\#X = 2\), allora \(X\) ammette un completamento finito, dimostrato da Restivo.\todo{Chiedere se effettivamente questo Restivo è chi ha dimostrato}
+      \item Se \(\#X = 2\), allora \(X\) ammette un completamento finito, dimostrato da Restivo.
       \item Se \(\#X \geq 4\), in generale non ammette un completamento finito. Infatti l'esempio di Markov ha cardinalità \(4\).
       \item Se \(\#X = 3\), il problema è aperto.
     \end{itemize}

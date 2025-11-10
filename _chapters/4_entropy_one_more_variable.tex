@@ -1,0 +1,39 @@
+\chapter{Entropia di una o più variabili}
+
+In questo capitolo approfondiremo il concetto di entropia introdotto nel capitolo precedente, analizzandolo più formalmente, introducendo alcune sue proprietà e generalizzandolo a più variabili aleatorie.
+
+\section{Rimandi di teoria della probabilità}
+Prima di procedere, facciamo un breve richiamo ad alcuni concetti di teoria della probabilità necessari per la comprensione dei concetti che andremo a trattare in questo capitolo.
+Un \keyword{spazio di probabilità} è una tripla \((\Omega, \mathcal{F}, \mathbb{P})\) dove
+\begin{itemize}
+  \item \(\Omega\) è un insieme non vuoto, detto spazio campione;
+  \item \(\mathcal{F} \subseteq 2^{\Omega}\) è una \(\sigma\)-algebra su \(\Omega\), cioè un insieme di sottoinsiemi di \(\Omega\) che contiene \(\Omega\) stesso, è chiuso rispetto al complemento e alle unioni numerabili;
+  \item \(\mathbb{P}: \mathcal{F} \to [0,1]\) è una misura di probabilità, cioè una funzione tale che \(\mathbb{P}(\Omega) = 1, \mathbb{P}(\emptyset) = 0\) e che è \(\sigma\)-additiva.
+\end{itemize}
+Una \keyword{variabile aleatoria discreta} su uno spazio di probabilità \((\Omega, \mathcal{F}, \mathbb{P})\) è un applicazione misurabile \(S: \Omega \to \SCal\), dove \(\SCal\) è un insieme discreto (finito o numerabile).
+
+Essendo \(S\) misurabile, è possibile associare una funzione \q{massa} di probabilità (distribuzione su \(\SCal\)) \(p: \SCal \to [0,1]\) definita come \(p(s) = \mathbb{P}(S=s) = \mathbb{P}(S^{-1}(s))\)
+
+Per allinearci alla notazione usata in teoria della probabilità, indicheremo con \(X,Y,Z\) le variabili aleatorie su \(\mathcal{X}, \mathcal{Y}, \mathcal{Z}\).
+
+\begin{definition}{Entropia di una variabile aleatoria}
+  Sia \(X\) variabile aleatoria discreta con distribuzione di probabilità \(p\).
+  L'\keyword{entropia} di \(X\) è definita come
+  \[H(X) = -\sum_{x \in \mathcal{X}} p(x) \log( p(x))\]
+\end{definition}
+
+A seguito del teorema di Shannon, possiamo interpretare questa quantità come il limite inferiore del costo di codifica per una sorgente binaria.
+Dunque possiamo vedere l'entropia come la più corta descrizione binaria del valore di \(X\), o in altre parole il numero medio di domande binarie necessarie per identificare il valore di \(X\).
+
+\begin{definition}{Definizione assiomatica dell'entropia di Shannon}
+  Sia \({(H_m)}_{m \geq 1}\) una famiglia di funzioni, di cui ogni \(H_m \in {(H_m)}_{m \geq 1}\) è una funzione a \(m\) variabili con le seguenti proprietà:
+  \begin{description}
+    \item[simmetria]: \(\forall \sigma \in S_m, H_m(p_1,\ldots,p_m) = H_m(p_{\sigma(1)},\ldots,p_{\sigma(m)})\), con \( S_m\) insieme delle permutazioni di \(\set{1,\ldots,m}\).
+    \item[normalizzazione]: \(H_2\left(\frac{1}{2}, \frac{1}{2}\right) = 1\).
+    \item[continuità]: \(H_2(p,1-p)\) funzione continua di \(p\)
+    \item[raggruppamento]:
+    \[H_m(p_1,p_2,p_3,\ldots,p_m) = H_{m-1}(p_1 + p_2,p_3,\ldots,p_m)+(p_1+p_2)H_2(\frac{p_1}{p_1+p_2},\frac{p_2}{p_1+p_2})\]
+  \end{description}
+\end{definition}
+
+Presa questa definizione, si ha necessariamente che \(\forall m\geq 1, H_m(p_1,\ldots,p_m) = - \sum_{i=1}^{m} p_i \log(p_i)\)

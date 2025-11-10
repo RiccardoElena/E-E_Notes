@@ -5,17 +5,17 @@ Ci inoltriamo finalmente nel cuore della teoria dell'informazione, ovvero la cod
 \section{Sorgenti e Codifica}
 
 \begin{definition}{Sorgente (discreta e a memoria zero)}
-  Chiamiamo \keyword{Sorgente discreta e a memoria zero} una variabile aleatoria discreta, identificabile come una coppia \(S = (\SCal,p)\), con \(\SCal\) alfabeto sorgente, ovvero l'insieme dei simboli che la sorgente può emettere,
+  Chiamiamo \keyword{Sorgente discreta e a memoria zero} una variabile aleatoria discreta, identificabile come una coppia \(S = (\SCal,p)\), con \(\SCal\) alfabeto sorgente finito, ovvero l'insieme dei simboli che la sorgente può emettere,
   ovvero i valori che la variabile aleatoria può assumere, e \(p\) distribuzione su \(\SCal\).
 \end{definition}
 
 \begin{definition}{Codifica}
   Definiamo \keyword{codifica} un morfismo iniettivo \(\varphi: \SCal^* \to A^*\) con \(A\) alfabeto (di codice).
   Il \keyword{codice} relativo a questa codifica è \(X = \varphi(\SCal)\), ovvero l'immagine di \(\SCal\) sotto \(\varphi\).
+  Diremo inoltre che un codice è \keyword{adattabile} alla sorgente \(S\) se \(\# X = \# \SCal\). In questo caso è possibile definire una codifica biettiva tra i simboli della sorgente e le parole del codice.
+  In particolare, tale codice sarà \keyword{adattato} a una sorgente \(S\) mediante \(\varphi\), se \(\varphi\) induce una biiezione tra \(\SCal\) e \(X\), \(\varphi_{|_X}: \SCal \leftrightarrow X\).
 \end{definition}
 
-\todo{Mi ricordo che disse che la ridotta alla base è biettiva}
-\todo{Inoltre mi pare si parlasse solo di alfabeti finiti, mi sbaglio?}
 
 \begin{definition}{Costo di una codifica}
   Data una sorgente \(S = (\SCal,p)\) e una codifica \(\varphi: \SCal^* \to A^*\) con codice \(X = \varphi(\SCal)\), definiamo il \keyword{costo} di \(\varphi\) la quantità:
@@ -35,7 +35,7 @@ Ci inoltriamo finalmente nel cuore della teoria dell'informazione, ovvero la cod
 Da questo esempio è possibile trarne una regola generale.
 
 \begin{proposition}{}
-  Sia \(S\) sorgente, \(X\) codice su \(A\) \emph{adattato}\footnote{Ovvero tale che esiste un morfismo biettivo tra \(\S\) e \(X\). In questo caso mediante \(\varphi\) si intende che un morfismo biettivo è \(\varphi_{|_{\SCal}}\)} a \(S\) mediante \(\varphi\).
+  Sia \(S\) sorgente, \(X\) codice su \(A\) \emph{adattato} a \(S\) mediante \(\varphi\).
   Allora \(c(X) = c(X,\varphi)\) se e solo se
     \[\forall s,s' \in \SCal, p(s) < p(s') \implies \abs{\varphi(s)} < \abs{\varphi(s')} \]
 \end{proposition}
@@ -167,15 +167,14 @@ Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l
   \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
 
   Inoltre, per far si che valga l'uguaglianza è necessario in primo luogo che valga l'uguaglianza nella disuguaglianza di Gibbs~\eqref{eq:gibbs}, ovvero che \(p = q\).
-  In questo caso si otterrbe:
+  In questo caso si otterrebbe:
   \[c(X,\varphi) = \frac{H(S)}{\log\left(d\right)} - \log_{d}(\pi(X))\]
   A questo punto, è necessario che \(\log_{d}(\pi(X)) = 0\), ovvero che \(\pi(X) = 1\). Come osservato numerose volte, tale condizione è equivalente a dire che \(X\) è massimale.
 
   Inoltre, sapendo che \(p = q\), si ha che
   \[\forall s \in \SCal: p(s) = q(s) = \frac{d^{-\abs{\varphi(s)}}}{\pi(X)} = d^{-\abs{\varphi(s)}}\]
 
-  Viceversa, se \(X\) è massimale si ha che:
-  \todo{Chiedere dove viene usata l'ipotesi di massimalità}
+  Viceversa\footnote{In questa dimostrazione non si farà uso dell'ipotesi che \(X\) sia massimale, poiché è sussunta dalla seconda condizione, che impone che \(\pi(X) = 1\) per la proprietà delle distribuzioni di sommare a \(1\), verificando l'uguaglianza nella disuguaglianza di Kraft-McMillan}, partendo dalla definizione di \(c(X,\varphi)\) si ha che:
   \[c(X,\phi) = \sum_{s \in \SCal} p(s)\abs{\phi(s)}\]
   Inoltre, essendo che \(x = \log_{b}(b^x)\) possiamo riscrivere la somma come
   \[c(X,\phi) = \sum_{s \in \SCal} p(s)\log_{d}\left(d^{\abs{\varphi(s)}}\right) =\sum_{s \in \SCal} p(s)\log_{d}\left(\frac{1}{d^{-\abs{\varphi(s)}}}\right) \]
@@ -205,7 +204,7 @@ Da questo corollario è chiaro che non è sempre possibile avere un codice assol
 \paragraph{Terminologia}
 Essendo che la teoria dei codici è stata sviluppata in due comunità differenti, una più teorica e vicina alla matematica e una più applicativa e vicina all'ingegneria, stessi concetti possono assumere nomenclature differenti.
 Alcuni esempi sono:
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|}
 \hline
@@ -228,7 +227,7 @@ In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codi
   È necessario dunque aspettare altri simboli per poter decifrare il messaggio.
 \end{example}
 
-\subsubsection{Proprietà dei codici prefissi}
+\subsection{Proprietà dei codici prefissi}
 Come già visto nel capitolo precedente nella \Cref{def:prefix_suffix}, diremo che \(X \subseteq X^*\) è prefisso (o suffisso) se e solo se non ci sono parole di \(X\) che sono prefissi (o suffissi) di altre parole di \(X\), ovvero:
 \[X\cap XA^+ = \emptyset\]
 
@@ -462,7 +461,7 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
 \end{proof}
 
 \begin{example}{}
-  Sia \(f(0) = 0, f(1) = f(2) =1, f(3) = 3, f(k) = 0 \forall k \geq 4\).
+  Sia \(f(0) = 0, f(1) = f(2) =1, f(3) = 3, f(k) = 0, \forall k \geq 4\).
   Allora 
   \[\sum_{n=0}^\infty f(n)2^{-n} = 0 + \frac{1}{2} + \frac{1}{4} + \frac{3}{8} = \frac{9}{8} \geq 1\]
   quindi per la disuguaglianza di Kraft---McMillan non esiste un codice binario con \(f\) come struttura.
@@ -471,35 +470,35 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
   \[\sum_{n=0}^{\infty}f(n)3^{-n} = 0 + \frac{1}{3} + \frac{1}{9} + \frac{3}{27} = \frac{15}{27} < 1\]
   Dunque per il teorema di Kraft appena visto esiste un codice prefisso su \(A=\set{a,b,c}\) tale che \(f=f_X\), ad esempio:
   
+  \begin{figure}[H]
+      \centering
+      \begin{forest}
+        for tree={
+          inner sep=1pt, minimum size=1mm,
+          s sep=10mm, % sibling separation
+          l sep=12mm, % level separation
+          edge={-}
+        }
+        [\(\varepsilon\)
+          [\(a\)]
+          [
+            [\(ba\)]
+            [
+              [\(bba\)]
+              [\(bb^3\)]
+            ]
+          ]
+          [
+            [
+              [\(c^3\)]
+            ]
+          ]
+        ]
+      \end{forest}
+      \caption{Codice prefisso con struttura \(f\)}\label{fig:prefix_code_example_with_structure_f}
+  \end{figure}
 \end{example}
 
-\begin{figure}[H]
-    \centering
-    \begin{forest}
-      for tree={
-        inner sep=1pt, minimum size=1mm,
-        s sep=10mm, % sibling separation
-        l sep=12mm, % level separation
-        edge={-}
-      }
-      [\(\varepsilon\)
-        [\(a\)]
-        [
-          [\(ba\)]
-          [
-            [\(bba\)]
-            [\(bb^3\)]
-          ]
-        ]
-        [
-          [
-            [\(c^3\)]
-          ]
-        ]
-      ]
-    \end{forest}
-    \caption{Codice prefisso con struttura \(f\)}\label{fig:prefix_code_example_with_structure_f}
-\end{figure}
 
 Infine, formalizziamo l'intuizione citata nella nota precedente
 
@@ -519,17 +518,16 @@ Infine, formalizziamo l'intuizione citata nella nota precedente
 
 \begin{proof}
   Dal \Cref{cor:prefix_code_structure} esiste \(X'\) codice prefisso tale che \(f_{X'} = f_X\).
-  In particolare \(\# X = \# X'\), dunque esiste una biiezione \(\delta: X \to X'\).
+  In particolare \(\# X = \# X'\), dunque esiste una biiezione \(\delta: X \leftrightarrow X'\).
   In particolare, avendo i due codici la stessa struttura, scegliamo \(\delta\) morfismo tale che
   \[\forall x \in X, \abs{\delta(x)} = \abs{x}\]
-  Allora, per ogni codifica \(\varphi : \SCal \to X\), si ha che
+  Allora, per ogni codifica \(\varphi : \SCal \leftrightarrow X\), si ha che
   \[c(X,\varphi) = \sum_{s \in \SCal} p(s)\abs{\varphi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta(\varphi(s))} = c(X', \delta \circ \varphi)\]
   Dunque ogni costo di \(X\) per qualsiasi codifica è ottenibile come costo di \(X'\) per una codifica opportuna.
-  In oltre, essendo \(\delta\) invertibile è possibile mostrare il viceversa, ovvero, per ogni codifica \(\psi: \SCal \to X'\), si ha che
+  In oltre, essendo \(\delta\) invertibile è possibile mostrare il viceversa, ovvero, per ogni codifica \(\psi: \SCal \leftrightarrow X'\), si ha che
   \[c(X',\psi) = \sum_{s \in \SCal} p(s)\abs{\psi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta^{-1}(\psi(s))} = c(X, \delta^{-1} \circ \psi)\]
   Segue dunque che
-  \todo{Qui per indicare le codifiche usa \(\leftrightarrow\), che fare?}
-  \[\set{c(X,\varphi)}[\varphi:\SCal \to X] = \set{c(X',\psi)}[\psi:\SCal \to X']\]
+  \[\set{c(X,\varphi)}[\varphi:\SCal \leftrightarrow X] = \set{c(X',\psi)}[\psi:\SCal \leftrightarrow X']\]
   e dunque coincide il loro minimo \(c(X) = c(X')\).
 \end{proof}
 
@@ -549,7 +547,7 @@ Possiamo quindi infine dimostrare l'esistenza di un codice ottimale data una sor
   \[\set{c(Y)}[Y \text{ codice adattato a } S, c(Y)\leq c(Z)] = \mathcal{C}_Z \text{ è finito}\]
   In particolare, se \(\mathcal{C}_Z\) è finito, allora ammette minimo.
   Restringiamoci a considerare le sorgenti con distribuzioni positive, poiché in caso di sorgente impropria è sempre possibile considerare la sorgente propria indotta dalla rimozione delle lettere con distribuzione \(0\) dall'alfabeto di sorgente.
-  Sia inoltre, \(\varphi: \SCal \to Z\) tale che realizza il costo assoluto, ovvero
+  Sia inoltre, \(\varphi: \SCal \leftrightarrow Z\) tale che realizza il costo assoluto, ovvero
   \[c(Z) = c(Z,\varphi) = \sum_{s \in \SCal} p(s)\abs{\varphi(s)}\]
   Se \(Y\) è tale che \(c(Y) = c(Y,\psi) \leq c(Z)\), allora \(\forall s \in \SCal\)
   \[p(s)\abs{\psi(s)} \leq c(Y) \leq c(Z) \implies \abs{\psi(s)} \leq \frac{c(Z)}{p(s)} \leq \frac{c(Z)}{\min_{t \in \SCal} p(t)} =: M\]
@@ -983,22 +981,22 @@ Il concetto di ritardo di decifrazione è inoltre fortemente legato agli insiemi
   \end{description}
 \end{proof}
 
-\begin{example}
+\begin{example}{}
   Se \(X\) è prefisso, abbiamo già osservato che \(R_1(X) = \emptyset\)
   Per \(X'\) visto prima, possiamo facilmente verificare che \(R_n(X) = \set{b}, \forall n \geq 1\).
   Per \(X'' = \set{a,aba,bb}\), come abbiamo visto precedentemente, \(R_1\set{ba}\) e \(R_2 = \emptyset\).
 \end{example}
 
-Fino a ora abbiamo solo visto codici massimali con ritardo \(0\) (codici prefissi) o infinito come l'esempio precedente.
+Fino a ora abbiamo solo visto codici massimali con ritardo di decifrazione \(0\) (codici prefissi) o infinito come l'esempio precedente.
 
 Questo non è un caso, ma è risultato di un teorema
 
 \begin{theorem}{Schützenberger (the last one)}
-  Se \(X\) è codice finito massimale, allora o è prefisso (e quindi ha ritardo \(0\)) o ha ritardo infinito.
+  Se \(X\) è codice finito massimale, allora o è prefisso (e quindi ha ritardo di decifrazione \(0\)) o ha ritardo di decifrazione infinito.
 \end{theorem}
 
-\begin{corollary}
-  Sia \(X\) codice binario ottimale per \(S\) propria. Allora ha ritardo \(0\) o infinito.
+\begin{corollary}{}
+  Sia \(X\) codice binario ottimale per \(S\) propria. Allora ha ritardo di decifrazione \(0\) o infinito.
 \end{corollary}
 
 \subsection{Sincronizzazione}
@@ -1015,7 +1013,7 @@ Se però questo pattern si interrompe, ricevendo ad un certo punto \(\ldots baab
 
 \begin{definition}{Coppia sincronizzante}
   Dato \(X\subseteq A^*\), chiamiamo \keyword{coppia sincronizzante} due parole \(u,v \in X^+\) tali che
-  \[\forall \lambda \rho \in A^*, \lambda u v \rho \implies \lambda u, v\rho \in X^*\]
+  \[\forall \lambda,\rho \in A^*, \lambda u v \rho \implies \lambda u, v\rho \in X^*\]
 \end{definition}
 
 \begin{definition}{Codice sincronizzante}
@@ -1024,3 +1022,142 @@ Se però questo pattern si interrompe, ricevendo ad un certo punto \(\ldots baab
 
 Ad esempio, il codice \(X = \set{ab,ba,bb}\) è sincronizzante, ma \(X' = \set{ab,ba,bb,aa}\) non lo è.
 In oltre, il codice Morse è sincronizzante, poiché ogni parola di codice finisce con uno spazio (pausa più lunga), e quindi ogni coppia di parole è sincronizzante.
+
+Definiamo dunque un concetto analogo a quello di ritardo di decifrazione per la sincronizzazione.
+
+\begin{definition}{Ritardo di sincronizzazione}
+  Definiamo \(\forall k \geq 1\)
+  \[BS(k) = \set{X \subseteq A^* \text{ codice }}[\forall (u,v) \in X^k\times X^k, (u,v) \text{ coppia sincronizzante per } X]\]
+  
+  Definiamo come \keyword{ritardo di sincronizzazione} di un codice\footnote{Tecnicamente tutte queste definizioni possono essere date per insiemi qualsiasi, ma ridurla ai soli codici renderà future dimostrazioni più semplici e scorrevoli} \(X\) il più piccolo \(k\) tale che \(X \in BS(k)\). Se non esiste tale \(k\), diciamo che il codice ha ritardo di sincronizzazione infinito.
+\end{definition}
+
+\begin{proposition}{}
+  \(\forall k \geq 1, BS(k)\subseteq BS(k+1)\)
+\end{proposition}
+
+\begin{proof}{}
+  Per questa dimostrazione, è necessario mostrare che ogni se un codice \(X \in BS(k)\) allora \(X \in BS(k+1)\) per un qualsiasi \(k \geq 1\).
+  Assumiamo dunque \(X \in BS(k)\) e mostriamo che \(X \in BS(k+1)\).
+  Siano \(u = x_1\ldots x_{k+1},v = x_1'\ldots x_{k+1}' \in X^{k+1}\) e \(\lambda, \rho \in A^*\) tali che
+  \(X^* \ni \lambda uv \rho = \lambda x_1\ldots x_{k+1}  x_1'\ldots x_{k+1}' \rho\). 
+  Essendo che \(w = x_2\ldots x_{k+1}, t = x_1'\ldots x_k \in X^k\) e \(X \in BS(k)\), la coppia \((w, t)\) è sincronizzante, e dunque \(\lambda x_1 w, t x_{k+1}' \rho \in X^*\).
+  Di conseguenza, \(\lambda u, v \rho \in X^*\).
+\end{proof}
+
+\begin{theorem}{}
+  Se \(X\) ha ritardo di sincronizzazione \(d < \infty\), allora \(X \in DD(d)\).
+  Ovvero \(X\) ha ritardo di decifrazione al più \(d\).
+\end{theorem}
+
+\begin{proof}
+  Sia \(X\in BS(d)\) e siano \(x_0,x_1,\ldots,x_d,x_0',\ldots,x_h' \in X, w \in A^*\) tali che
+  \[x_0x_1\ldots x_d w = x_0'\ldots x_h'\]
+
+  Per dimostrare che \(X \in DD(d)\) dobbiamo mostrare che \(x_0 = x_0'\).
+  Si ha che
+  \[x_0x_1\ldots x_d w = x_0'\ldots x_h' \implies x_0^d x_1\ldots x_d w = x_0^{d-1}x_0'\ldots x_h'\]
+
+  Essendo che \(X \in BS(d)\), la coppia \((x_0^d, x_1\ldots x_d)\) è sincronizzante, dunque
+  \[x_1\ldots x_d w \in X^* \implies x_1\ldots x_d w = x_1''\ldots x_l''\]
+  per qualche \(x_1'',\ldots, x_l'' \in X\).
+  Sostituendo nella precedente uguaglianza si ha
+  \[x_0x_1''\ldots x_l'' = x_0'\ldots x_h' \implies x_0 = x_0'\]
+  essendo \(X\) codice.
+\end{proof}
+
+Infine, per dimostrare le ultime importanti proprietà dei codici sincronizzanti, andiamo a definire un altra classe di codici strettamente legata a questi.
+
+\begin{definition}{Codici circolari}
+  \(X \subseteq A^*\) codice si dice \keyword{circolare} se
+  \[\forall \lambda, \rho \in A^+, (\lambda \rho \in X\implies \set{\rho}X^*\set{\lambda} \cap X^* = \emptyset)\]
+\end{definition}
+
+\todo{rivedere la definizione}
+In altre parole, questa proprietà richiede che l'univoca fattorizzazione dei codici sia anche in senso \q{circolare}, oltre che \q{lineare}.
+
+\todo{IMMAGINIII}
+
+\begin{example}{}
+  Il codice \(X = \set{ab,ba,bb}\) non è circolare. Considerando infatti la parola \(abab\), posso ottenerla nei seguenti modi:
+  \todo{IMMAGINE}
+  Inoltre, qualsiasi codice che contenga una parola che è potenza di una lettera non può essere circolare.
+  \todo{IMMAGINE}
+  Questo si può banalmente vedere considerando il caso in cui \(a^n \in X\) con \(a \in A\). Si ha necessariamente che \(a^{2n} = a^n a^n \in X^*\) e dunque la fattorizzazione non è circolarmente univoca.
+\end{example}
+
+\begin{proposition}{Chi troppo vuole...}
+  Sia \(X\) codice su \(A\) finito, circolare e massimale. Allora \(X = A\).
+\end{proposition}
+
+\begin{proof}
+  Dal \Cref{cor:schutz_maximality_completeness} e dalla \Cref{prop:finite_complete_codes_contains_powers}, sappiamo che se \(X\) è massimale e finito, \(\forall a \in A, \exists n_a \geq 1 \st a^{n_a} \in X\)
+  Poiché \(X\) è circolare, \(\forall a, n_a = 1\).
+  Dunque \(A \subseteq X \implies X = A\), essendo \(A\) codice massimale su \(A^*\)
+\end{proof}
+
+\begin{theorem}{Restivo}
+  Sia \(X\) codice su \(A\). Allora
+  \begin{enumerate}
+    \item \(X\) codice a ritardo di sincronizzazione finito \(\implies X\) circolare e a \keyword{parassitismo limitato}.
+    \item \(X\) codice regolare, circolare e a parassitismo limitato \(\implies X\) codice a ritardo di sincronizzazione finito
+  \end{enumerate}
+\end{theorem}
+
+\begin{note}{}
+  Il parassitismo (limitato) non è stato trattato nel corso, poiché esula dagli argomenti principali.
+  In maniera informale, un codice \(X\) ha parassitismo se esistono parole di \(X\) che contengono al loro interno parole di \(X^*\)
+  Si parla di parassitismo limitato se esiste un limite superiore \(p\) alla lunghezza delle parole di \(X^*\) che possono essere contenute all'interno di parole di \(X\).
+  Più formalmente,
+  \[X \text{ ha parassitismo} \iff (A^+X^* A^*\cup A^*X^*A^+) \cap X \neq \emptyset\]
+  \[X \text{ ha parassitismo limitato} \iff \exists p > 1 \st A^*X^p A^* \cap X = \emptyset\]
+
+  Ciò che è d'interesse per questo corso, è che qualsiasi codice finito ha necessariamente parassitismo limitato.
+\end{note}
+
+\begin{corollary}{}
+  Sia \(X\) codice finito, allora \(X\) codice a ritardo di sincronizzazione finito \(\iff X\) circolare.
+\end{corollary}
+
+\begin{corollary}{}
+  Un codice a ritardo di sincronizzazione finito, binario e adattato a una sorgente propria \textbf{non} è ottimale (a meno che \(\# \SCal = 2\)).
+\end{corollary}
+
+\begin{proof}
+  Dal corollario precedente, un codice a ritardo di sincronizzazione finito e adattato a una sorgente propria è circolare.
+  Sappiamo inoltre che un codice binario ottimale è anche massimale.
+  Dunque, per la proposizione precedente, l'unico codice finito binario circolare ottimale è l'alfabeto stesso, che però non è adattato a una sorgente propria con più di due simboli.
+\end{proof}
+
+\begin{definition}{Insiemi resto modificati}
+  Sia \(X\) codice su \(A\). Definiamo l'insieme dei \keyword{resti modificati} di \(X\) come
+  \begin{equation*}
+    R_n'(X) = \begin{cases}
+    Suff(X)\setminus (X \cup \set{\varepsilon}) & n = 1\\
+    {R_{n-1}'(X)}^{-1}X \cup X^{-1}R_{n-1}'(X) & n > 1
+    \end{cases}
+  \end{equation*}
+\end{definition}
+
+\begin{theorem}{Levenshtein}
+  \(X\) circolare \(\iff \exists n \geq 1 \st R_n'(X) = \emptyset\)
+\end{theorem}
+
+\begin{observation}{}
+  Per \(X\) codice (finito),
+  \[R_1 = X^{-1}X\setminus \set{\varepsilon} \subseteq Suff(X) \setminus (X \cup \set{\varepsilon}) = R_1' \implies \forall n \geq 1, R_n \subseteq R_n'\]
+  Questo è un altro modo per dimostrare che se \(X\) ha ritardo di sincronizzazione finito, allora ha ritardo di decifrazione finito.
+  Infatti se ha ritardo di sincronizzazione finito, allora ha \(R_n' = \emptyset\) per qualche \(n\), dunque anche \(R_n = \emptyset\) per lo stesso \(n\), e quindi ha ritardo di decifrazione finito per teoremi visti prima 
+\end{observation}
+
+\begin{example}{}
+  \(X = \set{a,ba,bb}\) \textbf{non} è circolare.
+  Infatti \(R_1' = Suff(X) \setminus (X \cup \set{\varepsilon}) = \set{b}\).
+  Inoltre \(R_2' = {R_1'}^{-1}X \cup X^{-1}R_1' = \set{a,b}\).
+  \(R_3' = \set{\varepsilon, a ,b}\),\(R_4' = \set{\varepsilon, a ,b, ba,bb} = R_n' \forall n \geq 4\).
+
+  Invece \(X' = \set{ab,aab}\) circolare: \(R_1' = \set{b}, R'_2 = \emptyset\)
+  Anche \(X'' = \set{ab,aba,ba^3,b^2a}\) è circolare:
+  \(R_1' = \set{a,b,a^2,ba,a^3}, R_2' = \set{b,ba,a^3,a^2}, R_3' = \set{a^3,ba,a^3}, R_4' = \set{a^3}, R_5' = \emptyset\)
+\end{example}
+

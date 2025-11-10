@@ -52,9 +52,9 @@ Un esempio di semigruppo è dato da \((\N',+)\) dove l'operazione binaria è la 
 
 Analizziamo ora alcune notazioni e proprietà di monoidi e semigruppi.
 
-\begin{observation}[label=obs:power_notation]{}
+\begin{definition}[label=obs:power_notation]{}
   Dato \((M,\cdot,1_M)\) monoide, si ha che, \(\forall m \in M\), \(m^0 = 1_M\) e \(m^{n+1} = m \cdot m^n, \quad \forall n \geq 0\).
-\end{observation}
+\end{definition}
 
 \begin{definition}{Morfismi di semigruppi e monoidi}
   Siano \((S,\cdot)\) e \((T,*)\) semigruppi.
@@ -101,11 +101,6 @@ Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché,
 
 Tale notazione permette di formulare in modo più compatto la chiusura di un sottoinsieme \(Y\) di un semigruppo.
   \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
-\begin{proof}[\warningsymbol{} Idea di dimostrazione]\label{proof:alt_notation_closure}
-  Da definizione infatti, \(Y^2 = \set{y_1 \cdot y_2}[y_1,y_2 \in Y]\). Se \(Y^2 \subseteq Y\), allora anche \(Y^3 = Y^2 \cdot Y \subseteq Y\), poiché
-  \[\forall y \in Y^3, \exists y_1 \in Y, y_2 \in Y^2\st y = y_1 \cdot y_2\]
-  Iterando il ragionamento è possibile mostrare che \(Y\) contiene tutte le potenze di sé stesso, ed è dunque chiuso.
-\end{proof}
 
 \begin{definition}{Sottostruttura generata}
   Sia \((S,\cdot)\) un semigruppo e \(Y \subseteq S\).
@@ -136,15 +131,6 @@ Denotiamo tale monoide con \(A^*\), e l'insieme delle stringhe non vuote con \(A
 \end{definition}
 In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come prodotto di elementi di \(X\).
 
-\begin{example}{}
-  Esempi di basi sono:
-  \begin{itemize}
-    \item \(A\) è una base di \(A^*\) per ogni alfabeto \(A\).
-    \item \(\set{1}\) è una base di \((\N, +, 0)\).
-  \end{itemize}
-  Contrariamente a quello che si potrebbe pensare, l'insieme dei numeri primi \textbf{non} è una base di \((\N, \cdot, 1)\), poiché \(6 = 2 \cdot 3 = 3 \cdot 2\) ammette due fattorizzazioni distinte.
-\end{example}
-
 \begin{observation}[label=obs:no_neutral_in_base]{}
   Per definizione di base, nessuna base di un monoide può contenere l'elemento neutro.
   Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{+}\) si fattorizza in un modo non univoco.
@@ -158,17 +144,21 @@ Una modo meno formale ma più intuitivo di definire un semigruppo (monoide) libe
 La struttura è \emph{libera} poiché non ha vincoli aggiuntivi che la limitano, essendo dunque la più generale possibile dato l'insieme sottostante.
 Tale proprietà di generalità verrà formalizzata più avanti tramite una proprietà universale.
 
-% FIXME SI
-\todo{Chiedere a De Luca se \((\N,+)\) è libero di base \(\set{1}\), se no perché? SI,}
-Un esempio di monoide libero è il monoide delle parole \(A^*\) per ogni alfabeto \(A\), che è libero di base \(A\).
+
+\begin{example}[]{}
+  Esempi di basi (e dunque di monoidi liberi) sono:
+  \begin{itemize}
+    \item \(A\) è una base di \(A^*\) per ogni alfabeto \(A\).
+    \item \(\set{1}\) è una base di \((\N, +, 0)\).
+  \end{itemize}
+  Contrariamente a quello che si potrebbe pensare, \((\N, \cdot, 1)\) \textbf{non} è un monoide libero con base l'insieme dei numeri primi, poiché \(6 = 2 \cdot 3 = 3 \cdot 2\) ammette due fattorizzazioni distinte.
+  Il concetto di struttura libera però si generalizza a diverse strutture algebriche, ad esempio \((\N, \cdot, 1)\) è un \emph{monoide \textbf{commutativo} libero} di base l'insieme dei numeri primi.
+\end{example}
 
 \begin{proposition}{Unicità della base in un semigruppo (monoide) libero}
   Sia \(S\) un semigruppo libero, allora l'unica base di \(S\) è \(S \setminus S^2\), ovvero l'insieme degli elementi di \(S\) che non sono esprimibili come prodotto di altri elementi di \(S\).
   Analogamente, sia \(M\) un monoide libero, allora l'unica base di \(M\) è \((M\setminus \{1_M\}) \setminus {(M\setminus \{1_M\})}^2\).
 \end{proposition}
-\begin{proof}[\warningsymbol{} Idea di dimostrazione]
-  Analogo a~\ref{proof:alt_notation_closure}
-\end{proof}
 
 \begin{theorem}{Proprietà universale dei monoidi (semigruppi) liberi}
   Sia \(M\) un monoide con \(X \subseteq M\). Allora \(M\) è libero di base \(X\) se e solo se, per ogni monoide \(M'\) e ogni applicazione \(f: X \to M'\), esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\hat{f}_{|_X} = f\), ovvero tale che il seguente diagramma commuta:
@@ -192,7 +182,7 @@ Da questa particolare circostanza è facile ricavare che \(id_M: M \to M\) è l'
 
 \begin{proof}
   Per dimostrare tale corollario sarà sufficiente mostrare che è possibile costruire un morfismo biettivo (isomorfismo) tra \(M\) e \(M'\)
-  Essendo le basi equipotenti, esiste una biiezione \(g: X \to X'\).
+  Essendo le basi equipotenti, esiste una biiezione \(g: X \leftrightarrow X'\).
   Consideriamo l'applicazione \(f = i' \circ g : X \to M'\), dove \(i': X' \hookrightarrow M'\), ovvero l'inclusione di \(X'\) in \(M'\).
   Per la proprietà universale, esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\bar{f}_{|_X} = f\).
   Analogamente, sia \(f'= i \circ g^{-1} : X' \to M\) e sia \(\bar{f'}: M' \to M\) l'unico morfismo di monoidi tale che \(\bar{f'}_{|_{X'}} = f'\).
@@ -326,11 +316,6 @@ In altre parole questo teorema ci dice che \(N\) sottomonoide di \(M\) libero è
 Tale formulazione può essere espressa formalmente come:
 \[N \text{ libero } \iff \left(\forall m \in M (\exists n_1,n_2,n_3,n_4( n_1m=n_2 \land mn_3=n_4) \implies m \in N)\right)\]
 
-Per dare un idea del perché di questo risultato possiamo ragionare per assurdo, considerando l'ipotesi che esista \(m \in M\) che completa sia a sinistra che a destra parole di \(N\) senza appartenere esso stesso a \(N\).
-Prendendo allora per esempio il caso \(n_1m=n_2\) si avrà che o le parole della base di \(M\) che compongono \(m\) appartengono a \(N\) ma senza formare \(m\) stesso, e dunque \(N\) non è libero, o tali parole non appartengono a \(N\) e dunque deve esistere in \(n' \in N\st n_1n'=n_2\) con \(n' \neq m\).
-Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), e in particolare il suo resto da \(n_1\) ha una doppia fattorizzazione.
-\todo{Chiedere a De Luca se e sufficiente come dim, e se si a che serve che \(m\) sia quoto sia sinistro che destro, in questo ragionamento basta solo un lato.}
-
 \begin{observation}{}
   Se \(N\leq M\) necessariamente \(N \subseteq N^{-1}N \cap NN^{-1}\) poiché tutte le parole di \(N\) completano sia a destra che a sinistra la parola vuota per formare se stesse.
   Di conseguenza il teorema può essere riformulato equivalentemente come:
@@ -339,9 +324,79 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
   \end{theorem}
   In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
 \end{observation}
-% FIXME 
-% su A = a,b tutte le parole che non contengono bbb
-  \todo{Chiedere esempio di \(N \leq M\) non libero con \(M\) libero}
+
+\begin{proof}[\extrasymbol{} Dimostrazione di~\ref{thm:schützenberger_monoids}]
+  In caso uno qualsiasi tra \(n_1,n_2,n_3,n_4 \in N\) e \(m \in M\) sia l'elemento neutro \(1_M\) la doppia implicazione è verificata in maniera banale.
+  Assumendo dunque che tutti gli elementi coinvolti siano diversi da \(1_M\) andiamo a dimostrare i due versi della doppia implicazione:
+  \begin{description}
+    \item[\q{\(\implies\)}]
+      Supponiamo che \(N\) sia libero, e siano \(m \in M, n_1,n_2,n_3,n_4 \in N\) tali che\footnote{Possiamo assumere che esistano, poiché altrimenti il predicato che vogliamo verificare sarebbe banalmente vero per implicazione vacua} \(n_1m = n_2\) e \(mn_3 = n_4\).
+      Si ha dunque che
+      \[n_1 m n_3 = n_2 n_3 \implies n_1 n_4 = n_2 n_3\]
+      Sia dunque \(X\) base di \(N\). Siano \(a_1, \ldots, a_h, b_1, \ldots, b_k, c_1, \ldots, c_i, d_1, \ldots, d_j \in X\) tali che
+      \[n_1 = a_1 \ldots a_h, n_2 = b_1 \ldots b_k, n_3 = c_1 \ldots c_i, n_4 = d_1 \ldots d_j\]
+      Dall'uguaglianza precedente segue che
+      \[a_1 \ldots a_h d_1 \ldots d_j = b_1 \ldots b_k c_1 \ldots c_i\]
+      Essendo \(N\) libero, tale fattorizzazione è unica, dunque necessariamente \(h+j = k+i\) e che \(a_1 = b_1\).
+      
+      Possiamo dunque rappresentare tale parola come segue:
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \foreach \x in {0,1,2,3,4,5,6,7,8,9,10}{
+            \coordinate (P\x) at (\x,0);
+            \draw[thick] (P\x) -- ++(0,-0.3);
+            \draw[thick] (P\x) -- ++(0,0.3);
+            }
+          \draw[thick] (P0) -- (P10);
+            % \node[left] at (A) {\(n_1 m n_3 = n_2 n_3\)};
+          \draw[thick, red, bend left] (P0) to node[midway, above, red] {\(a_1\)} (P1);
+          \draw[thick, red, bend left] (P1) to node[midway, above, red] {\(\ldots\)} (P3);
+          \draw[thick, red,bend left] (P3) to node[midway, above, red] {\(a_h\)} (P4);
+          \draw[thick, blue,bend left] (P4) to node[midway, above, blue] {\(d_1\)} (P5);
+          \draw[thick, blue,bend left] (P5) to node[midway, above, blue] {\(\ldots\)} (P9);
+          \draw[thick, blue,bend left] (P9) to node[midway, above, blue] {\(d_j\)} (P10);
+
+          \draw[thick, ForestGreen, bend right] (P0) to node[midway, below, ForestGreen] {\(b_1\)} (P1);
+          \draw[thick, ForestGreen, bend right] (P1) to node[midway, below, ForestGreen] {\(\ldots\)} (P6);
+          \draw[thick, ForestGreen,bend right] (P6) to node[midway, below, ForestGreen] {\(b_k\)} (P7);
+          \draw[thick, orange,bend right] (P7) to node[midway, below, orange] {\(c_1\)} (P8);
+          \draw[thick, orange,bend right] (P8) to node[midway, below, orange] {\(\ldots\)} (P9);
+          \draw[thick, orange,bend right] (P9) to node[midway, below, orange] {\(c_i\)} (P10);
+
+          \draw[thick, red] (0,1.5) to node[midway, above, red] {\(n_1\)} (4,1.5);
+          \draw[thick,red] (0,1.5) -- ++(0,-0.3);
+          \draw[thick, red] (4,1.5) -- ++(0,-0.3);
+          \draw[thick] (4,1.5) to node[midway, above] {\(m\)} (7,1.5);
+          \draw[thick,dashed] (4,1.5) -- ++(0,-0.3);
+          \draw[thick] (7,1.5) -- ++(0,-0.3);
+
+          \draw[thick] (4,-1.5) to node[midway, below] {\(m\)} (7,-1.5);
+          \draw[thick] (4,-1.5) -- ++(0,+0.3);
+          \draw[thick] (7,-1.5) -- ++(0,+0.3);
+          \draw[thick, orange] (7,-1.5) to node[midway, below, orange] {\(n_3\)} (10,-1.5);
+          \draw[thick, orange,dashed] (10,-1.5) -- ++(0,+0.3);
+          \draw[thick, orange] (7,-1.5) -- ++(0,+0.3);
+          
+        \end{tikzpicture}
+      \end{figure}
+    
+      Si ha dunque che \(m = b_{h+1}\ldots b_k = d_1 \ldots d_{j-i}\), e dunque \(m \in N\).
+    \item[\q{\(\impliedby\)}]
+      Supponiamo che \(N^{-1}N \cap NN^{-1} \subseteq N\).
+      Sia inoltre \(X = (N\setminus \set{1})\setminus{(N\setminus \set{1})}^2\) e supponiamo per assurdo che \(X\) non sia una base di \(N\).
+      Esistono dunque \(x_1, \ldots, x_i, x_1', \ldots, x_j' \in X\) tali che \(x_1\ldots x_i = x_1'\ldots x_j'\) con \(x_1 \neq x_1'\).
+      Senza perdita di generalità, supponiamo che \(\abs{x_1} < \abs{x_1'}\).
+      Per il lemma di Levi (\ref{lem:levi}) esiste \(v \in M\) tale che \(x_1' = x_1 v\) e \(x_2 \ldots x_i = v x_2' \ldots x_j'\).
+      Ponendo \(m = v, n_1 = x_1, n_2 = x_1', n_3 = x_2'\ldots x_j', n_4 =  x_2 \ldots x_i\), dall'ipotesi segue che \(v \in N\).
+      Ma \(x_1 \in X \implies x_1 \in N\), e dunque \(x_1' = x_1 v \in {(N\setminus\set{1})}^2\), in contraddizione con la definizione di \(X\).
+      Dunuque \(X\) è una base di \(N\), e \(N\) è libero.
+  \end{description}
+      
+\end{proof}
+
+
+% Esempio di sottomonoide non libero è ad esempio qualsiasi monoide generato da un qualsiasi \(X \subseteq \N\setminus {1}\) ristpetto all'addizione.
 
 \begin{definition}{Sottomoide unitario}
   Dato \(M\) monoide, \(N \leq M\) è detto \keyword{unitario a sinistra} (rispettivamente a destra) se:
@@ -351,5 +406,5 @@ Essendo però queste tutte parole anche di \(M\), si avrebbe che \(n_2 \in M\), 
 \end{definition}
 
 % se è unitario è libero non viceversa
-Da tale definizione e dal teorema~\ref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se \(N \leq M\) è libero, allora è unitario.
+Da tale definizione e dal teorema~\ref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se  \(N \leq M\) è unitario, allora è libero
 
