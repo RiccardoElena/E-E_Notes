@@ -140,7 +140,7 @@ In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come 
   Data \(X \subseteq S\) base di un semigruppo \(S\), si dice che \(S\) è \keyword{libero} se \(S = X^{+}\).
   Analogamente, dato \(X \subseteq M\) base di un monoide \(M\), si dice che \(M\) è \keyword{libero} se \(M = X^{*}\).
 \end{definition}
-Una modo meno formale ma più intuitivo di definire un semigruppo (monoide) libero è quella di considerarlo il semigruppo (monoide) con la minor quantità di vincoli possibile, ovvero solo quelli imposti dalla definizione di semigruppo (monoide).
+Un modo meno formale ma più intuitivo di definire un semigruppo (monoide) libero è quella di considerarlo il semigruppo (monoide) con la minor quantità di vincoli possibile, ovvero solo quelli imposti dalla definizione di semigruppo (monoide).
 La struttura è \emph{libera} poiché non ha vincoli aggiuntivi che la limitano, essendo dunque la più generale possibile dato l'insieme sottostante.
 Tale proprietà di generalità verrà formalizzata più avanti tramite una proprietà universale.
 
@@ -172,6 +172,7 @@ Tale proprietà di generalità verrà formalizzata più avanti tramite una propr
   Tale formulazione ha carattere algebrico-universale e quindi può essere estesa anche ai semigruppi, oltre che a qualsiasi famiglia di algebre dello stesso tipo, quali per esempio i gruppi.
 \end{theorem}
 
+In altre parole, esiste un unico morfismo \(\bar{f}\) da \(M\) a \(M'\) che estende \(f\) morfismo da \(X\) a \(M'\); se così non è, allora \(M\) non è libero di base \(X\).
 È importante notare che la proprietà universale, dato un monoide \(M\) e una sua base \(X\) vale \emph{per ogni monoide \(M'\)}, e quindi in particolare anche per \(M' = M\).
 Da questa particolare circostanza è facile ricavare che \(id_M: M \to M\) è l'unico morfismo da \(M\) a \(M\) che estende \(id_X\).
 
@@ -296,7 +297,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
 
 
 \begin{definition}[label=def:quotient_sets]{Insiemi quoziente}
-  Siano \(Y,Z \subseteq M\) monoide. Definiamo gli insieme quoziente destro e sinistro come:
+  Siano \(Y,Z \subseteq M\) monoide. Definiamo gli insiemi quoziente destro e sinistro come:
   \begin{equation}
     \begin{aligned}
       Y^{-1}Z &= \set{m \in M}[ \exists y \in Y, ym \in Z] = \set{m \in M}[Y\set{m} \cap Z \neq \emptyset]\\
@@ -307,7 +308,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
 
 In altre parole possiamo vedere l'insieme quoziente sinistro (rispettivamente destro) come l'insieme delle parole di \(M\) che servono a completare a sinistra (rispettivamente destra) una parola di \(Y\) per ottenere una parola di \(Z\).
 
-Utilizzando tali insieme è possibile formulare un importate teorema sui sottomonoidi liberi.
+Utilizzando tali insiemi è possibile formulare un importate teorema sui sottomonoidi liberi.
 
 \begin{theorem}[label=thm:schützenberger_monoids]{Schützenberger sui sottomonoidi liberi}
   Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} \subseteq N\)
