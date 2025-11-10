@@ -433,7 +433,7 @@ Tali risultati sono utili a caratterizzare meglio le distribuzioni e le loro pro
 \begin{proof}
   È sufficiente osservare che \(YZ = \bigcup_{y\in Y, z \in Z}\set{yz}\) e tale unione è a due a due disgiunta se e solo se \(Y\times Z\) è non ambiguo per definizione del prodotto cartesiano non ambiguo.
   Quindi
-  \[\mu(YZ) = \mu(\bigcup_{y\in Y, z \in Z}\set{yz}) \leq \sum_{y\in Y, z \in Z}\mu(yz) = \sum_{y\in Y, z \in Z}\mu(y)\mu(z) =\sum_{y \in Y}\mu(y) \sum_{z \in Z}\mu(z) = \mu(Y)\mu(Z)\]
+  \[\mu(YZ) = \mu(\bigcup_{\substack{y\in Y,\\ z \in Z}}\set{yz}) \leq \sum_{\substack{y\in Y,\\ z \in Z}}\mu(yz) = \sum_{\substack{y\in Y,\\ z \in Z}}\mu(y)\mu(z) =\sum_{y \in Y}\mu(y) \sum_{z \in Z}\mu(z) = \mu(Y)\mu(Z)\]
   e vale l'uguaglianza se \(Y\times Z\) è non ambiguo.
   Il viceversa è analogo a quello della proposizione precedente.
 \end{proof}
