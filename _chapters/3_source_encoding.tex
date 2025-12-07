@@ -77,7 +77,7 @@ Da questo momento in avanti si farà riferimento unicamente ai \(bit\) come unit
 
 \begin{note}{}
   La definizione di entropia fornita non esclude la possibilità di avere \(p(s) = 0\) per qualche \(s \in \SCal\).
-  In tal caso il termine della somma corrispondente a tale \(s\) non sarebbe definito. 
+  In tal caso il termine della somma corrispondente a tale \(s\) non saredefinito. 
   Dunque si assume che il termine \(p(s)\log\left(p(s)\right) = 0\) per continuità, dato che \(\lim_{x \to 0^+} x \log\left(x\right) = 0\).
 
   In maniera formale, si può ridefinire l'entropia come
@@ -1073,17 +1073,87 @@ Infine, per dimostrare le ultime importanti proprietà dei codici sincronizzanti
   \[\forall \lambda, \rho \in A^+, (\lambda \rho \in X\implies \set{\rho}X^*\set{\lambda} \cap X^* = \emptyset)\]
 \end{definition}
 
-\todo{rivedere la definizione}
 In altre parole, questa proprietà richiede che l'univoca fattorizzazione dei codici sia anche in senso \q{circolare}, oltre che \q{lineare}.
 
-\todo{IMMAGINIII}
+Se abbiamo infatti \(\lambda\rho \in X \land \set{\rho}X^*\set{\lambda} \cap X^* \neq \emptyset\), possiamo prendere una parola di questa intersezione e, come mostrato in \Cref{fig:circular_factorization}, nonostante la fattorizzazione lineare possa essere univoca, andando a chiudere circolarmente la parola si va a formare una nuova parola di \(X\) nella fattorizzazione, che fa perdere il riferimento all'inizio della parola, portando a potenziali multiple fattorizzazioni.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \def \r {1}
+    \coordinate (A) at (-9,0);
+    \coordinate (B) at (-7,0);
+    \coordinate (C) at (-4,0);
+    \coordinate (D) at (-3,0);
+
+    \draw[thick] (A) -- (D);
+    \draw[thick] (A) -- ++(0,-0.3);
+    \draw[thick] (A) -- ++(0,0.3);
+    \draw[thick] (B) -- ++(0,-0.3);
+    \draw[thick] (B) -- ++(0,0.3);
+    \draw[thick] (C) -- ++(0,-0.3);
+    \draw[thick] (C) -- ++(0,0.3);
+    \draw[thick] (D) -- ++(0,-0.3);
+    \draw[thick] (D) -- ++(0,0.3);
+
+    \draw[thick,blue, bend left = 45] (A) to node[midway, above, blue]{\(\rho\)} (B);
+    \draw[thick,red, bend left = 45] (B) to node[midway, above, red]{\(x_1\)} (-6.5,0);
+    \draw[thick,red, bend left = 45] (-6.5,0) to node[midway, above, red]{\(\ldots\)} (-4.5,0);
+    \draw[thick,red, bend left = 45] (-4.5,0) to node[midway, above, red]{\(x_n\)} (C);
+    \draw[thick,blue, bend left = 45] (C) to node[midway, above, blue]{\(\lambda\)} (D);
+    
+
+    \draw[thick] (0,0) circle (\r);
+    \draw[thick,orange] (0,-\r) arc[start angle=270, end angle=90, radius=\r] -- cycle;
+    \fill[white] (0,0) circle (\r);
+    \node[anchor=west, orange] at (-\r,0) {\(x\)};
+    \draw[thick,blue, bend left = 90] (-\r,0) to node[midway, above left, blue]{\(\rho\)} (0,\r);
+    \draw[thick,red, bend left = 90] (0,\r) to node[midway, above, red]{\(x_1\)} ({cos(45)},{sin(45)});
+    \draw[thick,red, bend left = 90] ({cos(45)},{sin(45)}) to node[midway, right, red]{\(\ldots\)}({cos(-45)},{sin(-45)});
+    \draw[thick,red, bend left = 90] ({cos(-45)},{sin(-45)}) to node[midway, below, red]{\(x_n\)} (0,-\r);
+    \draw[thick,blue, bend left = 90] (0,-\r) to node[midway, below left, blue]{\(\lambda\)} (-\r,0);
+    
+  \end{tikzpicture}
+  \caption{Rappresentazione grafica della definizione di codice circolare}\label{fig:circular_factorization}
+\end{figure}
 
 \begin{example}{}
-  Il codice \(X = \set{ab,ba,bb}\) non è circolare. Considerando infatti la parola \(abab\), posso ottenerla nei seguenti modi:
-  \todo{IMMAGINE}
+  Il codice \(X = \set{ab,ba,bb}\) non è circolare. Considerando infatti la parola \(abab\). Si ha che, fissando \(\rho = a, \lambda = b\) che \(\lambda\rho = ba \in X\) e che \(\rho ba \lambda = abab \in \set{\rho}X^*\set{\lambda}\).
+  Passando alla fattorizzazione circolare, è possibile ottenre \(abab\) nei seguenti modi:
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \def \r {1}
+      \draw[thick] (0,0) circle (\r);
+      \draw[thick,orange] (-\r,0) arc[start angle=180, end angle=0, radius=\r] -- cycle;
+      \draw[thick,ForestGreen] (-\r,0) arc[start angle=180, end angle=360, radius=\r] -- cycle;
+      \fill[white] (0,0) circle (\r);
+      \node[anchor=north, orange] at (0,\r) {\(ab\)};
+      \node[anchor=south, ForestGreen] at (0,-\r) {\(ab\)};
+      \draw[thick,blue, bend left = 90] (-\r,0) to node[midway, above left, blue]{\(a\)} (0,\r);
+      \draw[thick,red, bend left = 90] (0,\r) to node[midway, above, red]{\(b\)} (\r,0);
+      \draw[thick,red, bend left = 90] (\r,0) to node[midway, right, red]{\(a\)}(0,-\r);
+      \draw[thick,blue, bend left = 90] (0,-\r) to node[midway, below, blue]{\(b\)} (-\r,0);
+    
+    \end{tikzpicture}
+    \hspace{2cm}
+    \begin{tikzpicture}
+      \def \r {1}
+      \draw[thick] (0,0) circle (\r);
+      \draw[thick,orange] (0,-\r) arc[start angle=270, end angle=90, radius=\r] -- cycle;
+      \draw[thick,ForestGreen] (0,-\r) arc[start angle=-90, end angle=90, radius=\r] -- cycle;
+      \fill[white] (0,0) circle (\r);
+      \node[anchor=west, orange] at (-\r, 0) {\(ba\)};
+      \node[anchor=east, ForestGreen] at (\r,0) {\(ba\)};
+      \draw[thick,blue, bend left = 90] (-\r,0) to node[midway, above left, blue]{\(a\)} (0,\r);
+      \draw[thick,red, bend left = 90] (0,\r) to node[midway, above, red]{\(b\)} (\r,0);
+      \draw[thick,red, bend left = 90] (\r,0) to node[midway, right, red]{\(a\)}(0,-\r);
+      \draw[thick,blue, bend left = 90] (0,-\r) to node[midway, below, blue]{\(b\)} (-\r,0);
+    
+    \end{tikzpicture}
+    \caption{Rappresentazione grafica della definizione di codice circolare}
+  \end{figure}
   Inoltre, qualsiasi codice che contenga una parola che è potenza di una lettera non può essere circolare.
-  \todo{IMMAGINE}
-  Questo si può banalmente vedere considerando il caso in cui \(a^n \in X\) con \(a \in A\). Si ha necessariamente che \(a^{2n} = a^n a^n \in X^*\) e dunque la fattorizzazione non è circolarmente univoca.
+  Questo si può banalmente vedere considerando il caso in cui \(a^n \in X\) con \(a \in A\). Si ha necessariamente che \(a^{2n} = a^{\frac{n}{2}} a^n a^{\frac{n}{2}} \in X^*\) e dunque la fattorizzazione non è circolarmente univoca.
 \end{example}
 
 \begin{proposition}{Chi troppo vuole...}

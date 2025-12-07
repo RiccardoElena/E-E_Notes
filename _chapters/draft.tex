@@ -1,4 +1,402 @@
-\chapter{Lezione 10 Novembre}
+
+\chapter{Lezione 27 Novembre}
 
 
 
+\chapter{Lezione 1 Dicembre}
+
+\begin{definition}{Codice correttore di errori}
+  Chiamiamo \keyword{codice correttore di errori} un codice binario uniforme \(Z\subseteq \set{0,1}^n\) con \(\delta_Z \geq 2r+1\) per un certo \(r\geq 0\).
+  Tale codice è in grado di correggere fino a \(r\) errori.
+\end{definition}
+
+\begin{theorem}{Limite di Hamming}
+  Sia \(Z \subseteq \set{0,1}^n\) un codice correttore di errori in grado di correggere fino a \(r\) errori.
+  Allora
+  \[\#Z \leq \frac{2^n}{\sum_{i=0}^r {n \choose i}}\]
+\end{theorem}
+
+\begin{proof}
+  Dati \(x \in \set{0,1}^n\) e \(j\leq n\), le parole a distanza esattamente \(j\) da \(x\) sono ottenute cambiando i bit in \(j\) delle \(n\) posizioni di \(x\), e dunque sono esattamente \({n \choose j} = \frac{n!}{j!(n-j)!}\).
+
+  Allora \(\#N_r(x) = \sum_{i=0}^r {n \choose i}\). Al variare di \(z \in Z\), gli intorni \(N_r(z)\) sono a due a due disgiunti per \(r \leq \frac{\delta_Z - 1}{2}\).
+  Dunque \(\#\bigcup_{z\in Z} N_r(z)= \sum_{z\in Z} \sum_{i=0}^r {n \choose i} = \#Z \cdot \sum_{i=0}^r {n \choose i}\leq 2^n = \# \set{0,1}^n\).
+\end{proof}
+
+\begin{example}{}
+  Supponiamo di voler identificare \(100\) elementi tramite stringhe binarie di lunghezza \(n\). Quanto grande deve essere \(n\) affinché il codice risultante corregga \(2\) errori?
+
+  Usando il limite di Hamming, dobbiamo avere che
+  \[100 \sum_{i=0}^2{n \choose j} \leq  2^n \iff 100 (1+n+\frac{n(n-1)}{2})\leq 2^n\]
+  Dunque semplificando
+  \[50(n^2+n+2)\leq 2^n \implies n \geq 14\]
+\end{example}
+
+\begin{observation}{}
+  Quando usiamo un codice binario per trasmettere su un canale è legato al tasso di trasmissione \(R = \frac{\log \#\mathcal{W}}{n} = \frac{\log \#Z}{n}\).
+  Il limite di Hamming esprime compensazione tra tasso ed errori corretti.
+
+  Dunque se si vuole correggere più errori, si deve ridurre il tasso di trasmissione.
+\end{observation}
+
+
+\begin{observation}{}
+  \(\mathbb{F}_2 = \set{0,1}\) è un campo con le operazioni di somma e prodotto modulo \(2\).
+  Dunque \(\set{0,1}^n\) è uno spazio vettoriale \(n\)-dimensionale su \(\mathbb{F}_2\) con le operazioni di somma e prodotto scalare definite componente per componente.
+\end{observation}
+
+\begin{definition}{Codici lineari}
+  Un codice \(Z \subseteq \set{0,1}^n\) è \keyword{lineare} se è un sottospazio vettoriale di \(\mathbb{F}_2^n\), cioè se e solo se
+  \[\forall x,x'\in Z, x+x'\in Z \]
+\end{definition}
+
+\begin{observation}{}
+  Per verificare che un codice \(Z\) è lineare è sufficiente verificare la chiusura rispetto alla somma poiché in uno spazio vettoriale su \(\mathbb{F}_2\) si ha che \(x+x=0\) e quindi ogni sottoinsieme contiene lo zero e gli inversi.
+  Inoltre anche la chiusura rispetto al prodotto scalare è automatica, essendo che gli unici scalari sono \(0\) e \(1\).
+ 
+  \(-x=x,1\cdot x = x, 0\cdot x = 0 \)
+\end{observation}
+
+Un codice lineare \(Z\) è caratterizzato dai parametri \((n,k,\delta)\) dove \(n\) è la lunghezza delle parole del codice, \(\delta\) è la minima distanza del codice, e \(k\) è la dimensione del sottospazio vettoriale \(Z\).
+Ovviamente su un campo finito di cardinalità \(q\) si ha che \(\#Z = q^k\), dunque nel nostro caso \(\#Z = 2^k\).
+
+\begin{definition}{peso}
+  Dato \(x \in \set{0,1}^n\), definiamo il \keyword{peso} di \(x\) come il numero di occorrenze di \(1\) in \(x\), ovvero
+  \[w(x) = \sum_{i=1}^n x_i\]
+\end{definition}
+
+\begin{proposition}{}
+  Se \(Z\) è un codice lineare, allora \(\delta_Z = \min_{x\in Z\setminus\set{\underline{0}}} w(x)\)
+\end{proposition}
+
+\begin{proof}
+  Infatti dato \(x\in Z\setminus\set{\underline{0}}\) si ha che \(d(x,\underline{0}) = w(x)\), e dati \(x,x' \in Z \st x\neq x'\) lo si può vedere come
+  \(d(x,x') = w(x+x')\). Questo poiché \(x+x'\) ha \(1\) esattamente nelle posizioni in cui \(x\) e \(x'\) differiscono. Essendo \(x\neq x'\), \(x+x'\neq \underline{0}\).
+
+  Dunque pesi (di elementi non nulli) e distanza (di elementi diversi) coincidono.
+\end{proof}
+
+\chapter{Lezione 04 Dicembre}
+
+\begin{definition}{Nucleo (Kernel)}
+  Un codice lineare \(Z\) di dimensione \(k\) è \keyword{nucleo (kernel)} di una matrice \(H\) di dimensione \(n-k \times n\), \(Z = \ker H\).
+  Ciò significa che 
+  \[z \in Z \iff H z^T = 0\]
+  Viceversa, se \(H\) è una matrice binaria con \(n\) colonne, il suo nucleo \(\ker H\) è un codice lineare di dimensione \(n-rank(H)\).
+
+  La matrice \(H\) è detta \keyword{matrice di controllo} del codice \(Z= \ker H\).
+\end{definition}
+
+\begin{example}{}
+  Data la matrice
+  \[H = \begin{pmatrix}
+    1 & 1 & 0 & 1 & 0 & 0 \\
+    0 & 1 & 1 & 0 & 1 & 0 \\
+    1 & 0 & 1 & 0 & 0 & 1
+  \end{pmatrix}\]
+  allora il codice lineare \(Z = \ker H\) si ottiene risolvendo un sistema lineare INSERIRE sistema
+
+  ottenendo così \(\ker H = \set{x \in \mathbb{F}_2^6}[x_4=x_1+x_2 \land x_5 = x_2+x_3\land x_6 = x_1+x_3]\)
+
+  Tale matrice è espressa in \keyword{forma standard}, ovvero le ultime \(n-k\) colonne formano la matrice identica. 
+  Questo fa in modo che gli ultimi \(n-k\) bit di ogni parola del codice siano combinazione lineare dei primi \(k\) bit, e dunque sono determinati dai primi \(k\) bit.
+
+  Si ha dunque che \(Z = \set{\underline{0}, 001011,010110,100101,011101,101110,110011,111000}\) con parametri \((6,3,3)\).
+\end{example}
+
+\begin{theorem}{}
+  Un codice lineare \(Z\) con matrice di controllo \(H\) corregge almeno \(1\) errore se e solo se le colonne di \(H\) sono a due a due distinte e non nulle.
+\end{theorem}
+
+\begin{proof}{}
+  Poter correggere almeno un errore come detto in precedenza significa che \(\delta_Z \geq 3\).
+  Dunque, dimostriamo che per \(\delta_Z < 3\) le colonne di \(H\) non sono a due a due distinte o c'è una colonna nulla, e viceversa.
+
+  Il codice ha \(\delta_Z = 1\) se e solo se \(1 \leq j \leq n\) tale che \(\underline{e}_j = 0\ldots 0 1 0 \ldots 0 \in Z\), dove l'unico \(1\) è in posizione \(j\).
+  Allora \(H \underline{e}_j^T = \underline{0}\), e dunque la colonna \(j\) di \(H\) è nulla.
+
+  \begin{note}{}
+    \(H \underline{e}_j^T = \underline{0}\) se e solo se la combinazione lineare delle righe di \(H\) con coefficienti presi da \(\underline{e}_j\) è nulla.
+    Essendo che \(\underline{e}_j\) ha tutti zeri tranne in posizione \(j\), la combinazione lineare è proprio la colonna \(j\) di \(H\).
+
+    Dunque \(H \underline{e}_j^T = \underline{0} \iff\) colonna \(j\) di \(H\) è nulla.
+  \end{note}
+
+  Invece, \(\delta_Z = 2\) se e solo se esistono \(i,j \in \set{1, \ldots, n}\) tali che \(i\neq j\) e \(\underline{e}_i + \underline{e}_j \in Z\).
+
+  \begin{note}{}
+    \[\underline{e}_i + \underline{e}_j \in Z \not \implies \underline{e}_i \in Z \lor \underline{e}_j \in Z\]
+    Se fosse così, avremmo \(\delta_Z = 1\).
+  \end{note}
+
+  Quindi \(H{(\underline{e}_i + \underline{e}_j)}^T = \underline{0} \implies H\underline{e}_i^T = H\underline{e}_j^T\), perché \(1 = -1\) in aritmetica modulo \(2\).
+
+  Dunque le colonne \(i\) e \(j\) di \(H\) sono uguali.
+\end{proof}
+
+Decodifica tramite \(H\)
+
+Ricevendo \(y=x+\underline{e}_j\) (ovvero \(x\) con errore in posizione \(j\)), allora \(Hy^T = Hx^T+H\underline{e}_j^T = H\underline{e}_j^T\), che corrisponde alla \(j\)-esima colonna di \(H\), indicando così la posizione dell'errore.
+
+In generale, il vettore \(Hy^T\in \mathbb{F}_2^{n-k}\) è detto \keyword{sindrome} di \(y\).
+
+Dunque:
+\begin{itemize}
+  \item \(\underline{0}\) è la sindrome di ogni \(x \in Z\)
+  \item Le colonne di \(H\) sono le sindromi degli errori singoli
+  \item \(u,v \in \mathbb{F}_2^n\) hanno la stessa sindrome se e solo se \(u=v + z\) per qualche \(z \in Z\), dato che \(Hu^T=Hv^T \iff H(u^T+v^T) = \underline{0}\)
+  \item Dato \(y \in \mathbb{F}_2^n\), l'insieme delle parole con la stessa sindrome di \(y\) è il \keyword{laterale} \(y+Z = \set{y+z}[z \in Z]\).
+  \item I laterali sono a due a due disgiunti e la loro unione è \(\mathbb{F}_2^n\).\footnote{I laterali formano una partizione di \(\mathbb{F}_2^n\), e \(Z\) è la classe di equivalenza di \(\underline{0}\).}
+\end{itemize}
+
+Decodifica tramite sindrome
+
+Compilando una tabella di tutti i laterali con la sindrome corrispondente e un rappresentante di peso minimo, ogni \(y \in \mathbb{F}_2^n\) si decodifica come (controimmagine di) \(y + v\) dove \(v\) è il rappresentante del laterale di sindrome \(Hy^T\).
+
+\begin{proposition}{}
+  Tale decodifica tramite sindrome coincide con la decodifica tramite minima distanza, cioè \(y+v\) è la parola di codice più vicina a \(y\).
+\end{proposition}
+
+\begin{proof}
+  Per definizione, \(y\) e \(v\) hanno la stessa sindrome, dunque \(y+v \in Z\).
+  Se \(z \in Z\), allora \(y+z \in y+Z\), quindi \(d(y,z) = w(y+z)\geq w(v) = d(y,y+v)\).
+\end{proof}
+
+\begin{example}{}
+  Sia 
+  \[H=\begin{pmatrix}
+    1 & 0 & 1 & 0 & 0\\
+    1 & 1 & 0 & 1 & 0\\
+    0 & 1 & 0 & 0 & 1
+  \end{pmatrix}\]
+  Allora \(Z = \ker H = \set{\underline{0}, 01011,10110,11101}\). Si ha che la tabella delle sindromi è
+  \begin{center}
+    \begin{tabular}{c|c|c}
+      Sindrome & Rappresentante & Peso \\
+      \hline
+      \(000\) & \(00000\) & \(0\) \\
+      \(110\) & \(10000\) & \(1\) \\
+      \(011\) & \(01000\) & \(1\) \\
+      \(100\) & \(00100\) & \(1\) \\
+      \(010\) & \(00010\) & \(1\) \\
+      \(001\) & \(00001\) & \(1\) \\
+      \(101\) & \(00101\) & \(2\) \\
+      \(111\) & \(10001\) & \(2\) \\
+    \end{tabular}
+  \end{center}
+
+  Ricevendo \(y = 10111\), calcoliamo la sindrome \(Hy^T = {(001)}^T\) e quindi decodifico interpretando \(y\) come \(y + 00001 = 10110 \in \Z\).
+\end{example}
+
+\begin{definition}{}
+  Un codice lineare \(Z\)  è detto \keyword{codice di Hamming} se la sua matrice di controllo \(H\) ha per colonne \textbf{tutti} i vettori non nulli di \(\mathbb{F}_2^{n-k}\).
+
+  In particolare deve aversi \(n = 2^{n-k} - 1\).
+  Un codice di Hamming ha \(\delta = 3\) poiché prese tre colonne qualsiasi di \(H\) che condividano i primi \(n-k-2\) bit queste sommano a \(\underline{0}\), e dunque esiste una parola di peso \(3\) nel codice.
+  Di conseguenza, i codici di Hamming sono caratterizzati da soli due parametri, \(n\) e \(k\), e sono in grado di correggere un errore.
+\end{definition}
+
+\begin{theorem}{}
+  I codici di Hamming sono \keyword{codici perfetti}, cioè
+  \[\forall y \in \mathbb{F}_2^n\exists!x\in Z\st y \in N_1(x)\]
+\end{theorem}
+
+\begin{proof}
+  Ci sono \(2^k\) parole di codice, e ciascun intorno di raggio \(1\) contiene \(n+1\) parole.
+  Ma \(2^k(n+1)\), che essendo a due a due disgiunti è la cardinalità dell'unione degli intorni, è proprio \(2^k\cdots2^{n-k} = 2^n\), che è la cardinalità di \(\mathbb{F}_2^n\).
+
+  Dunque ogni parola di \(\mathbb{F}_2^n\) appartiene ad almeno un intorno. Essendo come già visto gli intorni sono a due a due disgiunti, ogni parola appartiene ad esattamente un intorno.
+\end{proof}
+
+I codici di Hamming più convenienti sono quelli per cui \(H\) ha le colonne in ordine lessicografico crescente da sinistra a destra.
+
+In tal modo i bit di controllo (ovvero quelli che dipendono dagli altri) hanno indice \(2^i\), con \(i=0,\ldots,n-k-1\).
+
+\begin{example}{}
+  La matrice di controllo del codice di Hamming \((7,4)\) è
+  \[H = \begin{pmatrix}
+    0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+    0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 0 & 1 & 0 & 1
+  \end{pmatrix}\]
+  In tal modo, la sindrome di una parola \(y\) è l'espressione binaria del bit da cambiare per correggere l'errore.
+\end{example}
+
+Se \(Z \subseteq \mathbb{F}_2^n\), tasso \(R=\frac{\log \# Z}{2}\). Se \(Z\) è lineare di parametri \((n,k,\delta)\), allora \(\# Z = 2^k\), dunque \(R = \frac{k}{n}\).
+
+Se \(Z\) è un codice di Hamming, allora \(n = 2^m - 1\), per \(m=n-k\). Duqnue \(k = n-m\) e quindi
+\[R = \frac{n-m}{n} = 1 - \frac{m}{n} = 1 - \frac{m}{2^m - 1}\]
+
+Dunque \(\lim_{m\to \infty} R = 1\), ma dato che correggono solo \(1\) errore, non permettono di avere probabilità di errore arbitrariamente piccola.
+
+\chapter{Lezione 5 Dicembre}
+
+RECUPERA IN PAUSAA
+
+
+Quindi \(\hat{u}(x)\) coincide con \(xu(x)\) a meno di un multiplo di \(x^n-1\).
+Consideriamo allora l'anello \(V^n[x]=\frac{\mathbb{F}_2[X]}{\langle x^n-1 \rangle}\), in cui \(x^n \equiv 1\) e quindi riduciamo modulo \(n\) tutti i gradi.\footnote{SPIEGA MEGLIO!}
+
+Allora l'applicazione \(\psi: \mathbb{F}_2^n \to V^n[x]\) che associa \(\underline{u} \mapsto u_0+u_1x+\ldots+u_{n-1}x^{n-1}\) è biettiva, lineare (\(\psi(\underline{u}+\underline{v}) = \psi(\underline{u}) + \psi(\underline{v})\)) e tale che \(\psi(\underline{u}) = x\psi(\underline{u})\).
+
+\(I \subseteq V^n[x]\) è detto \keyword{ideale} 
+\begin{itemize}
+  \item \(u(x), v(x) \in I \implies u(x) + v(x) \in I\)
+  \item \(\forall p(x) \in V^n[x] , u(x) \in I \implies p(x)u(x) \in I\)
+\end{itemize}
+
+\begin{lemma}{}
+  \(Z \subseteq \mathbb{F}_2^n\) è un codice ciclico \(\iff \psi(Z) = \set{\psi(z)}[z\in Z]\) è ideale di \(V^n[x]\).
+\end{lemma}
+
+\begin{proof}[Idea di Dimostrazione]
+  Da destra a sinistra è semplice, poiché se \(\psi(Z)\) è ciclico è chiuso rispetto alla somma dunque \(Z\) è lineare e inoltre \(x\psi(z) \in \psi(Z)\) implica che la rotazione di \(z\) è in \(Z\).
+  L'altro verso è più complesso, ma si mostra in modo simile.
+\end{proof}
+
+\begin{definition}{Ideale principale}
+  Un ideale \(I \subseteq V^n[x]\) è detto \keyword{principale} se è generato da un singolo elemento \(g(x) \in V^n[x]\), ovvero
+  \[\langle g(x) \rangle = \set{p(x)g(x)}[p(x) \in V^n[x]]\]
+\end{definition}
+
+\begin{example}{}
+  Sia \(g(x) = 1 +x^2\) e determiniamo il codice ciclico \(Z \subseteq \mathbb{F}_2^3\) corrispondente all'ideale \(\langle g(x) \rangle \subseteq V^3[x]\).
+
+  \begin{center}
+    \begin{tabular}{c | c}
+      \(p(x)\) & \(p(x)g(x)\) \\
+      \hline
+      \(0\) & \(0\) \\
+      \(1\) & \(1+x^2\) \\
+      \(x\) & \(x(1+x^2) \equiv 1 + x\) \\
+      \(1+x\) & \((1+x)(1+x^2) \equiv x + x^2\) \\
+      \(x^2\) & \(x^2(1+x^2) \equiv x + x^2\) \\
+      \(1+x^2\) & \((1+x^2)(1+x^2) \equiv 1 + x\) \\
+      \(x+x^2\) & \((x+x^2)(1+x^2) \equiv 1 + x^2\) \\
+      \(1+x+x^2\) & \((1+x+x^2)(1+x^2) \equiv 0\) \\
+    \end{tabular}
+  \end{center}
+
+  Dunque \(Z = \set{000,011,110,101}\).
+\end{example}
+
+\begin{theorem}{}
+  Tutti gli ideali di \(V^n[x]\) sono principali; in particolare \(\set{0} = \langle 0 \rangle\), e per \(I \neq \set{0}\) si ha \(I=\langle g(x)\rangle\) dove
+  \[g(x) \in I\setminus\set{0} \text{ ha grado minimo}\] 
+\end{theorem}
+
+\begin{observation}{}
+  Tale scelta per il generatore \keyword{canonico} è univa:
+  se \(g(x)\) e \(g'(x)\) hanno grado minimo in \(I\setminus\set{0}\), allora \(g(x) - g'(x) \in I\) ha grado minore di entrambi, dunque \(g(x) - g(x)\) dev'essere uguale a \(0\), ovvero \(g(x) = g'(x)\).
+
+  Nell'esempio precedente, \(g(x) = 1 + x\) era l'unico generatore canonico.
+\end{observation}
+
+\begin{theorem}{}
+  Sia \(Z \subseteq \mathbb{F}_2^n\) ciclico e sia \(g(x) \in \psi(Z)\) il generatore canonico di \(\psi(Z)\).
+  Allora \(g(x)\) è un divisore di \(x^n - 1\).
+\end{theorem}
+
+\begin{proof}
+  Consideriamo la divisione in \(\mathbb{F}_2[x]\)
+
+  \[x^n - 1 = q(x)g(x) + r(x) \text{, con } r(x) = 0 \lor \deg(r) < \deg(g)\]
+
+  In \(V^n[x]\) ciò comporta
+  \[0 = q(x)g(x) +r(x) \implies r(x) = -q(x)g(x)\in \psi(Z) \implies r(x) = 0\]
+\end{proof}
+  
+\begin{example}{}
+  Sia \(n=7\). Si ha in \(\mathbb{F}_2[x]\),
+  \[x^7-1=(1+x)(1+x+x^3)(1+x^2+x^3)\]
+  come scomposizione in fattori irriducibili.
+
+  Ciò corrisponde a \(2^3 = 8\) divisori, ovvero \(8\) codici ciclici distinti.
+  Ad esempio \(\langle 1 \rangle = \psi(\mathbb{F}_2^7)\), \(\langle 0 \rangle = \set{0}\).
+
+  Per \(g(x) = 1+x+x^3\), si ha \(x^7-1 = g(x)h(x)\), con \(h(x) = (1+x)(1+x^2+x^3)=1+x+x^2+x^4\)
+\end{example}
+
+% TODO: il se non è sempre vero?
+\begin{theorem}{}
+  Sia \(g(x)\) il generatore canonico di \(\psi(Z)\), con \(Z \subseteq \mathbb{F}_2^n\) ciclico di dimensione \(k\).
+  Se \(x^n-1=g(x)h(x)\), allora \(\deg(h(x))\) ha grado \(k\) e si ottiene una matrice di controllo \(H\) per \(Z\) come segue:
+
+  Se \(h(x) = h_0+xh_1+\ldots h_k x^k\), allora
+  \[H=\begin{pmatrix}
+    h_k & h_{k-1} & \ldots & h_0 & 0 \ldots 0 \\
+    0 & h_k & h_{k-1} & \ldots & h_0 \ldots 0 \\
+    \vdots & & & & & \vdots \\
+    0 \ldots 0 & h_k & h_{k-1} & \ldots & h_0
+  \end{pmatrix}\]
+\end{theorem}
+
+\begin{example}
+  Dall'esempio precedente, con \(g(x) = 1+x+x^3\) e \(h(x) = 1+x+x^2+x^4\), otteniamo
+  \[\begin{pmatrix}
+    1 & 0 & 1 & 1 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+    0 & 0 & 1 & 0 & 1 & 1 & 1 \\
+  \end{pmatrix}\]
+
+  Dato che le colonne di \(H\) sono tutte le possibili non nulle, \(Z\) è di Hamming.
+\end{example}
+
+\section{Estensioni di \(\mathbb{F}_2\)}
+
+Se \(p(x) \in F_2[X]\) è irriducibile di grado \(m\), allora l'anello \(\frac{\mathbb{F}_2[x]}{\langle p(x) \rangle}\) è un campo, indicato come \(\mathbb{F}_{2^m}\).
+
+\begin{example}{}
+  \(\mathbb{F}_8 = \frac{\mathbb{F}_2[x]}{\langle 1 + x +x^3 \rangle}\). Sia \(\alpha\) una radice di \(1+x+x^3\), ovvero \(\alpha^3 = \alpha + 1\).
+  Dunque \(\alpha = \alpha + \alpha^2\), \(\alpha^5 = \alpha^2(1+\alpha) = \alpha^2+\alpha^3 = 1+\alpha+\alpha^3\), \(\alpha^6 = {(\alpha^3)}^2 = {(1+\alpha)}^2 = 1+\alpha\) e \(\alpha^7 = \alpha(1+\alpha^2) = 1\).
+  Quindi \(\mathbb{F}_8 = \set{0} \cup \set{\alpha^i}[i=0,\ldots,6]\). Si dice che \(\alpha\) è una \keyword{radice primitiva} di \(\mathbb{F}_8\).
+
+  Tramite un analogo di \(\psi^{-1}\), consideriamo \(u_0+u_1\alpha+u_2\alpha^2 \in \mathbb{F}_{2^3} \mapsto u_0 u_1 u_2 \in \mathbb{F}_2^3\)
+\end{example}
+
+In generale, se \(n = 2^n-1\) e \(x^n-1 = (x-1)f_1(x)\ldots f_l(x)\) è scomposizione in fattori irriducibili, esisteranno degli \(f_{j'}\) di grado \(m\).
+
+Se \(f_{j'}\) è uno di essi e \(\alpha\) una sua radice (primitiva), allora in \(\mathbb{F}_{2^m}[x]\) si ha
+\[x^n -1 = \prod_{i=0}^{n-1} (x-\alpha^i)\]
+
+Quindi ogni \((x-\alpha^i)\) divide esattamente uno degli \(f_j\), detto polinomio \keyword{minimo} di \(\alpha^i\), indicato con \(m_i(x)\).
+
+Fissato \(d'< n\), consideriamo il codice ciclico il cui generatore canonico è minimo comune multiplo di \(m_1(x), m_2(x), \ldots, m_{d'-1}(x)\).
+
+Esso è detto codice \(BCH\) con distanza designata \(d'\).
+
+\begin{note}{}
+  \(BCH\) sta per Bose-Chaudhuri-Hocquenghem, i nomi dei tre inventori di questi codici nel 1959--60.
+\end{note}
+
+\begin{theorem}{}
+  Se \(n = 2^m-1\) e \(d' = 2t+1\), allora il codice \(BHC\) di distanza designata \(d'\) verifica
+  \begin{itemize}
+    \item \(k\geq n-tm\) e \(\delta \geq d'\) (dunque hanno distanza arbitrariamente grande e tasso arbitrariamente vicino a \(1\))
+    \item una matrice di controllo \(H\) può essere costruita da quella \(2t\times n\) su \(\mathbb{F}_{2^m}\)
+  \end{itemize}
+  \[\begin{pmatrix}
+    \alpha^0 & \alpha^1 \ldots \alpha^{n-1}\\
+    \alpha^{0\cdot 2} & \alpha^{1\cdot 2} \ldots \alpha^{(n-1)\cdot 2}\\
+    \vdots & \vdots & \vdots \\
+    \alpha^{0\cdot 2t-1} & \alpha^{1\cdot 2t-1} \ldots \alpha^{(n-1)\cdot 2t-1}
+  \end{pmatrix}\]
+  sostituendo a ogni \(\alpha^i\) il corrispondente vettore (colonna) in \(\mathbb{F}_2^m\).
+\end{theorem}
+
+\begin{example}
+  Sia \(n = 15 = 2^4-1\). Allora
+  \(x^{15}=(1+x)\ldots(1+x+x^4)\ldots\); sia \(\alpha\) radice primitiva di \(1+x+x^4\).
+
+  Possiamo costruire un codice \(BCH\) che corregge \(t=2\) errori da
+  \[\begin{pmatrix}
+    \alpha^0 & \alpha^1 & \alpha^2 \ldots \alpha^{14}\\
+    \alpha^0 & \alpha^3 & \alpha^6 \ldots \alpha^{12}
+  \end{pmatrix}\]
+
+  Le altre \(2\) righe sono dipendenti. Questo ci da
+
+  \[H =\]
+
+  Tasso \(R = \frac{k}{n} = \frac{7}{15}\), \(\delta = 5\)
+\end{example}

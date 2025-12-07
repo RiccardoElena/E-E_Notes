@@ -1,0 +1,346 @@
+\chapter{Codifica a blocchi e di Canale}
+
+Visti concetti di teoria di probabilità e di entropia, e analizzato il parallelismo tra processi stocastici e sorgenti informazionali, possiamo ora vedere come questi concetti trovino applicazione nel modellare e studiare i sistemi di codifica.
+
+\section{Codifica a blocchi}
+
+Consideriamo una sorgente (a memoria zero) \(S\). Abbiamo visto che se \(Z\) è un codice binario ottimale per \(S\), allora
+\[H(S)\leq C(Z)<H(S)+1\]
+
+Vediamo ora come avvicinarci al limite inferiore migliorando l'efficienza del codice.
+
+Sia \(S^n\) la variabile a valori in \(\SCal^n\), ed essendo \(S\) a memoria zero distribuita secondo 
+\[p(s_1, \ldots, s_n) = p(s_1)\ldots p(s_n), \forall s_1, \ldots, s_n \in \SCal\]
+
+Allora per questa sorgente una codifica ottimale \(\phi: \SCal^n \to \set{a,b}^*\) verificherà
+\[H(S^n) = H(S_1, \ldots, S_n) \leq \sum_{s_1, \ldots, s_n \in \SCal} p(s_1, \ldots, s_n) \abs{\phi(s_1, \ldots, s_n)} < H(S^n) + 1\]
+
+La sommatoria centrale è il costo di codifica, ma questa volta relativo all'emissione (e dunque codifica) di \(n\) simboli della sorgente.
+
+Dunque il costo \textit{effettivo} (ovvero medio per simbolo) \(C_e(\phi)\) verifica
+\[\frac{1}{n} H(S^n) \leq C_e(\phi) < \frac{1}{n} H(S^n) + \frac{1}{n}\]
+
+Essendo che siamo nel caso di variabili i.i.d, si ha che \(H(S^n) = n H(S)\), e dunque
+\[H(S) \leq C_e(\phi) < H(S) + \frac{1}{n}\]
+
+E dunque, aumentando \(n\), possiamo avvicinarci arbitrariamente al costo assolutamente ottimale \(H(S)\).
+
+\begin{example}{}
+  Sia \(\SCal = \set{\alpha, \beta, \gamma}, p(\alpha) = \frac{5}{8}, p(\beta) = p(\gamma) = \frac{3}{16}\).
+
+  Da Huffman, \(Z=\set{a, ba, bb}\) è un codice ottimale per \(S\) con costo
+  \[C(Z) = \frac{5}{8} \cdot 1 + \frac{3}{16} \cdot 2 + \frac{3}{16} \cdot 2 = \frac{5}{8} + \frac{6}{8} = \frac{11}{8}\]
+  
+  Abbiamo che \(H(S) = \frac{5}{8}(\log 8 - \log 5) + \frac{3}{8}(\log 16 - \log 3) = \frac{27-\log 5 -\log3}{8}\)
+
+  Fissando \(n=2\), allora \(p(\alpha, \alpha) = \frac{25}{64}\), \(p(\alpha, \beta)=p(\alpha, \gamma) = p(\beta, \alpha) = p(\gamma, \alpha) = \frac{15}{128}\) e \(p(\beta, \beta) = p(\beta, \gamma) = p(\gamma, \beta) = p(\gamma, \gamma) = \frac{9}{256}\).
+  
+  Sempre da Huffman, un codice ottimale per \(S^2\) è \(Z_2 = \set{a^2, ba^2, bab,b^2a^2, b^2ab,b^3ab,b^4,b^5}\) con costo
+  \[\frac{1}{2}\left(\frac{25}{64}+\frac{15}{128}(2\cdot 3 + 2\cdot 4) + \frac{9}{256}4\cdot 5\right) = \frac{25+105+45}{64} \simeq 1.367<\frac{11}{8}\]
+\end{example}
+
+In generale, ovvero per sorgenti a memoria finita, si può vedere che se \(\underline{S}\) è stazionario e \(\phi^{(n)}\) una codifica ottimale binaria per \(S^n=S_1, \ldots, S_n\) si ha ancora
+\[\frac{1}{n}H(S_1,\ldots, S_n)\leq C_e(\phi^{(n)}) < \frac{1}{n}H(S_1,\ldots, S_n) + \frac{1}{n}\]
+da cui
+\[\lim_{n\to \infty} C_e(\phi^{(n)}) = H(\underline{S})\]
+
+Questo vale anche per catene di Markov irriducibili, aperiodiche e invariati nel tempo.
+
+\begin{example}{}
+  Sia \(\SCal = \set{1,2,3}\) e 
+  \begin{equation*}
+    \renewcommand{\arraystretch}{1.5} % Aumenta lo spazio tra le righe (1.0 è default)
+    P = \begin{pmatrix}
+      \frac{1}{2} & \frac{1}{2} & 0 \\
+      \frac{1}{4} & \frac{1}{2} & \frac{1}{4} \\
+      \frac{1}{4} & \frac{1}{4} & \frac{1}{2}
+    \end{pmatrix}
+  \end{equation*}
+  
+  Allora da \(\mu P = \mu\) si ricava la distribuzione stazionaria \(\mu = \left(\frac{1}{3}, \frac{4}{9}, \frac{2}{9}\right)\) e 
+  \[H(\underline{S}) = -\sum_{i=1}^3 \mu(i)\sum_{j=1}^3 P_{ij} \log P_{ij} = \frac{4}{3}\]
+
+  Se \(S_1\) è distribuita secondo \(\mu\), allora \(\set{a,ba,bb}\) è ottimale per \(S_1\) con costo 
+  
+  \[\frac{4}{9} + 2\cdot (\frac{1}{3} + \frac{2}{9}) = \frac{14}{9} > \frac{4}{3}\]
+
+  Anche in questo caso ci si può avvicinare a \(\frac{4}{3}\) codificando a blocchi.
+\end{example}
+
+\begin{theorem}{Disuguaglianza di Fano}
+  Siano \(X \to Y \to \hat{X}\) variabili aleatorie con \(\hat{X}\) stima di \(X\) basata su \(Y\).
+  Sia inoltre \(P_e = \Prob[X\neq\hat{X}]\). Allora
+  \[H(X|Y) \leq H(X|\hat{X})\leq H(P_e)+P_e\log(\#\mathcal{X})\]
+  Dove \(H(P_e) = -P_e \log (P_e) - (1-P_e)\log(1-P_e)\) è l'entropia di una variabile di Bernoulli con parametro \(P_e\).
+\end{theorem}
+
+\begin{proof}
+  Sia \(E\) la variabile aleatoria con distribuzione bernoulliana di parametro \(P_e\) che indica se la stima è corretta o meno, ovvero
+  \[E = \begin{cases}
+    0 & \text{se } X = \hat{X} \\
+    1 & \text{se } X \neq \hat{X}
+  \end{cases}\]
+  Si ha ovviamente che \(H(E) = H(P_e)\). 
+  Dalla regola di catena,
+  \[H(X|\hat{X})+H(E|X,\hat{X})=H(E,X|\hat{X}) = H(E|\hat{X}) + H(X|E,\hat{X})\]
+  Possiamo notare che \(H(E|X,\hat{X})=0\) poiché conoscendo \(X\) e \(\hat{X}\) possiamo sapere se la stima è corretta o meno, e dunque non c'è incertezza su \(E\).
+  Inoltre, \(H(E|\hat{X}) \leq H(E) \) poiché il condizionamento non aumenta l'entropia. 
+  Infine, abbiamo che per definizione di entropia condizionata che \(H(X|E,\hat{X})\) si può scrivere come
+  \[P(E=0)H(X|E=0,\hat{X}) + P(E=1)H(X|E=1,\hat{X})\]
+  Ma se \(E=0\), allora \(X=\hat{X}\) e dunque \(H(X|E=0,\hat{X})=0\).
+  Essendo poi che \(H(X|\hat{X},E=1)\) è comunque un entropia di una variabile con \(\#\mathcal{X}\) possibili valori, si ha che \(H(X|E=1,\hat{X}) \leq \log(\#\mathcal{X})\).
+  Da queste osservazioni, si ricava che
+  \[H(X|\hat{X}) \leq H(E) + P(E=1) \log(\#\mathcal{X}) = H(P_e) + P_e \log(\#\mathcal{X})\]
+  L'ipotesi che \(X \to Y \to \hat{X}\) è necessaria solo per la prima disuguaglianza \(H(X|Y) \leq H(X|\hat{X})\), che segue in modo diretto dalla disuguaglianza di data processing~\ref{prop:dpi}.
+\end{proof}
+\begin{observation}{}
+  Se \(\mathcal{\hat{X}} = \mathcal{X}\), allora \(H(X|\hat{X})\leq H(P_e)+P_e\log(\#\mathcal{X}-1)\). Questo poiché \(\log(\#\mathcal{X})\) deriva dalla maggiorazione di \(H(X|\hat{X},E=1)\). Ma se i valori che \(X\) e \(\hat{X}\) possono assumere sono esattamente gli stessi, sapendo che c'è stato un errore possiamo escludere il valore di \(\hat{X}\) tra i possibili valori che \(X\) può assumere, e dunque il numero di possibili valori di \(X\) dato che c'è stato un errore è al più \(\#\mathcal{X}-1\).
+
+  Inoltre, è possibile raggiungere l'uguaglianza.
+  Sia \(\mathcal{X} = \set{1,\ldots,m}\) e sia \(\hat{X} = 1\), ovvero ogni altro valore di \(\mathcal{X}\) abbia probabilità nulla nella distribuzione di \(\hat{X}\).
+  
+  In tal caso, \(X\) e \(\hat{X}\) sono indipendenti, da cui \(H(X|\hat{X}) = H(X)\).
+
+  Dalla disuguaglianza appena vista abbiamo
+  \(H(X) \leq H(1-p_1)+(1-p_1)\log(m-1)\),
+  dove \(p_i = \Prob(X=i)\), con quindi \(P_e = 1-p_1\).
+
+  Se \(p_2=\ldots=p_m = \frac{1-p_1}{m-1}\), si ha che
+  \[H(X) = p_1\log\left(\frac{1}{p_1}\right) + \sum_{i=2}^m \frac{1-p_1}{m-1}\log\left(\frac{m-1}{1-p_1}\right)=\]
+  \[ = p_1\log\left(\frac{1}{p_1}\right) + (m-1)\frac{1-p_1}{m-1}\log\left(\frac{m-1}{1-p_1}\right) = \]
+  \[ = p_1\log\left(\frac{1}{p_1}\right) + (1-p_1)\left(\log(m-1) + \log\left(\frac{1}{1-p_1}\right)\right) = \]
+  \[ = p_1\log\left(\frac{1}{p_1}\right) +(1-p_1)\log\left(\frac{1}{1-p_1}\right) +(1-p_1)\log(m-1) =\]
+  \[= H(1-p_1) + (1-p_1)\log(m-1)\]
+\end{observation}
+
+\section{Codifica di canale}
+
+\begin{definition}{Canale discreto a memoria zero}
+  Un \keyword{canale discreto a memoria zero (DMC)} è una terna \((\mathcal{X}, \mathcal{Y}, p(y|x))\), dove \(\mathcal{X}\) è l'alfabeto di input, \(\mathcal{Y}\) è l'alfabeto di output e \(p(y|x)\) è la probabilità di ricevere il simbolo \(y\in\mathcal{Y}\) quando viene inviato il simbolo \(x\in\mathcal{X}\), che modella il rumore del canale.
+\end{definition}
+
+È importante notare che il canale è caratterizzato solo dall'alfabeto di input, output e dalla probabilità condizionata, e dunque non fissa una variabile aleatoria di input o di output specifica.
+
+\begin{definition}{Capacità di un canale}
+  La \keyword{capacità \(C\)} di un canale discreto è la quantità
+  \[C = \max_{X} I(X;Y)\]
+  Dove il massimo è preso su tutte le variabili aleatorie \(X\) a valori in \(\mathcal{X}\).
+  Fissare tale \(X\) avendo \(p(y|x)\) è sufficiente a determinare univocamente anche \(Y\), poiché
+  \[\forall y \in \mathcal{Y}, p(y) = \sum_{x\in\mathcal{X}} p(y|x)p(x)\]
+\end{definition}
+
+\begin{example}{}
+  Un primo esempio molto semplice che consideriamo è un canale binario senza rumore, ovvero con \(\mathcal{X} = \mathcal{Y} = \set{0,1}\) e \(p(y|x) = 1 \iff y=x\).
+  In questo caso, qualunque sia la distribuzione di \(X\), si ha che \(Y=X\) e dunque \(I(X;Y) = H(X)\), ovvero \(C = \max_{X} H(X) = 1\).
+
+  Consideriamo ora un canale rumoroso senza sovrapposizioni, ovvero con \(\mathcal{X} = \set{0,1}\), \(\mathcal{Y} = \set{a,b,c,d}\) con \(p(a|0) = p(b|0) = \frac{1}{2}\), \(p(c|1) = \frac{1}{3}\),\(p(d|1) = \frac{2}{3}\) con le altre combinazioni a probabilità zero.
+  In questo caso c'è rumore ma non essendoci sovrapposizione tra i simboli ricevuti per i diversi simboli inviati tale rumore \qi{non da fastidio}, nel senso che conoscendo il simbolo ricevuto è possibile risalire univocamente a quello inviato.
+  Ci si può dunque ricondurre al caso precedente, e si ha che \(C = 1\).
+\end{example}
+
+\begin{example}{}
+  Infine, consideriamo un canale binario simmetrico (BSC), ovvero con \(\mathcal{X} = \mathcal{Y} = \set{0,1}\) e 
+  \[p(y|x) = \begin{cases}
+    q & \text{se } y\neq x \\
+    1-q & \text{se } y = x
+  \end{cases}, \text{ con } 0\leq q \leq 1\]
+  In altre parole, il rumore del canale cambia il simbolo inviato con probabilità \(q\).
+  Possiamo notare che il canale binario senza rumore è un caso particolare di BSC con \(q=0\) o \(q=1\).
+  Abbiamo in questo caso che
+  \[I(X;Y) = H(Y) - H(Y|X) = H(Y) - \sum_{x\in\set{0,1}} p(x) H(Y|X=x)\]
+  Ma \(H(Y|X=x)\) è \(H(q)\), poiché una volta noto il valore che \(X\) assume, l'incertezza rimasta su \(Y\) è solo data dalla probabiltà di errore. Si ha quindi
+  \[ I(X;Y)=H(Y)-H(q)\sum_{x\in\set{0,1}} p(x) = H(Y) - H(q)\leq 1- H(q)\]
+
+  Per calcolare la capacità del canale, dobbiamo massimizzare \(H(Y)-H(q)\) al variare di \(p(x)\).
+  Ovviamente il massimo di tale quantità al variare di \(Y\) si ha quando \(Y\) è uniforme, ovvero quando \(p(Y=0) = p(Y=1) = \frac{1}{2}\), e in tal caso si raggiunge il limite \(1-H(q)\)
+
+  Resta da vedere se tale massimo è raggiungibile al variare di \(X\).
+  Ma se \(X\) è uniforme, lo è anche \(Y\), Infatti
+  \[\Prob[Y=0] = \Prob[X=0]p(0|0) + \Prob[X=1]p(0|1) = \frac{1}{2}(1-q) +\frac{1}{2}q = \frac{1}{2}\]
+  Ciò mostra che
+  \[C = \max_{X} I(X;Y) = 1 - H(q)\]
+  e si ottiene per \(X\) uniforme su \(\set{0,1}\).
+
+  \begin{observation}{}
+    BSC si ottiene quando il rumore si può caratterizzare come una variabile di Bernoulli \(E\) con parametro \(q\) e \(Y \equiv_{2} X + E\)
+  \end{observation}
+\end{example}
+
+\subsection{Proprietà della capacità}
+
+\begin{proposition}{}
+  La capacità \(C\) di un canale è ben definita, ovvero esiste sempre un massimo per \(I(X;Y)\) al variare di \(X\).
+\end{proposition}
+
+\begin{proof}
+  Sappiamo che \(I(X;Y)\) è una funzione continua della distribuzione su \(\mathcal{X}\), definita su un compatto e dunque ammette massimo.\footnote{Noto teorema di analisi matematica.}
+\end{proof}
+
+\begin{proposition}{}
+  La capacità \(C\) di un canale è non negativa
+\end{proposition}
+\begin{proof}
+  Essendo che \(I(X;Y) \geq 0, \forall X\), si ha che \(C = \max_X I(X;Y) \geq 0\).
+\end{proof}
+
+\begin{proposition}{}
+  La capacità \(C\) di un canale è superiormente limitata da \(\log(\min\set{\#\mathcal{X}, \#\mathcal{Y}})\).
+  In particolare quindi \(C\leq\log(\#\mathcal{X})\) e \(C\leq\log(\#\mathcal{Y})\).
+\end{proposition}
+\begin{proof}
+  Tali sono i limiti superiori di \(I(X;Y)\) per qualsiasi \(X\).
+\end{proof}
+
+\section{Teorema di Shannon}
+
+Andiamo dunque verso l'enunciare e dimostrare (anche se solo in parte), un importantissimo teorema nella teoria dell'informazione, anche questo dovuto a Shannon.
+
+In maniera informale, tale teorema può essere enunciato come:
+
+\begin{quote}
+  Dato un DMC si può trasmettere informazione su tale canale con probabilità di errore arbitrariamente bassa se la quantità di informazione per simbolo trasmesso (detto tasso di trasmissione) è minore della capacità del canale.
+  In oltre, non è possibile trasmettere informazione con probabilità di errore arbitrariamente bassa se il tasso di trasmissione è maggiore della capacità del canale.
+\end{quote}
+
+\begin{note}{}
+  In generale, nel caso il tasso di trasmissione sia uguale alla capacità del canale, non si hanno garanzie.
+\end{note}
+
+\begin{definition}{Estensione \(n\)-esima di un DMC}
+  Sia \((\mathcal{X}, \mathcal{Y}, p(y|x))\) un canale discreto a memoria zero.
+
+  La sua \keyword{estensione \(n\)-esima} è il canale discreto \((\mathcal{X}^n, \mathcal{Y}^n, p(y_1,\ldots,y_n|x_1,\ldots,x_n))\), dove per \(1\leq k\leq n\),
+  \(p(y_k|x_1, \ldots,x_k,y_1,\ldots,y_{k-1}) = p(y_k|x_k)\), ovvero il \(k\)-esimo output dipende solo dal \(k\)-esimo input.
+  
+  Diciamo che il canale è utilizzato \keyword{senza feedback} se \(p(x_k|x_1,\ldots,x_{k-1},y_1,\ldots,y_{k-1}) = p(x_k|x_1,\ldots,x_{k-1})\), sempre per \(1\leq k \leq n\), ovvero il \(k\)-esimo input dipende solo dagli input precedenti, e non anche dagli output.
+\end{definition}
+
+Se il canale è senza feedback, si ha che \(p(y_1,\ldots,y_n|x_1,\ldots,x_n) = \prod_{i=1}^n p(y_i|x_i)\)
+
+Per formalizzare il teorema di Shannon è necessario dunque introdurre il concetto di codifica di canale a blocchi.
+
+\begin{definition}{Codifica di canale a blocchi}
+  Dato un DMC \((\mathcal{X}, \mathcal{Y}, p(y|x))\), e dati \(M>1\) e \(n\geq 1\), una \keyword{\((M,n)\)-codifica} dell'estensione \(n\)-esima del DMC, è una terna \((\mathcal{W},f,g)\) con
+  \begin{itemize}
+    \item \(\mathcal{W} = \set{1,2,\ldots,M}\) alfabeto (o insieme di indici)
+    \item \(f: \mathcal{W} \to \mathcal{X}^n\) funzione di codifica iniettiva
+    \item \(g: \mathcal{Y}^n \to \mathcal{W}\) funzione di decodifica
+  \end{itemize}
+
+  Possiamo di conseguenza definire le seguenti variabili aleatorie:
+  \begin{itemize}
+    \item \(W\) variabile su \(\mathcal{W}\), descrive i dati da trasmettere
+    \item \(X^n = (X_1, \ldots, X_n) = f\circ W\) input al canale
+    \item \(Y^n = (Y_1, \ldots, Y_n)\) output del canale
+    \item \(\hat{W} = g \circ Y^n\) variabile su \(\mathcal{W}\), descrive i dati ricevuti
+  \end{itemize}
+
+  Per \(i \in \mathcal{W}\) definiamo \(\lambda_i = \Prob[\hat{W}\neq i|X^n = f(i)]\) la probabilità di errore condizionata all'invio del messaggio \(i\), e \(\lambda^{(n)} = \max_{i\in\mathcal{W}} \lambda_i\) la probabilità di errore massima.
+\end{definition}
+
+\begin{definition}{Tasso di trasmissione}
+  Data una \((M,n)\)-codifica \((\mathcal{W},f,g)\), il \keyword{tasso di trasmissione \(R\)} è la quantità
+  \[R = \frac{\log M}{n}\] 
+  rappresenta la quantità di informazione trasmessa per simbolo del canale.
+  Tasso di trasmissione \(R = \frac{\log M}{n} \iff 2^{nR} = M\) rappresenta la quantità di informazione trasmessa per simbolo del canale.
+
+  Si ha dunque che \(M = 2^{nR}\).
+\end{definition}
+
+\begin{definition}{Tasso raggiungibile}
+  Diremo che un tasso di trasmissione \(R\) è \keyword{raggiungibile} se esiste una successione di \((\lfloor 2^{nR} \rfloor, n)\)-codifiche tali che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
+\end{definition}
+
+Si ha dunque che una \((M,n)\)-codifica porta a una struttura del tipo
+\begin{equation}
+  W \xrightarrow{f} X^n \xrightarrow{p(y^n|x^n)} Y^n \xrightarrow{g} \hat{W}
+\end{equation}
+con \(p(y^n|x^n) = p(y_1,\ldots,y_n|x_1,\ldots,x_n)\)
+
+Data un elemento di \(\mathcal{W}\), possiamo scrivere che la codifica \(f\) come \(f(i) = x_1(i)\ldots x_n(i) = x^n(i)\) e quindi
+\[\lambda_i = \Prob[\hat{W} \neq i|X^n = f(i)] = \sum_{\substack{y^n \in \mathcal{Y}^n \\ g(y^n) \neq i}} p(y^n|x^n(i))\]
+Ovvero la probabilità di errore di \(i\) è la somma delle probabilità di ricevere una sequenza \(y^n\) che venga decodificata in un messaggio diverso da \(i\), dato che è stato inviato \(x^n(i)\).
+
+\begin{definition}{Probabilità media (aritmetica) di errore}
+  La \keyword{probabilità media (aritmetica) di errore} di una \((M,n)\)-codifica \((\mathcal{W},f,g)\) è
+  \[P_e^{(n)} = \frac{1}{M} \sum_{i=1}^M \lambda_i\]
+  
+  Tale quantità non è la media in probabilità di errore, a meno che \(W\) non sia uniforme.
+  Si ha ovviamente che \(P_e^{(n)} \leq \lambda^{(n)}\).
+\end{definition}
+
+\begin{observation}{}
+  \(W \to X^n \to Y^n \to \hat{W}\) formano una catena di Markov.
+  Infatti, dalla \Cref{prop:markov_chain_third_funcion_second} si ha che:
+  \begin{itemize}
+    \item \(\hat{W} = g \circ Y^n\) dunque \(X^n \to Y^n \to \hat{W}\) e \(W \to Y^n \to \hat{W}\) formano catene di Markov.
+    \item \(X^n = f \circ W\) è iniettiva, e dunque \(W\) è funzione di \(X^n\)
+    \item In generale si ha che \(X\to Y\to Z \iff Z \to Y \to X\), e come nel primo punto \(W \to X^n \to Y^n\) e \(W \to X^n \to \hat{W}\) sono catene di Markov.
+  \end{itemize}
+  Dunque qualunque variabile si rimuova le \(3\) rimanenti formano una catena di Markov.
+\end{observation}
+
+\begin{theorem}[label={thm:shannon_2}]{Shannon}
+  Dato un canale con capacità \(C\), e dato \(R>0\) tasso di trasmissione, allora
+  \begin{itemize}
+    \item Se \(R < C\), allora \(R\) è raggiungibile
+    \item Se \(R > C\), allora \(R\) non è raggiungibile
+  \end{itemize}
+\end{theorem}
+
+Di tale teorema dimostreremo solo il secondo punto, ma per fare ciò è necessario dimostrare prima un lemma intermedio
+
+\begin{lemma}{}
+  Dato un canale di capacità \(C\), si ha che
+  \(I(X^n;Y^n)\leq n C\)
+\end{lemma}
+\begin{proof}
+  Dalla regola di catena,
+  \[H(Y^n|X^n) = H(Y_1|X^n) + \sum_{j=2}^n H(Y_j|Y^{j-1},X^n) = H(Y_1|X_1) + \sum_{j=2}^n H(Y_j|X_j)\]
+  Quindi
+  \[I(X^n;Y^n) = H(Y_1,\ldots,Y_n) - H(Y^n|X^n) = H(Y_1, \ldots, Y_n) - H(Y_1|X_1) - \sum_{j=2}^n H(Y_j|X_j)\]
+  Essendo \(H(Y_1,\ldots, Y_n) \leq \sum_{j=1}^n H(Y_j)\) si ha che
+  \[I(X^n;Y^n) \leq \sum_{j=1}^n H(Y_j) - \sum_{j=1}^n H(Y_j|X_j) = \sum_{j=1}^n I(X_j;Y_j) \leq n C\]
+  
+\end{proof}
+
+\begin{proof}{Dimostrazione di~\ref{thm:shannon_2}}
+  Andiamo a dimostrare solo la seconda parte del teorema, ovvero che se \(R>C\) allora \(R\) non è raggiungibile.
+  Mostriamo l'inverso, ovvero che se \(R\) è raggiungibile allora \(R\leq C\).
+  Sia allora \(R\) un tasso di trasmissione raggiungibile, e consideriamo la successione di \(( 2^{nR},n)\)-codifiche\footnote{Dalla definizione sarebbe necessario utilizzare la funzione \(\lfloor\rfloor\), ma ciò andrebbe solo a complicare i conti, dunque si assumeranno \(2^{nR}\) interi per semplicità} tale che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
+  
+  Fissato \(n\), sia \(\mathcal{W} = \set{1, \ldots, 2^{nR}}\) e sia \(W\) uniforme su \(\mathcal{W}\),\footnote{Possiamo assumere una qualsiasi distribuzione poiché le quantità coinvolte nel teorema sono relative al solo canale, e non alla sorgente sottostante}
+  cosicché \(nR = H(W) = H(W|\hat{W}) + I(W;\hat{W})\).
+
+  Poiché \(W \to X^n \to Y^n \to \hat{W}\) formano una catena di Markov, possiamo applicare la disuguaglianza di Fano (inserire riferimento) per ottenere
+  \[H(W|\hat{W}) \leq H(P_e^{(n)}) + P_e^{(n)} nR\leq 1 + P_e^{(n)} nR\]
+  Inoltre, dalla disuguaglianza di data processing, si ha che
+  \[I(W;\hat{W}) \leq I(X^n;Y^n) \leq n C \]
+  Si ha dunque che
+  \[nR \leq 1 + P_e^{(n)} nR + n C \implies R \leq \frac{1}{n} + P_e^{(n)} R + C\]
+  Avendo dimostrato che \(R\) è maggiorato per un qualsiasi \(n\), sarà anche maggiorato al limite per \(n\to\infty\).
+  Essendo che \(\lim_{n\to\infty} \lambda^{(n)} = 0\), e che \(P_e^{(n)} \leq \lambda^{(n)}\), si ha che
+  \[R \leq \lim_{n\to\infty} \left(\frac{1}{n} + P_e^{(n)} R + C\right) \leq C\]
+\end{proof}
+
+Andiamo dunque a concludere questo capitolo con due ultime domande importanti
+\begin{itemize}
+  \item Si perde qualcosa nel separare codifica di sorgente e canale?
+  \item Che rapporto c'è tra costo di codifica e tasso, tra entropia e capacità?
+\end{itemize}
+
+Alla prima è possibile dare risposta col seguente teorema.
+
+\begin{theorem}{Separazione sorgente-canale}
+  Sia \(\underline{S}\) una sorgente stazionaria e \(C\) la capacità di un canale.
+  Allora:
+  \begin{itemize}
+    \item Se \(H(\underline{S}) < C\), esistono codifiche per cui
+      \[\lim_{n\to\infty} \P(\hat{S}^n \neq S^n) = 0\]
+    \item Se \(H(\underline{S}) > C\), la probabilità di errore nel trasmettere messaggi di \(\underline{S}\) sul canale non può essere resa arbitrariamente piccola.
+  \end{itemize}
+\end{theorem}
+
+In particolare, qualsiasi codifica non dà particolari vantaggi rispetto a due codifiche separate.
+
+Per la seconda invece, vedremo qualcosa nel prossimo capitolo.
