@@ -30,6 +30,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
 \RequirePackage{mathtools}
+\RequirePackage{centernot}
 
 % Graphics and colors
 \RequirePackage{graphicx}

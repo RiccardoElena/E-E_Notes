@@ -1,0 +1,11 @@
+% Extraxt.tex
+
+% Compiling this file FROM ROOT DIRECTORY will extract pages reported in the argument of \includepdf
+% from main.pdf
+
+\documentclass{article}
+\usepackage{pdfpages}
+
+\begin{document}
+\includepdf[pages=104-108]{main.pdf}
+\end{document}

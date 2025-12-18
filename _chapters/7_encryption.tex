@@ -1,0 +1,426 @@
+\chapter{Crittografia}
+
+In quest'ultimo capitolo, saranno trattate alcune nozioni di base di crittografia, ovvero di codifica a scopo di sicurezza delle informazioni.
+
+Il termine sicurezza però, in base al contesto, può assumere diversi significati.
+Come usuale in crittografia, si considerano due entità principali: il mittente (usualmente indicato come Alice) e il destinatario (solitamente indicato come Bob).
+
+Nel contesto della loro comunicazione, si possono voler garantire diversi aspetti di sicurezza, tra cui:
+
+\begin{itemize}
+  \item \keyword{Confidenzialità}: i messaggi da Alice a Bob non sono letti da Charlie (un eventuale attaccante).
+  \item \keyword{Autenticazione}: Alice può provare che i suoi messaggi provengono realmente da lei.
+  \item \keyword{Integrità}: Charlie non può modificare i messaggi di Alice a Bob senza che Bob se ne accorga.
+  \item \keyword{Non ripudiabilità}: Alice non può negare di aver inviato un messaggio a Bob.
+  \item Molti altri...
+\end{itemize}
+
+Prima però di addentrarci in alcuni metodi crittografici, approfondiremo qualche concetto teorico di base legato anche alla trattazione dei precedenti capitoli.
+
+Consideriamo un linguaggio naturale come una sorgente \(\underline{S}\) stazionaria, determinando le frequenze di occorrenza delle lettere dell'alfabeto in base a un'analisi delle frequenze in un grande corpus di testi.
+
+\begin{definition}{Incertezza di un linguaggio (naturale)}
+  Chiameremo \keyword{incertezza} del linguaggio la quantità 
+  \[U = \lim_{n\to\infty} \frac{H(S^n)}{n\log \#\SCal}\]
+
+  Ovvero il tasso entropico normalizzato tra \(0\) e \(1\).
+\end{definition}
+
+\begin{note}{}
+  In alcuni contesti, essendo complesso calcolare il limite, per \( U \) si considera l'\(\inf\).
+
+  In ogni caso, per i linguaggi naturali si stima che \( U \approx 0.3 \).
+\end{note}
+
+\section{Crittografia a chiave simmetrica}
+
+Sia \(f_n\in\N\) la porzione massima di un messaggio di lunghezza \(n\) che può essere cancellata in modo tale da poter ricostruire il messaggio.
+
+In altre parole, \(f_n\) può essere vista come la parte di messaggio che può essere tolta, senza creare ambiguità nella ricostruzione del messaggio stesso.
+È possibile vedere tale cancellazione come codifica sullo stesso alfabeto, con lunghezza (e dunque costo) \(l_n = n(1-f_n) \implies f_n = 1-\frac{l_n}{n}\).
+
+Avendo scelto \(f_n\) massima, la codifica risultante è ottimale;
+il costo effettivo per simbolo di una tale codifica tende al tasso di entropia della sorgente, cioè \(\frac{l_n}{n}\) tende a \(U\) e dunque \(f_n\) tende a \(1-U = \mathcal{R}\) detta la \keyword{ridondanza} del linguaggio.
+
+\begin{definition}{Crittazione}
+  Definiamo \keyword{crittazione} una codifica dipendente da un parametro detto \keyword{chiave}
+\end{definition}
+
+\begin{definition}{Crittosistema}
+  Definiamo \keyword{crittosistema} una quadrupla \((\mathcal{M}, \mathcal{C}, \mathcal{K}, \mathcal{E}_\mathcal{K})\):
+  \begin{itemize}
+    \item \(\mathcal{M}\): insieme dei messaggi in chiaro, ovvero non ancora cifrati
+    \item \(\mathcal{C}\): insieme dei messaggi cifrati
+    \item \(\mathcal{K}\): insieme delle chiavi
+    \item \(\mathcal{E}_{\mathcal{K}} = \set{E_k}[k\in\mathcal{K}] \subseteq {(\mathcal{C}^{\mathcal{M}})}^{\mathcal{K}}\): insieme delle funzioni di crittazione parametrizzate dalle chiavi.
+  \end{itemize}
+\end{definition}
+
+Un principio di massima dettato dall'esperienza, è che più che mantenere segreto il metodo di crittazione, ovvero \(\mathcal{E}_k\), è molto più importante tenere segreta la chiave \(k\).
+
+\begin{definition}{Funzioni di Decriptazione}
+  Dato un crittosistema, un insieme di funzioni \(\mathcal{D}_{\mathcal{K}} = \set{D_l}[l\in\mathcal{K}]\subseteq \mathcal{M}^{\mathcal{C}}\) è detto di \keyword{decrittazione} se
+  \[\forall k \in \mathcal{K}, \exists l \in \mathcal{K}\st D_l \circ E_k = id_{\mathcal{M}}\]
+\end{definition}
+
+\begin{example}{}
+  Un esempio storico di crittosistema è il cifrario di Cesare.
+
+  Fissato un ordine sull'alfabeto \(\SCal\) e scelta una lettera di posizione \(k\), ogni lettera di posizione \(a\) viene cifrata nella lettera di posizione \(a+k \mod \# \SCal\).
+
+  In questo caso, si ha che \(\mathcal{M} = \mathcal{C} = \SCal\), \(\mathcal{K} = \set{0, 1, \ldots, \#\SCal - 1}\) e
+  \[E_k(a) = D_k(a) = a + k \mod \#\SCal\]
+
+  Tale cifrario però avendo un numero di chiavi molto limitato, è vulnerabile alla ricerca esaustiva (brute force attack).
+\end{example}
+
+Per migliorare la sicurezza rispetto al cifrario di Cesare, si può passare a un crittosistema a sostituzione monoalfabetica.
+
+In tali sistemi si usa come chiave di crittazione è una permutazione \(\sigma\) di \(\SCal\),  (\(k = \sigma, l = \sigma^{-1}\)).
+Questa risulta migliore poiché il numero di chiavi è \((\#\SCal)\!\), ma è comunque vulnerabile ad attacchi basati sull'analisi delle frequenze.
+
+Tali attacchi si basano sull'analizzare la frequenza delle lettere nel linguaggio cifrato e confrontarla con la frequenza delle lettere nel linguaggio naturale.
+Lettere con frequenze simili saranno probabilmente mappate l'una nell'altra.
+
+\begin{definition}{Crittosistema a chiave simmetrica}
+  Un crittosistema è detto a \keyword{chiave simmetrica} se è \qi{facile} determinare \(l\) da \(k\) e viceversa.
+\end{definition}
+
+Entrambi gli esempi precedenti sono crittosistemi a chiave simmetrica.
+
+Un modo per migliorare ancora la sicurezza, evitando anche gli attacchi basati sull'analisi delle frequenze, è quello di usare crittosistemi a sostituzione polialfabetica.
+
+In tali sistemi ogni lettera del testo cifrato dipende non solo dalla lettera corrispondente del testo in chiaro, ma anche dalla posizione della lettera stessa nel testo.
+Ovvero a posizioni diverse corrispondono permutazioni diverse.
+
+Un esempio è il cifrario di Vigenère (\(1600\)), che usa solo permutazioni del tipo di Cesare, usando però una parola chiave \(k = (k_0, k_1, \ldots, k_r)\); Dunque le funzioni di crittazione avranno la forma \(E_k(x_i) = x_i + k_{i \mod r}\).
+
+Tale sistema ha avuto un grande successo, e solo alla fine del \(1800\) è stato trovato un metodo per risalire a \(r\), e di conseguenza alla chiave stessa basandosi sull'analisi delle frequenze.
+
+Un altro sistema a chiave simmetrica un po' più elaborato è il crittosistema di Hill (\(1929\)).
+
+In tale crittosistema, si prende come chiave una matrice \(K \in Mat_{n\times n}\) invertibile su \(\mathbb{F}_p\).\footnote{Teoricamente non è necessario la matrice abbia valori in un campo, ma questo fa si che quasi tutte le matrici siano invertibili, offrendo più chiavi.}
+Si sceglie dunque un alfabeto di cardinalità \(p\), con messaggi suddivisi in blocchi di lunghezza \(n\). Un messaggio \(m\in\mathcal{M}\) può essere visto come \(m = m_1\ldots m_h\), dove ogni \(m_i\) è un vettore colonna di lunghezza \(n\) con valori in \(\mathbb{F}_p\).
+
+Per criptare il messaggio, si calcola per ogni \(i = 1,\ldots, h\) il blocco cifrato \(c_i^T = K m_i^T\), ottenendo così il messaggio cifrato tramite la concatenazione \(c = E_{k}(m) = c_1\ldots c_h\).
+Neanche questo sistema è però immune ad attacchi. Esso risulta infatti vulnerabile ad attacchi con testo in chiaro noto (o scelto), in cui l'attaccante conosce (o sospetta) che i blocchi \(m_1, m_2, \ldots, m_n\) siano\footnote{Il totale dei simboli è dunque \(n^2\).} stati cifrati in \(c_1, c_2, \ldots, c_n\).
+
+In questo caso, l'attaccante può facilmente ricavare \(K\) (o una sua ipotesi).
+Da \(c_1^T = K m_1^T, \ldots , c_n^T = K m_n^T\) si ottiene che
+\[(c_1^T,\ldots, c_n^T) = K (m_1^T, \ldots, m_n^T)\]
+Dove \((m_1^T, \ldots, m_n^T)\) e \((c_1^T,\ldots, c_n^T)\) sono matrici quadrate.
+Se \((m_1^T, \ldots, m_n)\) è invertibile,\footnote{Cosa molto probabile essendo a valori in un campo, usato per aumentare la numerosità delle chiavi} si ottiene \(K = (c_1^T,\ldots, c_n^T){(m_1^T, \ldots, m_n^T)}^{-1}\).
+
+\section{Crittosistemi come canale}
+Un modo alternativo di vedere un crittosistema è quello di considerarlo come un canale di comunicazione.
+Tale idea è stata introdotta da Shannon nel \(1949\).
+
+Possiamo considerare come \q{alfabeto} di input del canale \(\mathcal{M}\) e di output \(\mathcal{C}\).
+Allora, assumendo che le chiavi siano scelte indipendentemente dai messaggi, ovvero \(M\) e \(K\) variabili indipendenti qualunque sia la distribuzione di probabilità su \(\mathcal{M}\) e \(\mathcal{K}\), si ha che:
+\[\forall c \in \mathcal{C}, p(c) = \sum_{m\in\mathcal{M}} \sum_{\substack{k \in \mathcal{K} \st\\ E_k(m)=c}} p(m) p(k)\]
+e quindi in particolare
+\[p(c|m) = \sum_{\substack{k \in \mathcal{K} \st\\ E_k(m)=c}} p(k)\]
+
+In questa ottica, è possibile modellare un attacco particolarmente noto, detto \keyword{attacco con testo cifrato noto}.
+In tali attacchi, a differenza degli attacchi con testo \textit{in chiaro} noto, l'attaccante ha accesso solo a un gran numero di messaggi cifrati \(c_1, c_2, \ldots, c_N\), e tenta di stimare l'incertezza sulla chiave, detta \keyword{key equivocation}, ovvero la quantità \(H(K|C)\).
+
+Vediamo dunque alcune proprietà di tale quantità.
+\begin{proposition}{}
+  In un crittosistema a chiave simmetrica, si ha che
+  \(H(K|C) = H(K) + H(M) - H(C)\)
+\end{proposition}
+
+\begin{proof}
+  Consideriamo la quantità \(H(M,K,C)\).
+  Si ha che \(H(M,K,C) = H(M)+H(K|M) + H(C|M,K)\), ma \(H(C|M,K) = 0\) poiché non c'è incertezza sul messaggio cifrato sapendo messaggio in chiaro e chiave.
+  Inoltre, essendo \(M\) e \(K\) indipendenti, \(H(K|M) = H(K)\).
+  Il termine \(H(M,K,C)\) può essere riscritto però anche come \(H(C) + H(K|C) + H(M|K,C)\), ma essendo il sistema a chiave simmetrica conoscendo chiave e messaggio cifrato è sempre possibile determinare univocamente il messaggio in chiaro, avendo di conseguenza \(H(M|K,C) = 0\).
+
+  Si ha dunque
+  \[H(M) + H(K) = H(M,K,C) = H(C) + H(K|C)\]
+  Da cui la tesi.
+\end{proof}
+
+Consideriamo dunque il caso in cui \(\mathcal{M} = \mathcal{C} = A^n\), per qualche alfabeto \(A\), con la distribuzione su i messaggi derivante dalle frequenze di un linguaggio naturale.
+
+Per \(n\) sufficientemente grande, sono ragionevoli le ipotesi:
+\begin{enumerate}
+  \item \(\frac{H(M)}{n}\approx U\log \# A\)
+  \item \(C\) (quasi) uniforme, cioè \(H(C) \approx n \log \# A\)
+\end{enumerate}
+
+In tal caso, \(H(K|C) = H(M) + H(K) - H(C) \approx H(K)+nU\log \# A  - n\log \# A = H(K) + n(U-1)\log \# A =  H(K) - n\mathcal{R}\log \# A\)
+Fissata \(K\), al crescere di \(n\) tale quantità decresce, fino ad arrivare a \(0\) per \(n_0 = \frac{H(K)}{\mathcal{R}\log \# A}\) detto \keyword{punto di unicità}.
+
+Arrivati a tale quantità non si ha più incertezza sulla chiave sapendo il testo cifrato, ovvero la chiave può essere individuata univocamente.
+
+\begin{definition}{Crittosistemi a segretezza perfetta}
+  Un crittosistema ha \keyword{segretezza perfetta} se qualunque sia la distribuzione su \(\mathcal{M}\), si ha che
+  \[H(M|C) = H(M)\]
+
+  Ovvero \(M\) e \(C\) sono indipendenti.
+\end{definition}
+
+\begin{observation}{}
+  Dire che un crittosistema ha segretezza perfetta equivale a dire che \(p(c|m) = p(c)\) per ogni \(m\in\mathcal{M}, c\in\mathcal{C}\).
+\end{observation}
+
+\begin{proposition}{}
+  Se un sistema ha segretezza perfetta, allora \(\# \mathcal{K} \geq \# \mathcal{M}\).
+\end{proposition}
+
+\begin{proof}{}
+  Fissiamo una distribuzione su \(\mathcal{M}\), e sia \(c \in \mathcal{C}\) tale che \(p(c) > 0\).
+
+  Allora dall'ipotesi di segretezza perfetta abbiamo che, per ogni \(m\in\mathcal{M}\), \(p(c) = p(c|m) = \sum_{\substack{k \in \mathcal{K} \st\\ E_k(m)=c}} p(k)\).
+  Essendo \(p(c) > 0\) la somma non può essere nulla, dunque, per ogni \(m\in\mathcal{M}\), esiste almeno una chiave \(k \in \mathcal{K}\) tale che \(E_k(m) = c\).
+
+  Formalmente,
+  \[\forall m \in \mathcal{M}, \exists k \in \mathcal{K} \st E_k(m) = c\]
+
+  Essendo \(E_k\) iniettive per definizione di crittosistema, al variare di \(m\) le chiavi \(k\) devono essere tutte diverse, dunque devono esserci almeno tante chiavi quante sono i messaggi.
+\end{proof}
+
+Un esempio di crittosistema del quale possiamo dimostrare la segretezza perfetta è una variante del cifrario di Vigenère, detto \keyword{one-time pad} o \keyword{cifrario di Vernam}.
+L'idea di questo crittosistema rispetto a quello di Vigenère è di usare chiavi grandi quanto i messaggi stessi, e di usarle una sola volta.
+
+Prendiamo per semplicità un alfabeto binario \(A = \mathbb{F}_2 = \set{0,1}\) e \(\mathcal{M}=\mathcal{K}=\mathcal{C} = \mathbb{F}_2^n\).
+Data una chiave \(\underline{k} = (k_0, \ldots, k_n) \in \mathbb{F}_2^n\) la funzione di crittazione corrispondente è \(\underline{c} = E_k(m) = \underline{m} + \underline{k} \in \mathbb{F}_2^n\).
+In questo caso si ha \(E_k = D_k\) poiché sommando due volte la chiave si ritorna al messaggio originale.
+
+Prendendo \(K\) uniforme, e dunque indipendente da \(M\). Si andrà dunque a utilizzare una chiave per ogni trasmissione, scelta in modo casuale.\footnote{
+  Questo pone un problema di distribuzione delle chiavi, poiché il ricevente deve conoscere le chiave usata per cifrare il messaggio, rendendo poco pratico l'uso del sistema.}
+
+\begin{theorem}{Shannon (1949)}
+  Il crittosistema one-time pad ha segretezza perfetta.
+\end{theorem}
+
+\begin{proof}
+  Per ogni \(m \in \mathcal{M}, c \in \mathcal{C}\) esiste un unica \(k = m+c\)  tale che \(E_k(m) = c\).
+
+  Ne segue che 
+  \[\forall m \in \mathcal{M}, c \in \mathcal{C}, p(c|m) = \sum_{\substack{k \in \mathcal{K} \st\\ E_k(m)=c}} p(k) = p(m+c) = \frac{1}{2^n}\]
+  essendo \(K\) uniforme.
+
+  Dunque 
+  \[\forall c \in \mathcal{C}, p(c) = \sum_{m \in \mathcal{M}} p(m) p(c|m) = \frac{1}{2^n}\sum_{m \in \mathcal{M}} p(m) = \frac{1}{2^n}\]
+  Da questo
+  \[\forall m \in \mathcal{M}, c \in \mathcal{C}, p(c|m) = p(c)\]
+\end{proof}
+
+Arrivando infine a sistemi a chiave simmetrica più moderni, come ad esempio è il crittosistema AES (Advanced Encryption Standard), questi si basano su tecniche iterative:
+
+Dato un alfabeto \(A\) e una funzione non lineare:
+\[\begin{aligned}
+  F_k: A^n\times A^n &\to A^n\\
+  F_k(\underline{x_0}, \underline{x_1}) &= \underline{x_2}
+\end{aligned}\]
+
+La funzione di crittazione, fissato un numero di iterazioni \(r+1\), avrà dunque la forma:
+\[\begin{aligned}
+  E_k: A^n\times A^n &\to A^{2n}\\
+  E_k(\underline{x_0}, \underline{x_1}) &= \underline{x_r}\underline{x_{r+1}}\\
+\end{aligned}
+\]
+
+\section{Crittografia a chiave asimmetrica}
+
+Come già accennato, nei crittosistemi a chiave simmetrica la sicurezza si basa sulla segretezza della chiave.
+Questo però pone un problema di distribuzione\footnote{Distribuzione in senso logistico, non probabilistico} delle chiavi, poiché il ricevente deve conoscere la chiave usata per cifrare il messaggio, senza che un attaccante la intercetti.
+
+Un metodo \q{naïve} per distribuire le chiavi è la scatola a doppio lucchetto:
+\begin{itemize}
+  \item Alice vuole inviare un messaggio a Bob.
+  \item Alice mette il messaggio in una scatola, la chiude con il suo lucchetto e la invia a Bob.
+  \item Bob non può aprire la scatola, ma può aggiungere il suo lucchetto alla scatola chiusa e rimandarla ad Alice.
+  \item Alice, ricevuta la scatola con i due lucchetti, toglie il suo e la rimanda a Bob.
+  \item Bob, ricevuta la scatola con solo il suo lucchetto, può finalmente aprirla e leggere il messaggio.
+\end{itemize}
+
+In termini crittografici, Alice e Bob posseggono una chiave ciascuno, \(a\) e \(b\) rispettivamente, e le operazioni di chiusura e apertura della scatola corrispondono a funzioni di crittazione e decrittazione \(E_a, D_a\) per Alice e \(E_b, D_b\) per Bob.
+Di conseguenza lo scambio della scatola può essere formalizzato come:
+
+\begin{itemize}
+  \item Alice vuole inviare un messaggio \(m \in \mathcal{M}\) a Bob.
+  \item Alice calcola \(E_a(m)\) e lo invia a Bob.
+  \item Bob calcola \(E_b(E_a(m))\) e lo invia ad Alice.
+  \item Alice calcola \(D_a(E_b(E_a(m)))\) e lo invia a Bob.
+  \item Bob calcola \(D_b(D_a(E_b(E_a(m))))\) ottenendo il messaggio originale \(m\).
+\end{itemize}
+
+Ovviamente, affinché il sistema funzioni, si deve avere che \(D_b(D_a(E_b(E_a(m)))) = m\), ovvero che \(D_b \circ D_a \circ E_b \circ E_a = id_{\mathcal{M}}\).
+Questo chiaramente richiede che \(E_a\) e \(E_b\) commutino, ovvero che \(E_a \circ E_b = E_b \circ E_a\), condizione non banale da soddisfare.
+
+Si è dunque passati da crittosistemi a chiave simmetrica a crittosistemi a chiave asimmetrica, in cui ogni utente possiede una coppia di chiavi: una pubblica e una privata.
+La chiave pubblica del ricevente viene usata per cifrare il messaggio dal mittente, mentre la chiave privata del ricevente viene usata per decifrare il messaggio, risolvendo il problema della distribuzione delle chiavi.
+
+Chiaramente questo richiede che i crittosistemi siano tali che sia facile decifrare conoscendo la chiave privata, ma sia computazionalmente difficile decifrare od ottenere la chiave pubblica conoscendo solo la chiave pubblica.
+L'idea per creare crittosistemi è quella di usare problemi matematici ritenuti difficili da risolvere ma che, nota una certa informazione aggiuntiva, diventino facili da risolvere.
+
+\subsection{RSA}
+
+In particolare, uno dei più noti e usati crittosistemi a chiave asimmetrica è il crittosistema RSA (Rivest-Shamir-Adleman, 1977), è basato sulla difficoltà di fattorizzare grandi numeri composti.
+Per quanto sia facile determinare se un numero è primo, anche in tempo polinomiale, non esistono algoritmi classici per determinare, dato un numero non primo, la sua fattorizzazione in numeri primi in tempo ragionevole.
+
+Prendiamo come \(\mathcal{M}\) vettori di interi modulo \(n\) molto grande.\footnote{
+  Nella pratica per evitare limitazioni sui messaggi in chiaro il testo viene codificato in binario e suddiviso in blocchi di lunghezza \(\lceil\log n \rceil\) in modo che ogni blocco rappresenti un intero minore di \(n\).
+}
+
+In \(\mathbb{Z}_n\), ovvero l'anello degli interi modulo \(n\), sono invertibili tutti e soli gli elementi coprimi con \(n\), ovvero i \(k\) tali che\(\gcd(k,n) = 1\).
+La funzione di Eulero \(\phi(n)\) conta gli interi coprimi con \(n\) minori di \(n\) stesso.
+Si ha che \(\phi(1) = 1\) e che 
+\[\phi(p_1^{\alpha_1}\cdot\ldots\cdot p_t^{\alpha_t}) = p_1^{\alpha_1-1}\cdot\ldots \cdotp_t^{\alpha_t-1}\cdot(p_1 - 1)\cdot\ldots\cdot(p_t - 1) = \prod_{i=1}^{t} (p_i-1)p_i^{\alpha_i-1}\]
+con \(p_i\) primi distinti e \(\alpha_i \in \N,\forall i\).
+
+In particolare, se \(n = p q\) con \(p,q\) primi distinti, si ha che \(\phi(n) = (p-1)(q-1)\).
+Detto ciò, il crittosistema RSA funziona come segue:
+\begin{itemize}
+  \item B sceglie due numeri primi grandi \(p,q\) e calcola \(n = p q\) e \(\phi(n) = (p-1)(q-1)\).
+  \item B sceglie un intero \(e\) coprimo con \(\phi(n)\) e calcola il suo inverso moltiplicativo \(d = e^{-1} \mod \phi(n)\).
+  \item B pubblica la chiave pubblica \((n,e)\) e tiene segreta la chiave privata \((n,d)\).
+\end{itemize}
+
+Prendiamo dunque un \(m\) (blocco di lunghezza \(\lceil \log n \rceil\)) si ha che la sua cifratura sarà \(E_{(n,e)} (m) = m^e \mod n\) e la decifratura \(D_{(n,d)} (c) = c^d \mod n\).
+
+Prima di addentrarci nella dimostrazione di correttezza di RSA, qualche osservazione pratica:
+\begin{itemize}
+  \item il \(\gcd\) e l'inverso moltiplicativo possono essere calcolato con l'algoritmo di Euclide in tempo polinomiale
+  \begin{example}{}
+    Calcoliamo il \(\gcd(12,5)\) e l'inverso moltiplicativo di \(5\) modulo \(12\).
+    \[\begin{aligned}
+      12 &= 2\cdot 5 + 2\\
+      5 &= 2\cdot 2 + 1\\
+      2 &= 2\cdot 1 + 0
+    \end{aligned}\]
+    Dunque \(\gcd(12,5) = 1\).
+    Riscrivendo a ritroso:
+    \[\begin{aligned}
+      1 &= 5 - 2\cdot 2\\
+      &= 5 - 2(12 - 2\cdot 5)\\
+      &= 5\cdot 5 - 2\cdot 12
+    \end{aligned}\]
+    Essendo \(2\cdot 12 \equiv_{12} 0\), \(5\) è l'inverso moltiplicativo di \(5\) modulo \(12\).
+  \end{example}
+  \item È possibile calcolare in modo efficiente \(m^e \mod n\):
+    \begin{itemize}
+      \item Scriviamo l'espansione binaria di \(e\): \(e = 2^{i_1} + \ldots + 2^{i_s}\), dove \(i_1 < i_2 < \ldots < i_s\) sono le posizioni dei bit \(1\) in \(e\).
+      \item Calcoliamo quindi tutte le potenze di \(m\) di ordine \(2\) fino a \(2^{i_s}\) usando i calcoli precedenti e riducendo modulo \(n\) a ogni passo:
+        \[m^2 = m\cdot m \mod n, m^4 = m^2 \cdot m^2 \mod n, \ldots, m^{2^{i_s}} = m^{2^{i_s-1}} \cdot m^{2^{i_s-1}} \mod n\]
+      \item Infine, calcoliamo \(m^e = m^{2^{i_1}} \cdots m^{2^{i_s}} \mod n\), operando le moltiplicazioni due a due riducendo modulo \(n\) a ogni passo.
+    \end{itemize}
+    Questo metodo permette di effettuare un numero di moltiplicazioni logaritmico in \(e\), rendendo il calcolo efficiente anche per \(e\) molto grandi.
+\end{itemize}
+
+Per dimostrare quindi la correttezza di RSA, è necessario ricordare due importanti risultati di teoria dei numeri, uno conseguenza dell'altro.
+
+\begin{theorem}{Fermat-Euler}
+  Siano \(n,m \in \N_+\) con \(\gcd(m,n) = 1\).
+  Allora \(m^{\phi(n)} \equiv 1 \mod n\).
+\end{theorem}
+
+\begin{theorem}{Piccolo Teorema di Fermat}
+  Sia \(p\) un numero primo e \(a \in \N_+\) con \(\gcd(a,p) = 1\).
+  Allora \(a^{p-1} \equiv 1 \mod p\).
+\end{theorem}
+
+\begin{proposition}{Correttezza di RSA}
+  Dato \(n = q p\), con \(p,q\) primi distinti, \(e \in N\) coprimo con \(\phi(n) = (p-1)(q-1)\) e \(d = e^{-1} \mod \phi(n)\), allora
+  \[\forall m \in \set{0,\ldots,n-1}, {(m^e)}^d \equiv m \mod n\]
+\end{proposition}
+
+\begin{proof}
+  Essendo \(n = pq\) con \(p,q\) primi distinti, \(m\) può essere o coprimo con \(n\), o multiplo di \(n\),\footnote{Ovvero multiplo sia di \(p\) che di \(q\)} o multiplo di solo uno tra \(p\) e \(q\).
+  Analizziamo tutti i casi:
+  \begin{enumerate}
+    \item Se \(m\) è multiplo di \(n\), si ha che \(m = 0\), allora la tesi è ovvia.
+    \item Consideriamo dunque \(m\) coprimo con \(n\), ovvero \(\gcd(m,n) = 1\).
+      Poiché \(d e \equiv 1 \mod \phi(n)\), esiste \(k \in \Z\) tale che \(d e = 1 + k \phi(n)\).
+      Quindi \(m^{ed} = m^{1 + k\phi(m)} = m{(m^{\phi(n)})}^k\).
+      Dal teorema di Fermat-Euler abbiamo che \(m^{\phi(n)} \equiv_n 1\), quindi \(m^{ed} \equiv_n m \cdot 1^k = m\).
+    \item Infine, consideriamo \(m\) multiplo di \(p\) e \(\gcd(m,q) = 1\).
+      Allora \(m^{\phi(n)} \equiv_p m \equiv_p 0\).
+      Inoltre \(m^{q-1} \equiv_q 1 \mod q\) Dal piccolo teorema di Fermat. Dunque
+      \[m^{ed} = m^{1+k\phi(n)} = m^{1+k(p-1)(q-1)} = m\cdot{(m^{q-1})}^{k(p-1)}\equiv_q m\]
+      Dunque \(m^{ed} = m+tq\) per un certo \(t \in \Z\).
+      Ma sia \(m^{ed}\) che \(m\) sono multipli di \(p\), e in particolare lo è la loro differenza, ovvero \(tq\).\footnote{Questo perché se \(m = ph\) per qualche \(h\in\Z\), allora \(m^{ed} = {(p h)}^{ed} = p^{ed} h^{ed}\). Quindi \(m^{ed} - m = p^{ed} h^{ed} - p h = p(p^{ed-1} h^{ed} - h)\).}
+      Essendo \(p\) e \(q\) primi distinti, \(tq\) è multiplo di \(p\) solo se \(t\) è multiplo di \(p\), dunque \(tq\) è multiplo di \(n = pq\).
+      Quindi \(tq \equiv_n 0\), ovvero \(m^{ed} \equiv_n m\).
+  \end{enumerate}
+\end{proof}
+
+La sicurezza di RSA si basa dunque sulla difficoltà di fattorizzare \(n\) in \(p\) e \(q\), poiché conoscendo questi due numeri è possibile calcolare \(\phi(n)\) e dunque \(d\) come inverso moltiplicativo di \(e\) modulo \(\phi(n)\).
+Tale sicurezza non è però dimostrata in modo formale, poiché non è noto se esistano modi di ottenere \(d\) conoscendo solo \(n\) che non passino per la fattorizzazione di \(n\).
+
+\begin{observation}{}
+  La fattorizzazione è più trattabile sui computer quantistici grazie all'algoritmo di Shor (1994), ma essi sono ancora limitati e/o costosi, per dare problemi seri.
+\end{observation}
+
+\subsection{Funzioni Hash}
+
+Una funzione hash è una funzione \(h: \mathcal{M} \to \mathbb{F}_2^l\), non iniettiva\footnote{La non iniettività è inevitabile dato che \(l\) è fissato e in generale \(\mathcal{M}\) ha più di \(2^l\) elementi}, con la proprietà addizionale di essere \keyword{resistente a collisioni}.
+
+\begin{definition}{Collisione}
+  Data una funzione \(h: \mathcal{M} \to \mathbb{F}_2^l\), una \keyword{collisione} è una coppia di messaggi distinti \(m,m' \in \mathcal{M}\) tali che \(m\neq m' \land h(m) = h(m')\).
+\end{definition}
+
+\begin{definition}{Resistenza a collisioni}
+  Una funzione \(h: \mathcal{M} \to \mathbb{F}_2^l\) è \keyword{resistente a collisioni} se, dato un messaggio \(m \in \mathcal{M}\), è computazionalmente difficile trovare un altro messaggio \(m' \in \mathcal{M}\) tale che \(h(m) = h(m')\).
+\end{definition}
+
+Esempi di funzioni hash resistenti a collisioni sono MD5 (Message-Digest Algorithm 5) e SHA-1 (Secure Hash Algorithm 1).
+
+Nel campo della crittografia, le funzioni hash sono usate per garantire l'integrità dei messaggi, fornendo accanto ad esso il suo hash calcolato con una funzione hash concordata.
+Il ricevente, una volta ricevuto il messaggio e l'hash, può ricalcolare l'hash del messaggio ricevuto e confrontarlo con quello inviato.
+Se i due hash coincidono, il messaggio è integro; altrimenti, è stato alterato durante la trasmissione.
+
+\begin{definition}{MAC (Message Authentication Code)}
+  Un \keyword{MAC (Message Authentication Code)} è una famiglia di funzioni hash \(\set{h_k}[k\in \mathcal{K}]\) tale che
+  \begin{itemize}
+    \item \(h_k (m)\) sia facile da calcolare conoscendo \(k\) e \(m\)
+    \item \(h_k (m)\) sia computazionalmente difficile da calcolare senza conoscere \(k\), anche disponendo di un insieme di coppie \((m_i, h_k(m_i))\) non contenente \(m\) stesso.
+  \end{itemize}
+\end{definition}
+
+Utilizzando funzioni di hash è possibile utilizzare RSA anche per firmare digitalmente i messaggi. Questo è possibile poiché non solo che \(D_{(n,d)} \circ E_{(n,e)} = id_{\mathcal{M}}\), ma anche che \(E_{(n,e)} \circ D_{(n,d)} = id_{\mathcal{C}}\).
+
+Di conseguenza è possibile utilizzare le funzioni al contrario per assicurare l'autenticità del mittente.
+\begin{itemize}
+  \item Bob vuole inviare un messaggio \(m\) ad Alice firmandolo digitalmente.
+  \item Bob dunque invia, oltre a \(m\) eventualmente criptato con la chiave pubblica di Alice, anche una firma \(f = D_{n,d}(h(m)) = {(h(m))}^d \mod n\) data una funzione hash \(h\) concordata.
+  \item Alice, ricevuto \(m\) e \(f\), calcola \(h(m)\) e verifica che \(E_{n,e}(f) = {(f)}^e \mod n = h(m)\).
+  \item Se la verifica ha successo, Alice è sicura che il messaggio proviene da Bob, poiché solo lui possiede la chiave privata necessaria per generare \(f\).
+\end{itemize}
+
+\subsection{Logaritmi discreti}
+
+Come problemi matematici difficili da risolvere, sui quali basare crittosistemi a chiave asimmetrica, un alternativa alla fattorizzazione è il problema del logaritmo discreto.
+
+Ricordiamo che per \(p\) primo, \(\Z_p\) è un campo, anche detto \(\mathbb{F}_p\), il cui gruppo moltiplicativo è ciclico, cioè tale che 
+\(\mathbb{F}_p\setminus\set{0} = \set {r^i}[0\leq i < p-1]\) dove \(r \in \mathbb{F}_p\setminus\set{0}\) è detta radice primitiva \(\mod p\).
+
+Ovviamente ogni elemento di \(\mathbb{F}_p\setminus\set{0}\) può essere ottenuto come potenza di \(r\) per un unico esponente \(i\), ma trovare tale esponente dato l'elemento è computazionalmente difficile.
+
+Vediamo dunque due crittosistemi basati su questo problema.
+
+\paragraph{Scambio di chiavi Diffie-Hellman \((1976)\)}
+\begin{itemize}
+  \item Alice e Bob vogliono accordarsi in privato su una chiave segreta da utilizzre in futuro.
+  \item Concordano quindi pubblicamente un primo \(p\) e una sua radice primitiva \(r\).
+  \item Alice sceglie quindi un intero segreto\footnote{Sarebbe ancora meglio se fosse generato casualmente} \(a'\) e calcola \(a = r^{a'} \mod p\).
+  \item Bob fa altrettanto scegliendo un intero segreto \(b'\) e calcolando \(b = r^{b'} \mod p\).
+  \item Una volta scambiati \(a\) e \(b\), possono entrambi calcolare la chiave segreta condivisa \(k_{AB} = r^{a' b'} \mod p\) come \(k_{AB} = b^{a'} \mod p\) per Alice e \(k_{AB} = a^{b'} \mod p\) per Bob.
+\end{itemize}
+
+Come per RSA, la sicurezza di tale sistema non è formalmente dimostrata, anche se tutt'oggi non sono noti attacchi efficienti per risalire a \(k_{AB}\) conoscendo solo \(p, r, a, b\).
+
+\paragraph{Crittosistema di ElGamal \((1985)\)}
+
+Scegliamo come insieme dei messaggi \(\mathcal{M} = \mathbb{F}_p\setminus\set{0}\) per un primo \(p\), e fissiamo una radice primitiva \(r \mod p\).
+\begin{itemize}
+  \item B sceglie un intero segreto \(b'\) come chiave privata e come chiave pubblica calcola \(b = r^{b'} \mod p\).
+  \item Alice, per mandare un messaggio \(m\) cifrato a Bob, sceglie un token \textbf{casuale} \(t\in\N\) e invia:
+    \[E_b(m,t) = (r^t \mod p, m \cdot b^t \mod p)\]
+  \item Bob riceve quindi il \q{leader} \(l = r^t\), oltre al messaggio cifrato \(c=mb^t\).
+  \item Bob applica dunque la decodifica:
+    \[D_b = c {(l^{b'})}^{-1} \mod p = m b^t {(r^{t b'})}^{-1} \mod p = m b^t {(b^t)}^{-1} \mod p = m\]
+\end{itemize}

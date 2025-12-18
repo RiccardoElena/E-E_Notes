@@ -67,7 +67,7 @@ Questo vale anche per catene di Markov irriducibili, aperiodiche e invariati nel
   Anche in questo caso ci si può avvicinare a \(\frac{4}{3}\) codificando a blocchi.
 \end{example}
 
-\begin{theorem}{Disuguaglianza di Fano}
+\begin{theorem}[label=thm:fano]{Disuguaglianza di Fano}
   Siano \(X \to Y \to \hat{X}\) variabili aleatorie con \(\hat{X}\) stima di \(X\) basata su \(Y\).
   Sia inoltre \(P_e = \Prob[X\neq\hat{X}]\). Allora
   \[H(X|Y) \leq H(X|\hat{X})\leq H(P_e)+P_e\log(\#\mathcal{X})\]
@@ -304,7 +304,7 @@ Di tale teorema dimostreremo solo il secondo punto, ma per fare ciò è necessar
   
 \end{proof}
 
-\begin{proof}{Dimostrazione di~\ref{thm:shannon_2}}
+\begin{proof}[Dimostrazione di~\ref{thm:shannon_2}]
   Andiamo a dimostrare solo la seconda parte del teorema, ovvero che se \(R>C\) allora \(R\) non è raggiungibile.
   Mostriamo l'inverso, ovvero che se \(R\) è raggiungibile allora \(R\leq C\).
   Sia allora \(R\) un tasso di trasmissione raggiungibile, e consideriamo la successione di \(( 2^{nR},n)\)-codifiche\footnote{Dalla definizione sarebbe necessario utilizzare la funzione \(\lfloor\rfloor\), ma ciò andrebbe solo a complicare i conti, dunque si assumeranno \(2^{nR}\) interi per semplicità} tale che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
@@ -312,7 +312,7 @@ Di tale teorema dimostreremo solo il secondo punto, ma per fare ciò è necessar
   Fissato \(n\), sia \(\mathcal{W} = \set{1, \ldots, 2^{nR}}\) e sia \(W\) uniforme su \(\mathcal{W}\),\footnote{Possiamo assumere una qualsiasi distribuzione poiché le quantità coinvolte nel teorema sono relative al solo canale, e non alla sorgente sottostante}
   cosicché \(nR = H(W) = H(W|\hat{W}) + I(W;\hat{W})\).
 
-  Poiché \(W \to X^n \to Y^n \to \hat{W}\) formano una catena di Markov, possiamo applicare la disuguaglianza di Fano (inserire riferimento) per ottenere
+  Poiché \(W \to X^n \to Y^n \to \hat{W}\) formano una catena di Markov, possiamo applicare la disuguaglianza di Fano~\ref{thm:fano} per ottenere
   \[H(W|\hat{W}) \leq H(P_e^{(n)}) + P_e^{(n)} nR\leq 1 + P_e^{(n)} nR\]
   Inoltre, dalla disuguaglianza di data processing, si ha che
   \[I(W;\hat{W}) \leq I(X^n;Y^n) \leq n C \]
