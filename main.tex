@@ -20,6 +20,13 @@
 }
 \setabstracttitle{Scopo del documento}
 
+\newcommand{\whitepage}{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \newpage
+}
+
 % ---------------------------- END CUSTOMIZATIONS ------------------------------
 
 
@@ -51,23 +58,32 @@
 
 \begin{document}
 
+\pagenumbering{gobble}
 
 \maketitlepage{}
-
-
-\tableofcontents
-\newpage
+\whitepage{}
 
 \input{_chapters/0_intro.tex}
+\whitepage{}
+
+\newgeometry{top=2cm}
+\tableofcontents
+\restoregeometry{}
+
+\whitepage{}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
 \input{_chapters/1_algebra}
 \input{_chapters/2_algebric_code.tex}
 \input{_chapters/3_source_encoding.tex}
-\input{_chapters/4_entropy_one_more_variable.tex}
+\input{_chapters/4_multivariable_entropy_stocastic_processes.tex}
 \input{_chapters/5_block_channel_encoding.tex}
 \input{_chapters/6_error_correcting_codes.tex}
 \input{_chapters/7_encryption.tex}
 
-
+\whitepage{}
 \makebackcover{}
 
 \end{document}
