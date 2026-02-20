@@ -7,13 +7,13 @@ In particolare questo capitolo si concentra sulle strutture algebriche di semigr
 
 Inizialmente però, per addentrarci nelle definizioni delle suddette strutture algebriche, è necessario introdurre alcune notazioni preliminari, che verranno conservate per tutto il corso di questi appunti.
 
-\section{Nozioni Preliminari}
+\section{Notazioni Preliminari}
 
 Le lettere maiuscole \(A, B, X, Y \ldots\) indicheranno generalmente insiemi, che siano finiti o infiniti.
 Per quanto riguarda gli insiemi numerici tradizionali, useremo:
 \begin{itemize}
   \item \(\N = \set{0,1,2,\ldots}\) per i numeri naturali (incluso lo zero);
-  \item \(\N_+ = \set{1,2,3,\ldots}\) per i numeri naturali positivi (escluso lo zero);
+  \item \(\N' = \set{1,2,3,\ldots}\) per i numeri naturali positivi (escluso lo zero);
   \item \(\Z\) per i numeri interi;
   \item \(\Q\) per i numeri razionali;
   \item \(\R\) per i numeri reali.
@@ -100,7 +100,7 @@ Tale costruzione è estendibile anche a un qualsiasi monoide \((M,\cdot,1_M)\), 
 Questo semigruppo (o monoide) delle parti è particolarmente rilevante, poiché, grazie alle notazioni introdotte nella \Cref{obs:power_notation}, è possibile definire le potenze di un qualsiasi sottoinsieme \(Y \subseteq S\).
 
 Tale notazione permette di formulare in modo più compatto la chiusura di un sottoinsieme \(Y\) di un semigruppo.
-  \[(\forall a,b \in T, a \cdot_S b \in T)\iff (Y^2 \subseteq Y).\]
+  \[(\forall a,b \in Y, a \cdot_S b \in Y)\iff (Y^2 \subseteq Y).\]
 
 \begin{definition}{Sottostruttura generata}
   Sia \((S,\cdot)\) un semigruppo e \(Y \subseteq S\).
@@ -109,7 +109,7 @@ Tale notazione permette di formulare in modo più compatto la chiusura di un sot
   l'insieme di tutte le possibili combinazioni finite di elementi di \(Y\) tramite l'operazione binaria di \(S\).
 
   Dato \((M,\cdot_M,1_M)\) monoide, è possibile aggiungere la potenza zero, definendo il \keyword{sottomonoide} di \(M\) generato da \(Y\) come:
-  \[Y^* = \set{1_S} \cup Y^+ = \bigcup_{n=0}^{\infty} Y^n.\]
+  \[Y^* = \set{1_M} \cup Y^+ = \bigcup_{n=0}^{\infty} Y^n.\]
 \end{definition}
 
 Tali sottostrutture sono le più piccole possibili che contengono \(Y\).\\
@@ -133,7 +133,7 @@ In altre parole, ogni elemento di \(X^{+}\) si fattorizza in un unico modo come 
 
 \begin{observation}[label=obs:no_neutral_in_base]{}
   Per definizione di base, nessuna base di un monoide può contenere l'elemento neutro.
-  Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{+}\) si fattorizza in un modo non univoco.
+  Infatti, se \(1_M \in X\), \(\forall x \in X\) si ha che \(1_M \cdot x = x\), quindi ogni elemento di \(X^{*}\) si fattorizza in un modo non univoco.
 \end{observation}
 
 \begin{definition}{Semigruppi e monoidi liberi}
@@ -161,7 +161,7 @@ Tale proprietà di generalità verrà formalizzata più avanti tramite una propr
 \end{proposition}
 
 \begin{theorem}{Proprietà universale dei monoidi (semigruppi) liberi}
-  Sia \(M\) un monoide con \(X \subseteq M\). Allora \(M\) è libero di base \(X\) se e solo se, per ogni monoide \(M'\) e ogni applicazione \(f: X \to M'\), esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\hat{f}_{|_X} = f\), ovvero tale che il seguente diagramma commuta:
+  Sia \(M\) un monoide con \(X \subseteq M\). Allora \(M\) è libero di base \(X\) se e solo se, per ogni monoide \(M'\) e ogni applicazione \(f: X \to M'\), esiste un unico morfismo di monoidi \(\bar{f}: M \to M'\) tale che \(\bar{f}_{|_X} = f\), ovvero tale che il seguente diagramma commuta:
   \begin{center}
       \begin{tikzcd}[column sep=huge, row sep=huge, cells={nodes={scale=1.2, transform shape}}]
         X \arrow[r, "f"] \arrow[d, hook,"i"] & M' \\ %chktex 18 
@@ -205,7 +205,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
   Non fosse stato così, non sarebbe possibile definire in modo univoco la lunghezza di un elemento di \(M\) a partire dagli elementi della sua base.
 \end{observation}
 
-\begin{lemma}[label=lem:levi]{Levi}
+\begin{lemma}[namedlabel={lem:levi}{Levi}]{Levi}
   Sia \(M\) un monoide libero, \(m_1,m_2,m_3,m_4 \in M\) tali che \(m_1m_2=m_3m_4 \text{ e } |m_1| \geq |m_3|\).
   Allora \(\exists v \in M: m_1 = m_3v \land vm_2 = m_4\)
 \end{lemma}
@@ -242,8 +242,8 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
         \draw[thick] (P\x) -- ++(0,0.3);
       }
       \node[left] at (A) {\(w\)};
-      \draw[thick, blue,bend right] (A) to node[midway, below, blue] {\(m_1\)} (P2);
-      \draw[thick, blue,bend right] (P2) to node[midway, below, blue] {\(m_2\)} (P6);
+      \draw[thick, blue,bend right] (A) to node[midway, below, blue] {\(m_3\)} (P2);
+      \draw[thick, blue,bend right] (P2) to node[midway, below, blue] {\(m_4\)} (P6);
     \end{tikzpicture}
   \end{figure}
   Se \(\abs{m_1} = \abs{m_3}\), dall'ipotesi che \(M\) è libero segue che \(m_1 = m_3\) e \(m_2 = m_4\).
@@ -296,7 +296,7 @@ Dato un monoide libero \(M\) è possibile definire un morfismo di lunghezza dell
 \end{proof}
 
 
-\begin{definition}[label=def:quotient_sets]{Insiemi quoziente}
+\begin{definition}[namedlabel={def:quotient_sets}{Insiemi quoziente}]{Insiemi quoziente}
   Siano \(Y,Z \subseteq M\) monoide. Definiamo gli insiemi quoziente destro e sinistro come:
   \begin{equation}
     \begin{aligned}
@@ -310,7 +310,7 @@ In altre parole possiamo vedere l'insieme quoziente sinistro (rispettivamente de
 
 Utilizzando tali insiemi è possibile formulare un importate teorema sui sottomonoidi liberi.
 
-\begin{theorem}[label=thm:schützenberger_monoids]{Schützenberger sui sottomonoidi liberi}
+\begin{theorem}[namedlabel={thm:schützenberger_monoids}{Schützenberger sui sottomonoidi liberi}]{Schützenberger sui sottomonoidi liberi}
   Sia \(M\) libero e \(N \leq M\). Allora \(N \text{ è libero } \iff N^{-1}N \cap NN^{-1} \subseteq N\)
 \end{theorem}
 In altre parole questo teorema ci dice che \(N\) sottomonoide di \(M\) libero è a sua volta libero se e solo se ogni parola di \(M\) che completa sia a destra che a sinistra parole di \(N\) sia a sua volta inclusa in \(N\).
@@ -326,7 +326,7 @@ Tale formulazione può essere espressa formalmente come:
   In altre parole un sottomonoide di un monoide libero è esso stesso libero se non contiene più del necessario.
 \end{observation}
 
-\begin{proof}[\extrasymbol{} Dimostrazione di~\ref{thm:schützenberger_monoids}]
+\begin{proof}[\extrasymbol{} Dimostrazione \Namedref{thm:schützenberger_monoids}]
   In caso uno qualsiasi tra \(n_1,n_2,n_3,n_4 \in N\) e \(m \in M\) sia l'elemento neutro \(1_M\) la doppia implicazione è verificata in maniera banale.
   Assumendo dunque che tutti gli elementi coinvolti siano diversi da \(1_M\) andiamo a dimostrare i due versi della doppia implicazione:
   \begin{description}
@@ -388,7 +388,7 @@ Tale formulazione può essere espressa formalmente come:
       Sia inoltre \(X = (N\setminus \set{1})\setminus{(N\setminus \set{1})}^2\) e supponiamo per assurdo che \(X\) non sia una base di \(N\).
       Esistono dunque \(x_1, \ldots, x_i, x_1', \ldots, x_j' \in X\) tali che \(x_1\ldots x_i = x_1'\ldots x_j'\) con \(x_1 \neq x_1'\).
       Senza perdita di generalità, supponiamo che \(\abs{x_1} < \abs{x_1'}\).
-      Per il lemma di Levi (\ref{lem:levi}) esiste \(v \in M\) tale che \(x_1' = x_1 v\) e \(x_2 \ldots x_i = v x_2' \ldots x_j'\).
+      Per il \Namedref{lem:levi} esiste \(v \in M\) tale che \(x_1' = x_1 v\) e \(x_2 \ldots x_i = v x_2' \ldots x_j'\).
       Ponendo \(m = v, n_1 = x_1, n_2 = x_1', n_3 = x_2'\ldots x_j', n_4 =  x_2 \ldots x_i\), dall'ipotesi segue che \(v \in N\).
       Ma \(x_1 \in X \implies x_1 \in N\), e dunque \(x_1' = x_1 v \in {(N\setminus\set{1})}^2\), in contraddizione con la definizione di \(X\).
       Dunuque \(X\) è una base di \(N\), e \(N\) è libero.
@@ -407,5 +407,5 @@ Tale formulazione può essere espressa formalmente come:
 \end{definition}
 
 % se è unitario è libero non viceversa
-Da tale definizione e dal teorema~\ref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se  \(N \leq M\) è unitario, allora è libero
+Da tale definizione e dal \Namedref{thm:schützenberger_monoids} segue che, dato \(M\) monoide libero, se  \(N \leq M\) è unitario, allora è libero
 

@@ -37,7 +37,7 @@ Da questo esempio è possibile trarne una regola generale.
 \begin{proposition}{}
   Sia \(S\) sorgente, \(X\) codice su \(A\) \emph{adattato} a \(S\) mediante \(\varphi\).
   Allora \(c(X) = c(X,\varphi)\) se e solo se
-    \[\forall s,s' \in \SCal, p(s) < p(s') \implies \abs{\varphi(s)} < \abs{\varphi(s')} \]
+    \[\forall s,s' \in \SCal, p(s) < p(s') \implies \abs{\varphi(s)} \geq \abs{\varphi(s')} \]
 \end{proposition}
 
 \begin{proof}
@@ -110,9 +110,9 @@ Andiamo dunque a dimostrare tali affermazioni.
   Essendo che \(\forall s \in \SCal: 0\leq p(s) \leq 1\), abbiamo che\footnote{È denotato che \(-\infty \leq \log\left(p(s)\right)\) e non \(-\infty < \log\left(p(s)\right)\), poiché si assume \(\log\left(0\right)\) definito come \(-\infty\) per continuità.}
   \[-\infty \leq \log\left(p(s)\right) \leq 0 \iff  0 \leq -\log\left(p(s)\right) = \log\left(\frac{1}{p(s)}\right) \leq \infty\]
 
-  Dunque \(H(S) = \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) = E[\log\left(\frac{1}{p(S)}\right)] \geq 0\), essendo somma pesata (o media) di quantità non negative.
+  Dunque \(H(S) = \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) = \EV{\log\left(\frac{1}{p(S)}\right)} \geq 0\), essendo somma pesata (o media) di quantità non negative.
 
-  Inoltre se \(p(s) = 1\) e \(p(t) = 0 \forall t \in \SCal \setminus \set{s}\) si ha che
+  Inoltre se \(p(s) = 1\) e \(p(t) = 0, \forall t \in \SCal \setminus \set{s}\) si ha che
   \[H(S) = 1 \cdot \log\left(\frac{1}{1}\right) - \sum_{t \in \SCal \setminus \set{s}} 0 \cdot \log\left(0\right) = 0 - 0 = 0\]
   Viceversa, se \(H(S) = 0\), deve aversi che \(\forall s \in \SCal: p(s) \log\left(\frac{1}{p(s)}\right) = 0\), che può avvenire solo in due casi, ovvero \(\forall s \in \SCal p(s) = 0 \lor p(s) = 1\).
   Ma essendo che \(p\) è una distribuzione, \(\sum_{s \in \SCal} p(s) = 1\), e dunque
@@ -123,7 +123,7 @@ Andiamo dunque a dimostrare tali affermazioni.
   Si può utilizzare la disuguaglianza di Gibbs.
   Tale disuguaglianza afferma che, date due distribuzioni \(p\) e \(q\) su \(\SCal\), Allora:
   \begin{equation}\label{eq:gibbs}
-    \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) \leq -\sum_{s \in \SCal} p(s) \log\left(\frac{1}{q(s)}\right)
+    \sum_{s \in \SCal} p(s) \log\left(\frac{1}{p(s)}\right) \leq \sum_{s \in \SCal} p(s) \log\left(\frac{1}{q(s)}\right)
   \end{equation}
   Ovvero che l'entropia di \(S\) rispetto a \(p\) è minore o uguale alla media in probabilità \(p\) dell'inverso del logaritmo della probabilità secondo \(q\), e vale l'uguaglianza se e solo se \(p = q\).
   \begin{note}{}
@@ -136,7 +136,7 @@ Andiamo dunque a dimostrare tali affermazioni.
 
 Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l'entropia di una sorgente al costo di codifica, ovvero il teorema di Shannon.
 
-\begin{theorem}[label=thm:shannon]{Shannon}
+\begin{theorem}[namedlabel={thm:shannon}{Shannon}]{Shannon}
   Sia \(S = (\SCal,p)\) sorgente, \(A\) alfabeto di codice con \(\#\SCal = d \geq 2\) e \(X \subseteq A^+\) codice adattato a \(S\) mediante \(\varphi\).
   Allora
   \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
@@ -160,12 +160,12 @@ Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l
   \[=\log\left(\pi(X)\right) + \sum_{s \in \SCal}p(s)\abs{\varphi(s)}\log\left(d\right) = \log\left(\pi(X)\right) + c(X,\varphi)\log\left(d\right)\]
   Da cui
   \[H(S) \leq \log\left(\pi(X)\right) + c(X,\varphi)\log\left(d\right) \implies c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)} - \log_{d}(\pi(X))\]
-  Essendo \(X\) un codice, per la disuguaglianza di Kraft---McMillan (~\ref{cor:kraft-mcmillan_inequality}) si ha che \(\pi(X) \leq 1\).
+  Essendo \(X\) un codice, per il \Namedref{cor:kraft-mcmillan_inequality} si ha che \(\pi(X) \leq 1\).
   Dunque:
   \[\pi(X)\leq 1 \implies \log_{d}(\pi(X)) \leq 0 \implies -\log_{d}(\pi(X)) \geq 0\]
   Togliendo quindi tale quantità la disequazione è solo rafforzata, e dunque
   \[c(X,\varphi) \geq \frac{H(S)}{\log\left(d\right)}\]
-
+  % TODO: spiegare meglio
   Inoltre, per far si che valga l'uguaglianza è necessario in primo luogo che valga l'uguaglianza nella disuguaglianza di Gibbs~\eqref{eq:gibbs}, ovvero che \(p = q\).
   In questo caso si otterrebbe:
   \[c(X,\varphi) = \frac{H(S)}{\log\left(d\right)} - \log_{d}(\pi(X))\]
@@ -231,7 +231,7 @@ In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codi
 Come già visto nel capitolo precedente nella \Cref{def:prefix_suffix}, diremo che \(X \subseteq X^*\) è prefisso (o suffisso) se e solo se non ci sono parole di \(X\) che sono prefissi (o suffissi) di altre parole di \(X\), ovvero:
 \[X\cap XA^+ = \emptyset\]
 
-In oltre, nel \Cref{thm:prefix_suffix_code} abbiamo visto che a un insieme prefisso (o suffisso) per essere codice è sufficiente che non sia \(\set{\varepsilon}\), che è ovviamente sia prefisso che suffisso ma non codice.
+In oltre, nel \Namedref{thm:prefix_suffix_code} abbiamo visto che a un insieme prefisso (o suffisso) per essere codice è sufficiente che non sia \(\set{\varepsilon}\), che è ovviamente sia prefisso che suffisso ma non codice.
 Come casi particolari tra tali codici troviamo:
 \begin{itemize}
   \item \keyword{Codici bifissi}: codici che sono sia prefisso che suffisso
@@ -326,7 +326,7 @@ Se consideriamo infatti \(A=\set{a,b}\) e \(X=\set{a,bb}\), \(X\) etichetta le f
 Tuttavia, è unico\footnote{A essere precisi è unico a meno di isomorfismi con scambio di etichettamento. In altre parole fissato il criterio di etichettamento dei nodi è unico. Cambiandolo si ottengono alberi isomorfi} l'albero \keyword{minimale} nel numero dei nodi \(T_X\) che rappresenta \(X\).
 L'insieme dei nodi di \(T_X\) è esattamente \(Pref(X)\).
 
-\begin{definition}[label=def:complete_tree]{Albero completo}
+\begin{definition}[namedlabel={def:complete_tree}{Albero completo}]{Albero completo}
   Un albero \(d\)-ario si dice \keyword{completo} se ogni nodo interno ha esattamente \(d\) figli.
 \end{definition}
 
@@ -335,10 +335,7 @@ L'insieme dei nodi di \(T_X\) è esattamente \(Pref(X)\).
   In altri contesti un albero è definito completo se tutti \textit{i suoi livelli} sono completi, \textit{tranne al più l'ultimo}.
   Ovviamente questa non è una definizione equivalente a quella data in questo corso poiché l'albero minimale per \(X\) della \Cref{fig:prefix_code_trees} \textbf{non} è completo per la \Cref{def:complete_tree} ma lo è per la definizione data in questa nota e in altri corsi.
 
-  Nei contesti in cui si utilizza la definizione di albero completo data in questa nota, gli alberi descritti dalla \Cref{def:complete_tree} sono chiamati alberi pieni.
-  Nei contesti in cui per albero completo si utilizza la \Cref{def:complete_tree}, gli alberi come quello in \Cref{fig:prefix_code_trees} sono detti \keyword{quasi completi}.
-
-  Chiaramente, questi appunti si adatteranno alla nomenclatura usata nel corso.
+  Nel contesto di questo corso, e di conseguenza in questi appunti, per albero completo si intenderà sempre quello della \Cref{def:complete_tree}.
 \end{note}
 
 \begin{definition}{Codice prefisso massimale}
@@ -418,20 +415,22 @@ L'insieme dei nodi di \(T_X\) è esattamente \(Pref(X)\).
 \end{corollary}
 
 \begin{proof}
-  Si ha che \(1 \implies 2\) da \Cref{thm:prefix_code_properties}, e \(2 \implies 3\) è ovvio, \(3,4,5,6\) sono equivalenti da \Cref{cor:schutz_maximality_completeness} e \(6 \implies 1\) è ovvio.
+  Si ha che \(1 \implies 2\) da \Namedref{thm:prefix_code_properties}, e \(2 \implies 3\) è ovvio, \(3,4,5,6\) sono equivalenti da \Cref{cor:schutz_maximality_completeness} e \(6 \implies 1\) è ovvio.
 \end{proof}
 
 Riprendendo il concetto di funzione di struttura della \Cref{def:structure_function} e la disuguaglianza di Kraft---McMillan del \Cref{cor:kraft-mcmillan_inequality_alt}, possiamo mostrare come per qualsiasi codice, esiste un codice prefisso con la stessa funzione di struttura
 
-\begin{theorem}[label=thm:kraft]{Kraft}
-  Sia \(d \geq 1\) un intero e sia \(f: \N \to \N\) tale che \(f(0) = 0\) e \(\sum_{n=0}^\infty f(n)d^{-n} \leq 1\). 
+\begin{theorem}[namedlabel={thm:kraft}{Kraft}]{Kraft}
+  Sia \(d \geq 1\) un intero e sia \(f: \N \to \N\) tale che
+  \[f(0) = 0 \text { e }\sum_{n=0}^\infty f(n)d^{-n} \leq 1\]
   
   Allora esiste \(X\) codice prefisso su alfabeto \(A\) con \(\#A = d\) tale che \(f_X = f\)
 \end{theorem}
 
 \begin{observation}{}
-  In particolare, se \(X\) è un codice non contiene \(\varepsilon\), e dunque \(f(0) = 0\).
-  Inoltre, per la disuguaglianza di Kraft---McMillan, si ha che \(\sum_{n=0}^\infty f(n)d^{-n} = \pi(X) \leq 1\).
+  In particolare, se \(X\) è un codice non contiene \(\varepsilon\), e dunque \(f_X(0) = 0\).
+  Inoltre, per la disuguaglianza di Kraft---McMillan, si ha che \(\sum_{n=0}^\infty f_X(n)d^{-n} = \pi(X) \leq 1\).
+  
   Dunque, ogni funzione di struttura di codice rispetta le condizioni del teorema di Kraft, per cui sono vere:
 
   \begin{itemize}
@@ -443,12 +442,12 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
 
 \begin{proof}
   Sia \(k \geq 1\). Allora 
-  \[\sum_{n=0}^{k}f(n)d^{-n} \leq \sum_{n=0}^{\infty}f(0)d^{-n} \leq 1 \]
+  \[\sum_{n=0}^{k}f(n)d^{-n} \leq \sum_{n=0}^{\infty}f(n)d^{-n} \leq 1 \]
   \[ f(k)d^{-k} + \sum_{n=0}^{k-1}f(n)d^{-n} \leq 1\]
-  \[ f(k)\leq d^{k}-\sum_{n=0}^{k-1}f(n)d^{-n}\]
-  Definiamo dunque la funzione \(\nu: \N \to \N\) come:
-  \[v(k)=d^k-\sum_{n=0}^{k}f(n)d^{k-n} = d(d^{k-1}-\sum_{n=0}^{k}f(n)d^{k-n-1}) = \]
-  \[= d(d^{k-1}-\sum_{n=0}^{k-1}f(n)d^{k-n-1}-f(k)d^{0}) = d(\nu(k-1)-f(k))\]
+  \[ f(k)\leq d^{k}-\sum_{n=0}^{k-1}f(n)d^{k-n}\]
+  Definiamo dunque la funzione \(\nu: \N' \to \N\) come:
+  \[\nu(k)=d^k-\sum_{n=0}^{k-1}f(n)d^{k-n} = d(d^{k-1}-\sum_{n=0}^{k-1}f(n)d^{k-n-1}) = \]
+  \[= d(d^{k-1}-\sum_{n=0}^{k-2}f(n)d^{k-n-1}-f(k-1)d^{0}) = d(\nu(k-1)-f(k-1))\]
 
   Si ha ovviamente per costruzione che \(f(n)\leq\nu(n), \forall n \in \N\)
   In particolare si ha che \(f(1) \leq \nu(1) = d\).
@@ -508,7 +507,7 @@ Infine, formalizziamo l'intuizione citata nella nota precedente
 \end{corollary}
 
 \begin{proof}
-  Segue direttamente dal \Cref{cor:kraft-mcmillan_inequality_alt} e dal \Cref{thm:kraft}.
+  Segue direttamente dal \Namedref{cor:kraft-mcmillan_inequality_alt} e dal \Namedref{thm:kraft}.
 \end{proof}
 
 \begin{proposition}{}
@@ -560,7 +559,7 @@ Possiamo quindi infine dimostrare l'esistenza di un codice ottimale data una sor
   Ovviamente, dagli ultimi due risultati segue che per ogni sorgente \(S\) e alfabeto di codice \(A\) con \(\# A = d \geq 2\), esiste un codice \textbf{prefisso} ottimale per \(S\) su \(A\).
 \end{observation}
 
-Dal teorema di Shannon (\ref{thm:shannon}), se \(\#A = d \geq 2\) e \(\varphi: \SCal \leftrightarrow X\)
+Dal \Namedref{thm:shannon}, se \(\#A = d \geq 2\) e \(\varphi: \SCal \leftrightarrow X\)
 \[c(X,\varphi) = \frac{H(S)}{\log(d)} \iff X \text{ massimale } \land \forall s \in \SCal, p(s)=d^{-\abs{\varphi(s)}}\]
 
 Ovvero, sappiamo che un codice assolutamente ottimale è necessariamente massimale. In caso di codice binario però, si può dimostrare che basta l'ottimalità per garantire la massimalità.
@@ -655,7 +654,7 @@ Ovviamente, in caso la sorgente non ammetta ottimo assoluto questo valore è sup
 
 \begin{proof}
   Per semplicità, ci ridurremmo al caso di sorgenti proprie, ma il teorema è valido in generale.
-  Per il \Cref{thm:shannon}, abbiamo che 
+  Per il \Namedref{thm:shannon}, abbiamo che 
   \[\frac{H(S)}{\log(d)} = c(X) \iff X \text{ massimale }\land \forall s \in \SCal, \abs{\varphi(s)}=-\log_d(p(s))=\log_d\left(\frac{1}{p(s)}\right)\]
 
   Come già osservato, non è sempre possibile trovare un codice assolutamente ottimo, poiché non in tutte le sorgenti \(\log_d\left(\frac{1}{p(s)}\right) \in \N\), e dunque non sempre tali valori sono ammissibili come lunghezze di parole di codice.
@@ -670,7 +669,7 @@ Ovviamente, in caso la sorgente non ammetta ottimo assoluto questo valore è sup
   Utilizzando tale funzione, possiamo riscrivere le precedenti sommatorie come
   \[1 \geq \sum_{s\in\SCal} d^{-r(s)} = \sum_{n=0}^{\infty} f(n)d^{-n}\]
   Essendo \(S\) propria, \(p(s) > 0 \forall s \in \SCal\), dunque \(\log_d\left(\frac{1}{p(s)}\right)>0 \implies r(s) \geq 1\) per definizione di \(\lceil\;\rceil\).
-  Da cui \(f(0) = 0\). Sono dunque valide le ipotesi del \Cref{thm:kraft}, e dunque esiste \(X\) codice prefisso su \(A\) tale che \(f_X = f\), e in particolare si ha che \(\lvert\; \rvert \circ \varphi = r\), ovvero la funzione lunghezza delle parole di \(X\) coincide con \(r\).
+  Da cui \(f(0) = 0\). Sono dunque valide le ipotesi del \Namedref{thm:kraft}, e dunque esiste \(X\) codice prefisso su \(A\) tale che \(f_X = f\), e in particolare si ha che \(\lvert\; \rvert \circ \varphi = r\), ovvero la funzione lunghezza delle parole di \(X\) coincide con \(r\).
   In oltre si ha che \(\# X = \# \SCal\). Allora
   \(c(X) \leq \sum_{s\in\SCal} p(s)r(s) < \sum_{s\in\SCal} p(s)\left(\log_d\left(\frac{1}{p(s)}\right) + 1\right) = \frac{\sum_{s\in\SCal} p(s)\log\left(\frac{1}{p(s)}\right)}{\log(d)} + \sum_{s\in\SCal} p(s) = \frac{H(S)}{\log(d)} + 1\)
 \end{proof}
@@ -826,28 +825,29 @@ Andiamo dunque a dimostrare la proposizione lasciata in sospeso necessaria all'a
 \end{proposition}
 
 \begin{proof}
-  Assumiamo \(X_i = \set{z_1, \ldots,z_i}\) e \(X_{i+1} = \set{z_1,\ldots,z_{i-1},z_{i}a, z_{i}b}\), con queste ultime associate a simboli di probabilità \(q_1\geq q_2 \geq \ldots \geq q_{i-1} \geq q_i \geq q_{i+1}\) e \(z_i\) associata a un simbolo di \(S_i\) di probabilità \(q_i + q_{i+1}\).
+  Assumiamo \(X_i = \set{x_1, \ldots,x_{i-1},x_i}\) e \(X_{i+1} = \set{x_1,\ldots,x_{i-1},x_{i}a, x_{i}b}\), con queste ultime associate a simboli di probabilità \(q_1\geq q_2 \geq \ldots \geq q_{i-1} \geq q_i \geq q_{i+1}\) e \(x_i\) associata a un simbolo di \(S_i\) di probabilità \(q_i + q_{i+1}\).
   
-  Supponiamo per assurdo che \(X_{i+1}\) \textbf{non} sia ottimale per \(S_{i+1}\) e chiamiamo \(X'_{i+1} \) il prefisso ottimale (binario) per \(S_{i+1}\).
-  Poiché \(X'_{i+1}\) è ottimale, è massimale e dunque \(T_{X'_{i+1}}\) è completo.
+  Supponiamo per assurdo che \(X_{i+1}\) \textbf{non} sia ottimale per \(S_{i+1}\) e chiamiamo \(Y_{i+1} \) il prefisso ottimale (binario) per \(S_{i+1}\).
+  Poiché \(Y_{i+1}\) è ottimale, è massimale e dunque \(T_{Y_{i+1}}\) è completo.
 
-  Dunque \(\exists z_{i/i+1}' \in Pref(X'),z_i', z_{i+1}' \in X'_{i+1}\) tali che \(z_i' = z_{i/i+1}'a\) e \(z_{i+1}' = z_{i/i+1}'b\) con \(a,b \in A, a \neq b\).
-  Nel calcolo di \(c(X_{i+1}')\) tali parole dovranno essere associate a simboli di probabilità \(q_i\) e \(q_{i+1}\).
-  Sia allora \(X_{i+1}' = \set{z_1',\ldots,z_{i-1}'} \text{ con } z_i'=z_{i/i+1}'a,z_{i+1}' = z_{i/i+1}'b\) e definiamo \(X_i' = \set{z_1',\ldots,z_{i-1}', z_{i/i+1}'}\).
+  Dunque \(\exists y_{i/i+1} \in Pref(Y_{i+1}),y_i, y_{i+1} \in Y_{i+1}\) tali che \(y_i = y_{i/i+1}a\) e \(y_{i+1} = y_{i/i+1}b\) con \(a,b \in A, a \neq b\).
 
-  Si ha \(c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + (q_i+q_{i+1})\abs{z_{i/i+1}'}\).
-  Possiamo inoltre osservare che \(\abs{z_{i,i+1}'} = \abs{z_{i}}-1 = \abs{z_{i+1}}-1\).
+  Nel calcolo di \(c(Y_{i+1})\) tali parole dovranno essere associate a simboli di probabilità \(q_i\) e \(q_{i+1}\).
+  Sia allora \(Y_{i+1} = \set{y_1,\ldots,y_{i-1},y_i,y_{i+1}} \text{ con } y_i=y_{i/i+1}a,y_{i+1} = y_{i/i+1}b\) e definiamo \(Y_i = \set{y_1,\ldots,y_{i-1}, y_{i/i+1}}\).
+
+  Si ha \(c(Y_i) \leq \sum_{j=1}^{i-1} q_j\abs{y_j} + (q_i+q_{i+1})\abs{y_{i/i+1}}\).
+
+  Possiamo inoltre osservare che \(\abs{y_{i/i+1}} = \abs{y_{i}}-1 = \abs{y_{i+1}}-1\).
   Dunque
-  \[c(X_i') \leq \sum_{j=1}^{i-1} q_j\abs{z_i'} + q_i(\abs{z_{i}}-1) + q_{i+1}(\abs{z_{i+1}}-1) = \]
-  \[=\sum_{j=1}^{i+1} q_j\abs{z_j'} - (q_i + q_{i+1}) = c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1})\]
-  essendo \(X_{i+1}'\) ottimale.
+  \[c(Y_i) \leq \sum_{j=1}^{i-1} q_j\abs{y_j} + q_i(\abs{y_{i}}-1) + q_{i+1}(\abs{y_{i+1}}-1) = \]
+  \[=\sum_{j=1}^{i+1} q_j\abs{y_j} - (q_i + q_{i+1}) = c(Y_{i+1}) - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1})\]
 
-  Ma il codice \(X_i\) è ottenibile da \(X_{i+1}\) nello stesso modo in cui \(X_i'\) è ottenuto da \(X_{i+1}'\).
-  Dunque \(c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1})\).
-  Avendo detto che \(X_i\) è ottimale per \(S_i\), ed è ottenuto associando a \(z_i\) un simbolo di probabilità \(q_i + q_{i+1}\), si ha che
-  \[c(X_i') \leq c(X_{i+1}') - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{z_j} - (q_i + q_{i+1}) = \]
-  \[=\sum_{j=1}^{i-1} q_j\abs{z_j} + q_i(\abs{z_i a}-1) + q_{i+1}(\abs{z_{i+1}b}-1) = \sum_{j=1}^{i-1} q_j\abs{z_j} + (q_i+q_{i+1})\abs{z_{i}} = c(X_i)\]
-  Abbiamo dunque trovato che \(c(X_i')<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\), portando all'assurdo
+  Ma il codice \(X_i\) è ottenibile da \(X_{i+1}\) nello stesso modo in cui \(Y_i\) è ottenuto da \(Y_{i+1}\).
+  Dunque \(c(Y_i) \leq c(Y_{i+1}) - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{x_j} - (q_i + q_{i+1})\).
+  Avendo detto che \(X_i\) è ottimale per \(S_i\),  ottenuto associando a \(x_i\) un simbolo di probabilità \(q_i + q_{i+1}\), si ha che
+  \[c(Y_i) \leq c(Y_{i+1}) - (q_i + q_{i+1}) < c(X_{i+1}) - (q_i + q_{i+1}) = \sum_{j=1}^{i+1} q_j\abs{x_j} - (q_i + q_{i+1}) = \]
+  \[=\sum_{j=1}^{i-1} q_j\abs{x_j} + q_i(\abs{x_i a}-1) + q_{i+1}(\abs{x_{i+1}b}-1) = \sum_{j=1}^{i-1} q_j\abs{x_j} + (q_i+q_{i+1})\abs{x_{i}} = c(X_i)\]
+  Abbiamo dunque trovato che \(c(Y_i)<c(X_i)\) che contraddice l'ipotesi che \(X_i\) sia ottimale per \(S_i\), portando all'assurdo
 \end{proof}
 
 
@@ -860,10 +860,10 @@ Questo purtroppo non vale nel caso \(d\)-ario, ed è facilmente osservabile dal 
 
 Di conseguenza, l'algoritmo di Huffman \(d\)-ario può essere ricavato in maniera diretta da quello binario (sostituendo opportunamente \(2\) con \(d\)) solo se l'alfabeto di sorgente (e dunque il codice) ha cardinalità \(k\) tale che \(k \equiv_{d-1} 1\).
 
-Nel caso generale, se \(\# \SCal = n \not\equiv_{d-1} 1\), significa che ad uno step della costruzione dell'albero non tutti i nodi avranno \(d\) figli.
+Nel caso generale, se \(\# \SCal = n \not\equiv_{d-1} 1\), significa che a uno step della costruzione dell'albero non tutti i nodi avranno \(d\) figli.
 Si può facilmente mostrare però che è sempre possibile farlo come ultimo (primo) step, riconducendoci al caso precedente.
 Sia dunque \(n \equiv_{d-1} r\), con \(r \in \{2, \ldots, d-1\}\), allora l'algoritmo prevede che per il passaggio alla prima sorgente ridotta \(S_{n-1}\) vengano fusi solo i \(r\) simboli
-meno probabili, invece di \(d\). In questo modo si ottiene un albero a cui sono state rimosse \(r\) foglie e aggiune una, dunque si avrà che il nuovo albero avrà \(n - r + 1\) foglie, che soddisfa
+meno probabili, invece di \(d\). In questo modo si ottiene un albero a cui sono state rimosse \(r\) foglie e aggiunte una, dunque si avrà che il nuovo albero avrà \(n - r + 1\) foglie, che soddisfa
 \[n - r + 1 \equiv_{d-1} 1\]
 
 \section{Ritardo di decifrazione e sincronizzazione}
@@ -880,20 +880,21 @@ Essendo il numero di \(b\) potenzialmente infinito si dice che il ritardo di dec
 \begin{definition}{Ritardo di decifrazione}
   Per \(k\geq 0\), definiamo l'insieme
   \begin{equation*}
-    DD(k) = \set{C\subseteq A^* }[\forall x,x' \in X, (\set{x}X^k A^+ \cup \set{x'}X^* \neq \emptyset) \implies x = x']
+    DD(k) = \set{C\subseteq A^* }[\forall x,x' \in X, (\set{x}X^k A^+ \cap \set{x'}X^* \neq \emptyset) \implies x = x']
   \end{equation*}
   che contiene tutti i codici \(X\) di cui ogni parola può essere decifrata dopo aver ricevuto al più \(k\) parole aggiuntive.
   Il \keyword{ritardo di decifrazione} di un codice \(X\) è il minimo \(k\) tale che \(X \in DD(k)\), se esiste, altrimenti è infinito.
 \end{definition}
 
 \begin{observation}
-  Si noti che \(DD(0) \subseteq DD(1) \subseteq DD(2) \subseteq \ldots\).
+  Si noti che \(DD(0) \subseteq DD(1) \subseteq DD(2) \subseteq \ldots\)
+
   Questo è il motivo per cui chiamiamo ritardo di decifrazione il minimo \(k\) tale che \(X \in DD(k)\).
 \end{observation}
 
 La definizione formale di ritardo di decifrazione risulta un po' ostica da interpretare, ma cattura esattamente l'idea che si vuole esprimere.
-Prendiamo ad esempio un codice con ritardo di decifrazione \(k\).
-Questo intuitivamente ci dice che, qualsiasi parola del codice può essere decifrata dopo aver ricevuto al più \(k\) parole aggiuntive.
+Prendiamo ad esempio un codice con ritardo di decifrazione \(2\).
+Questo intuitivamente ci dice che, qualsiasi parola del codice, dopo aver ricevuto al più \(2\) parole aggiuntive può essere decifrata.
 In altre parole, presa una qualsiasi parola \(x\) del codice, e preso il linguaggio \(\set{x}X^2 A^+\) delle parole che iniziano con \(x\) e sono seguite da almeno \(2\) parole di codice,
 tale linguaggio ha solo parole che si è certi inizino per \(x\), permettendo la fattorizzazione e dunque la decifrazione.
 Di conseguenza, presa una qualsiasi altra parole \(x'\) del codice, questa non può essere confusa con \(x\) nella fattorizzazione, e dunque qualsiasi parola di codice che inizia per \(x'\) non può appartenere a \(\set{x}X^2 A^+\).

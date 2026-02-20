@@ -43,13 +43,13 @@ Un altra possibile scelta consiste nel minimizzare \(d(x,y)\).
 \begin{proof}{}
   Siano \(x,x' \in f(\mathcal{W})\), \(j=d(x,y), j'=d(x',y)\). Allora
   \[\frac{p(y|x)}{p(y|x')} = \frac{q^j{(1-q)}^{n-j}}{q^{j'}{(1-q)}^{n-j'}} = {\left(\frac{1-q}{q}\right)}^{j'-j}\]
-  Essendo \(q < \frac{1}{2}\), allora \(\frac{1-q}{q} > 1\) e dunque \(\frac{1-q}{q} > 1\).
+  Essendo \(q < \frac{1}{2}\), allora \(\frac{1-q}{q} > 1\).
 
-  E dunque \[\frac{p(y|x)}{p(y|x')} > 1 \iff j' - j > 0 \iff j < j'\]
+  Dunque \[\frac{p(y|x)}{p(y|x')} > 1 \iff j' - j > 0 \iff j < j'\]
 \end{proof}
 
 \begin{observation}{}
-  A seconda della seconda del codice \(Z = f(\mathcal{W})\) utilizzato, potrebbero esserci più \(x \in \mathcal{Z}\) aventi distanza minima da \(y \in \mathcal{Y}\).
+  A seconda della scelta del codice \(Z = f(\mathcal{W})\) utilizzato, potrebbero esserci più \(x \in \mathcal{Z}\) aventi distanza minima da \(y \in \mathcal{Y}\).
   \begin{example}{}
     Sia \(Z = \set{0^8,00111100,11 0^5 1,0^4 1^3 0,101^3 001,00110110,11001011}\) e \(y = 11001001\). Allora chiaramente \(y \not\in \mathcal{Z}, (\forall x \in \mathcal{Z}, d(x,y)\neq 0)\), ma sia \(x=110^5 1\) che \(x' = 11001011\) danno \(d(x,y)=d(x',y) = 1\).
   \end{example}
@@ -68,7 +68,7 @@ Un altra possibile scelta consiste nel minimizzare \(d(x,y)\).
 
 \begin{definition}{Intorno}
   Dato \(x \in \set{0,1}^n\) e \(r \geq 0\), definiamo l'\keyword{intorno di raggio \(r\) centrato in \(x\)} come
-  \[N_r(x) = \set{y \in \set{0,1}^n : d(x,y) \leq r}\]
+  \[N_r(x) = \set{y \in \set{0,1}^n }[ d(x,y) \leq r]\]
 \end{definition}
 
 Vediamo dunque un risultato in cui queste definizioni vanno insieme.
@@ -174,8 +174,8 @@ Ovviamente su un campo finito di cardinalità \(q\) si ha che \(\#Z = q^k\), dun
 \end{proof}
 
 \begin{definition}{Nucleo (Kernel)}
-  Un codice lineare \(Z\) di dimensione \(k\) è \keyword{nucleo (kernel)} di una matrice \(H\) di dimensione \(n-k \times n\), \(Z = \ker H\) tale che
-  \[z \in Z \iff H z^T = 0\]
+  Un codice lineare \(Z\) di dimensione \(k\) è \keyword{nucleo (kernel)} di una matrice \(H\) di dimensione \(n-k \times n\), denotato come \(Z = \ker H\) tale che
+  \[z \in Z \iff H z^T = \underline{0}\]
 
   Viceversa, se \(H\) è una matrice binaria con \(n\) colonne, il suo nucleo \(\ker H\) è un codice lineare di dimensione \(n-rank(H)\).
 
@@ -183,7 +183,7 @@ Ovviamente su un campo finito di cardinalità \(q\) si ha che \(\#Z = q^k\), dun
 \end{definition}
 
 \begin{note}{}
-  Essendo in \(\mathbb{F}_2^n\), preso \(y \in \mathbb{F}_2^n\), \(Hy^T\) è la somma delle colonne di \(H\) nelle posizioni in cui \(y\) ha \(1\).
+  Essendo in \(\mathbb{F}_2^n\), preso \(y \in \mathbb{F}_2^n\), \(Hy^T\) è la somma delle colonne \(i\) di \(H\) tali che \(y_i = 1\).
 \end{note}
 
 \begin{example}{}
@@ -219,10 +219,10 @@ Ovviamente su un campo finito di cardinalità \(q\) si ha che \(\#Z = q^k\), dun
 \end{theorem}
 
 \begin{proof}{}
-  Poter correggere almeno un errore come detto in precedenza è necessario che \(\delta_Z \geq 3\).
+  Per poter correggere almeno un errore come detto in precedenza è necessario che \(\delta_Z \geq 3\).
   Dunque, dimostriamo che per \(\delta_Z < 3\) le colonne di \(H\) non sono a due a due distinte o c'è una colonna nulla, e viceversa.
 
-  \(Z\) ha \(\delta_Z = 1\) se e solo se \(\exists 1 \leq j \leq n\) tale che \(\underline{e}_j = 0\ldots 0 1 0 \ldots 0 \in Z\), dove l'unico \(1\) è in posizione \(j\).
+  \(Z\) ha \(\delta_Z = 1\) se e solo se \(\exists j \in \set{1\ldots n}\) tale che \(\underline{e}_j = 0\ldots 0 1 0 \ldots 0 \in Z\), dove l'unico \(1\) è in posizione \(j\).
   Allora \(H \underline{e}_j^T = \underline{0}\), e dunque la colonna \(j\) di \(H\) è nulla.
 
   \begin{note}{}
@@ -295,17 +295,18 @@ A ogni sindrome infatti corrisponde un laterale, e compilando una tabella a cui 
 
   Dal sistema
   \[\begin{cases}
-    x_1+x_3 = 0
-    x_1+x_2 +x_4=0
-    x_2+x_5 = 0
+    x_1+x_3 = 0\\
+    x_1+x_2 +x_4=0\\
+    x_2+x_5 = 0\\
   \end{cases} \implies
   \begin{cases}
-    x_1 = x_3
-    x_1 + x_2 = x_4
-    x_2 = x_5
+    x_1 = x_3\\
+    x_1 + x_2 = x_4\\
+    x_2 = x_5\\
   \end{cases}\]
 
-  Si ottiene \(\ker H = \set{x \in \mathbb{F}_2^5}[x_1 = x_3, x_1 + x_2 = x_4, x_2 = x_5]\), ovvero \(Z = \ker H = \set{\underline{0}, 01011,10110,11101}\).
+  Si ottiene \(\ker H = \set{x \in \mathbb{F}_2^5}[x_1 = x_3, x_1 + x_2 = x_4, x_2 = x_5]\), ovvero
+  \[Z = \ker H = \set{\underline{0}, 01011,10110,11101}\]
   Si ha che la tabella delle sindromi è quella riportata in \Cref{tab:syndromes}
 
   Ricevendo \(y = 10111\), calcoliamo la sindrome \(Hy^T = {(001)}^T\) e quindi decodifico interpretando \(y\) come \(y + 00001 = 10110 \in \Z\).
@@ -338,7 +339,7 @@ A ogni sindrome infatti corrisponde un laterale, e compilando una tabella a cui 
 \end{definition}
 
 
-Un codice di Hamming ha \(\delta = 3\) poiché prese tre colonne di \(H\) che condividano i primi \(n-k-2\) bit escluse quella che si conclude con \(000\) queste sommano a \(\underline{0}\).
+Un codice di Hamming ha \(\delta = 3\) poiché prese tre colonne di \(H\) qualsiasi che condividano i primi \(n-k-2\) bit escluse quella che si conclude con \(00\) queste sommano a \(\underline{0}\).
 Di conseguenza il vettore formato da tutti \(0\), e \(1\) solo nelle \(3\) posizioni di queste colonne farà parte del codice, poiché dal prodotto con \(H\) rimarrà solo la somma delle colonne scelte prima.
 Tale elemento ha ovviamente peso \(3\) e dunque la \(\delta = 3\).
 Di conseguenza, i codici di Hamming sono caratterizzati da soli due parametri, \(n\) e \(k\), e sono in grado di correggere un errore.
@@ -351,7 +352,7 @@ Di conseguenza, i codici di Hamming sono caratterizzati da soli due parametri, \
 \end{theorem}
 
 \begin{proof}
-  Ci sono \(2^k\) parole di codice, essendo il numero di variabili libere del sistema che lo ha generato, e ciascun intorno di raggio \(1\) contiene \(n+1\) parole, ovvero la parola stessa e quelle che differiscono su uno solo degli \(n\) bit.
+  Ci sono \(2^k\) parole di codice, essendo \(k\) il numero di variabili libere del sistema che lo ha generato, e ciascun intorno di raggio \(1\) contiene \(n+1\) parole, ovvero la parola stessa e quelle che differiscono su uno solo degli \(n\) bit.
   
   Essendo gli intorni a due a due disgiunti si ha che \(\#\bigcup_{x \in Z}N_1(x) = 2^k(n+1) \).
   
@@ -380,19 +381,20 @@ In tal modo i bit di controllo (ovvero quelli che dipendono dagli altri) hanno i
   \end{cases}\]
   è risolto dal codice
   \[Z = \set{x \in \mathbb{F}_2^7}[x_1=x_3+x_5+x_7 \land x_2 = x_3 + x_6 + x_7 \land x_4 = x_5 + x_6 + x_7]\]
-  e dunque le variabili dipendenti sono in posizioni potenze di \(2\).
+  e dunque le variabili indipendenti sono in posizioni potenze di \(2\).
   In tal modo, la sindrome di una parola \(y\) è l'espressione binaria del bit da cambiare per correggere l'errore.
 \end{example}
 
-Valutando infine i codici visti nel cercare di raggiungere i limiti descritti nel \Cref{thm:shannon_2}, andiamo a valutarne il tasso di trasmissione la capacità di correggere errori (ovvero di abbassare la probabilità di errore).
+Valutando infine i codici visti nel cercare di raggiungere i limiti descritti nel \Namedref{thm:shannon_2}, andando a valutarne il tasso di trasmissione e la capacità di correggere errori (ovvero di abbassare la probabilità di errore).
 
 Preso un qualsiasi codice \(Z \subseteq \mathbb{F}_2^n\), il tasso di trasmissione sarà \(R = \frac{\log \# Z}{2}\).
 
 Se \(Z\) è lineare di parametri \((n,k,\delta)\) possiamo essere più precisi, poiché \(\# Z = 2^k\), dunque \(R = \frac{k}{n}\).
 
 Se inoltre \(Z\) è di Hamming, allora \(n = 2^m -1\) e \(k = n - m\), fissato \(m = n-k\). Abbiamo dunque che il tasso \(R = \frac{n-m}{n} = 1 - \frac{m}{2^m-1}\).
-% TODO: fatti spiegare meglio questa conclusione.
-Dunque \(\lim_{m\to\infty} R = 1\), ma correggendo solo \(1\) errore non è possibile avere probabilità di errore arbitrariamente basse.
+Dunque
+\[\lim_{m\to\infty} R = 1\]
+ma correggendo solo \(1\) errore non è possibile avere probabilità di errore arbitrariamente basse.
 
 Per provare dunque a raggiungere i limiti descritti a Shannon, l'idea è quella di introdurre ridondanza, in maniera però da mantenere un tasso di trasmissione \(R\) vicino a \(1\).
 
@@ -402,14 +404,14 @@ Un modo naïve per aggiungere ridondanza è considerare il caso \(Z = \set{0^n, 
 
 \begin{definition}{Codici ciclici}
   Un codice \(Z \subseteq \set{0,1}^n\) lineare è detto \keyword{ciclico} se è chiuso rispetto alla rotazione, cioè se
-  \[\forall z = z_1 z_2\ldots z_n \in Z, (z_n, z_1, \ldots, z_{n-1}) \in Z\]
+  \[\forall z = (z_1, z_2,\ldots, z_n) \in Z, (z_n, z_1, \ldots, z_{n-1}) \in Z\]
 \end{definition}
 
 Per capire l'importanza dei codici ciclici è necessario spostarci dal campo \(\mathbb{F}_2^n\) al campo dei polinomi su \(\mathbb{F}_2\), ovvero \(\mathbb{F}_2[x]\).
-Questo è possibile considerando ogni vettore \(\underline{u} = u_0 u_1 \ldots u_{n-2} u_{n-1} \in \mathbb{F}_2^n\) come i coefficienti del polinomio \(u(x) = u_0+u_1 x + \ldots+u_{n-2}x^{n-2}+ u_{n-1}x^{n-1} \in \mathbb{F}_2[x]\).
+Questo è possibile considerando ogni vettore \mbox{\(\underline{u} = u_0 u_1 \ldots u_{n-2} u_{n-1} \in \mathbb{F}_2^n\)} come i coefficienti del polinomio \(u(x) = u_0+u_1 x + \ldots+u_{n-2}x^{n-2}+ u_{n-1}x^{n-1} \in \mathbb{F}_2[x]\).
 
 Prendendo in considerazione la rotazione di \(\underline{u}\), \(\underline{\hat{u}} = u_n u_0 u_1 \ldots u_{n-2}\) il polinomio corrispondente è
-\[\hat{u}(x) = u_n + u_0 x + u_1 x^2 + \ldots + u_{n-2} x^{n-1} = u_{n-1} + x(u_0 + u_1 x + \ldots + u_{n-2} x^{n-2})\]
+\[\hat{u}(x) = u_{n-1} + u_0 x + u_1 x^2 + \ldots + u_{n-2} x^{n-1} = u_{n-1} + x(u_0 + u_1 x + \ldots + u_{n-2} x^{n-2})\]
 
 La somma nella parentesi corrisponde a \(u(x) - u_{n-1}x^{n-1}\), e dunque sostituendo si ottiene
 \[\hat{u}(x) = u_{n-1} + x(u(x) - u_{n-1}x^{n-1}) = x u(x) - u_{n-1}(x^n-1)\]
@@ -424,7 +426,7 @@ Possiamo dunque costruire l'applicazione:
   \underline{u} \in \mathbb{F}_2^n &\mapsto u(x) = u_0 + u_1 x + \ldots + u_{n-1} x^{n-1}
 \end{aligned}\]
 
-Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vettore di \(\mathbb{F}_2^n\) è lineare (\(\psi(\underline{u} + \underline{v}) = \psi(\underline{u}) + \psi(\underline{v})\)) e tale che la rotazione di un vettore corrisponde alla moltiplicazione del polinomio per \(x\) in \(V^n[x]\).
+Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vettore di \(\mathbb{F}_2^n\), è lineare (\(\psi(\underline{u} + \underline{v}) = \psi(\underline{u}) + \psi(\underline{v})\)) e tale che la rotazione di un vettore corrisponde alla moltiplicazione del polinomio per \(x\) in \(V^n[x]\).
 
 \begin{definition}{Ideale}
   \(I \subseteq V^n[x]\) è detto \keyword{ideale} se
@@ -435,8 +437,6 @@ Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vet
 
   Ovvero se è chiuso internamente rispetto alla somma e chiuso rispetto alla moltiplicazione per qualsiasi elemento di \(V^n[x]\).
 \end{definition}
-
-% TODO: ask in un certo senso possiamo vedere l'ideale come uno spazio vettoriale con scalari in V?
 
 \begin{note}{}
   Ovviamente \(V^n[x]\) è un ideale di se stesso.
@@ -476,8 +476,6 @@ Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vet
 
   Dunque \(Z = \set{000,011,110,101}\).
 \end{example}
-
-% TODO: riguardo alla congettura di chiusura rispetto al "complemento" questa non è sempre vera. Credo che in questo caso funzioni perchè g(x) è in qualche modo simile ai polinomi per cui facciamo modulo (è il modulo di V^2[x]).
 
 \begin{theorem}{}
   Tutti gli ideali di \(V^n[x]\) sono principali; in particolare \(\set{0} = \langle 0 \rangle\), e per \(I \neq \set{0}\) si ha \(I=\langle g(x)\rangle\) dove
@@ -521,7 +519,7 @@ Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vet
 
 \begin{theorem}{}
   Sia \(g(x)\) il generatore canonico di \(\psi(Z)\), con \(Z \subseteq \mathbb{F}_2^n\) ciclico di dimensione \(k\).
-  Sia quindi \(h(x) = h_0+xh_1+\ldots h_k x^k\) tale che \(x^n-1=g(x)h(x)\), allora \(\deg(h(x))\) ha grado \(k\) e permette di ottenere una matrice di controllo \(H\) per \(Z\) come segue:
+  Sia quindi \(h(x) = h_0+xh_1+\ldots h_k x^k\) tale che \(x^n-1=g(x)h(x)\), allora \(\deg(h(x)) = k\) e permette di ottenere una matrice di controllo \(H\) per \(Z\) come segue:
 
   \[H=\begin{pmatrix}
     h_k     & h_{k-1} & \ldots  & h_0     & 0   & \ldots & 0 \\
@@ -548,11 +546,11 @@ Tale applicazione è biettiva, poiché ogni polinomio corrisponde a un unico vet
 Se \(p(x) \in F_2[X]\) è irriducibile di grado \(m\), allora l'anello \(\frac{\mathbb{F}_2[x]}{\langle p(x) \rangle}\) è un campo, indicato come \(\mathbb{F}_{2^m}\).\footnote{Il motivo della doppia nomenclatura sarà chiaro a breve. Come piccola anticipazione, è possibile dire che i polinomi in \(\frac{\mathbb{F}_2[x]}{\langle p(x) \rangle}\) sono esattamente \(2^m\), tutti combinazioni lineari di potenze di \(x\) fino a \(m-1\) con coefficienti in \(\mathbb{F}_2\).}
 
 \begin{note}{}
-  Se \(p(x)\) è irriducibile, dal \Cref{thm:generator_divisor_zero} \(\frac{\mathbb{F}_2[x]}{\langle p(x) \rangle}\) ha come ideali solo \(\set{0}\) e se stesso, di generatore \(1\).
+  Se \(p(x)\) è irriducibile, dal \Namedref{thm:generator_divisor_zero} \(\frac{\mathbb{F}_2[x]}{\langle p(x) \rangle}\) ha come ideali solo \(\set{0}\) e se stesso, di generatore \(1\).
 \end{note}
 
 In questo caso in maniera simile a quanto si fa per la costruzione dei numeri complessi, possiamo denotare con \(\alpha\) una radice \qi{immaginaria} di \(p(x)\), ovvero \(p(\alpha) = 0\).
-Dunque 
+Dunque
 \[p_{m}\alpha^m+\ldots p_1\alpha+p_0 = 0\]
 
 Essendo \(\deg p(x) = m\) almeno \(p_m\) è \(1\), e dunque possiamo riscrivere
@@ -663,23 +661,25 @@ Tale codice è detto codice \(BCH\) con distanza designata \(d'\).
 
 \begin{example}{}
   Sia \(n = 15 = 2^4-1\). Allora
-  \[x^{15}=(x+1)(x^2+x+1)(x^4+x+1)(x^4+x^3+1)(x^4+x^3+x^2+x+1)\]
+  \[x^{15}+1=(x+1)(x^2+x+1)(x^4+x+1)(x^4+x^3+1)(x^4+x^3+x^2+x+1)\]
 
   Per correggere \(t = 2\) errori, è necessario avere \(d' = 2t+1 = 5\).
   Per costruzione dei \(BCH\), sono necessari i polinomi minimi di \(\alpha^1, \alpha^2, \alpha^3, \alpha^4\).
+
   Sia dunque \(\alpha\) una radice primitiva di \(x^4+x+1\) in \(\mathbb{F}_{16}\).
   
-  Si ha che \(m_1(x), m_2(x)\) e \(m_4(x)\) derivano facilmente dall'osservazione precedente che se \(\beta\) è radice di un polinomio in \(\mathbb{F}_2[x]\), allora anche \(\beta^2\) lo è.
+  Si ha che \(m_1(x)= m_2(x) = m_4(x) = x^4+x+1\) dall'osservazione precedente che se \(\beta\) è radice di un polinomio in \(\mathbb{F}_2[x]\), allora anche \(\beta^2\) lo è.
+  
   Per \(m_3(x)\) va verificato quale fattore di \(x^n-1\) ha \(\alpha^3\) come sua radice. In questo caso, possiamo facilmente vedere che si tratta di \(x^4+x^3+x^2+x+1\), poiché
   \[\begin{aligned}
     {(\alpha^3)}^4 + {(\alpha^3)}^3 + {(\alpha^3)}^2 + \alpha^3 + 1 &= \alpha^{12} + \alpha^9 + \alpha^6 + \alpha^3 + 1\\
   \end{aligned}\]
-  Abbiamo per costruzione di \(\mathbb{F}_{16}\) che
+  Abbiamo per costruzione di \(\mathbb{F}_{16}\) che \(\alpha^4=\alpha + 1\), e dunque
   \[\alpha^6 = \alpha^3 + \alpha^2\]
-  \[\alpha^9 = \alpha^6 + \alpha^5 = \alpha^3 + \alpha + \alpha^2\]
-  \[\alpha^{12} = \alpha^9 + \alpha^8 = \alpha^2 + 1 + \alpha^3 + \alpha + \alpha^2 = \alpha^3 + \alpha + 1\]
+  \[\alpha^9 = \alpha^6 + \alpha^5 = \alpha^3 + \alpha^2 + \alpha^2 + \alpha = \alpha^3 + \alpha\]
+  \[\alpha^{12} = \alpha^9 + \alpha^8 = \alpha^3 + \alpha + \alpha^2 + 1 = \alpha^3 + \alpha^2 + \alpha + 1\]
   Dunque
-  \[\alpha^{12} + \alpha^9 + \alpha^6 + \alpha^3 + 1 = (\alpha^3 + \alpha + 1) + (\alpha^3 + \alpha + \alpha^2) + (\alpha^3 + \alpha^2) + \alpha^3 + 1 = 0\]
+  \[\alpha^{12} + \alpha^9 + \alpha^6 + \alpha^3 + 1 = (\alpha^3 + \alpha^2 + \alpha + 1) + (\alpha^3 + \alpha ) + (\alpha^3 + \alpha^2) + \alpha^3 + 1 = 0\]
 
   Dunque il generatore canonico è
   \[g(x) = \operatorname{lcm}(m_1(x), m_2(x), m_3(x), m_4(x)) = m_1(x)m_3(x) = x^8 + x^7 + x^6 + x^4 + 1\]

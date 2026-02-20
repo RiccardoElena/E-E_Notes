@@ -67,7 +67,7 @@ Questo vale anche per catene di Markov irriducibili, aperiodiche e invariati nel
   Anche in questo caso ci si può avvicinare a \(\frac{4}{3}\) codificando a blocchi.
 \end{example}
 
-\begin{theorem}[label=thm:fano]{Disuguaglianza di Fano}
+\begin{theorem}[namedlabel={thm:fano}{Disuguaglianza di Fano}]{Disuguaglianza di Fano}
   Siano \(X \to Y \to \hat{X}\) variabili aleatorie con \(\hat{X}\) stima di \(X\) basata su \(Y\).
   Sia inoltre \(P_e = \Prob[X\neq\hat{X}]\). Allora
   \[H(X|Y) \leq H(X|\hat{X})\leq H(P_e)+P_e\log(\#\mathcal{X})\]
@@ -85,24 +85,24 @@ Questo vale anche per catene di Markov irriducibili, aperiodiche e invariati nel
   \[H(X|\hat{X})+H(E|X,\hat{X})=H(E,X|\hat{X}) = H(E|\hat{X}) + H(X|E,\hat{X})\]
   Possiamo notare che \(H(E|X,\hat{X})=0\) poiché conoscendo \(X\) e \(\hat{X}\) possiamo sapere se la stima è corretta o meno, e dunque non c'è incertezza su \(E\).
   Inoltre, \(H(E|\hat{X}) \leq H(E) \) poiché il condizionamento non aumenta l'entropia. 
-  Infine, abbiamo che per definizione di entropia condizionata che \(H(X|E,\hat{X})\) si può scrivere come
+  Infine, abbiamo, per definizione di entropia condizionata, che \(H(X|E,\hat{X})\) si può scrivere come
   \[P(E=0)H(X|E=0,\hat{X}) + P(E=1)H(X|E=1,\hat{X})\]
   Ma se \(E=0\), allora \(X=\hat{X}\) e dunque \(H(X|E=0,\hat{X})=0\).
   Essendo poi che \(H(X|\hat{X},E=1)\) è comunque un entropia di una variabile con \(\#\mathcal{X}\) possibili valori, si ha che \(H(X|E=1,\hat{X}) \leq \log(\#\mathcal{X})\).
   Da queste osservazioni, si ricava che
   \[H(X|\hat{X}) \leq H(E) + P(E=1) \log(\#\mathcal{X}) = H(P_e) + P_e \log(\#\mathcal{X})\]
-  L'ipotesi che \(X \to Y \to \hat{X}\) è necessaria solo per la prima disuguaglianza \(H(X|Y) \leq H(X|\hat{X})\), che segue in modo diretto dalla disuguaglianza di data processing~\ref{prop:dpi}.
+  L'ipotesi che \(X \to Y \to \hat{X}\) è necessaria solo per la prima disuguaglianza \(H(X|Y) \leq H(X|\hat{X})\), che segue in modo diretto dalla \Namedref{prop:dpi}.
 \end{proof}
 \begin{observation}{}
   Se \(\mathcal{\hat{X}} = \mathcal{X}\), allora \(H(X|\hat{X})\leq H(P_e)+P_e\log(\#\mathcal{X}-1)\). Questo poiché \(\log(\#\mathcal{X})\) deriva dalla maggiorazione di \(H(X|\hat{X},E=1)\). Ma se i valori che \(X\) e \(\hat{X}\) possono assumere sono esattamente gli stessi, sapendo che c'è stato un errore possiamo escludere il valore di \(\hat{X}\) tra i possibili valori che \(X\) può assumere, e dunque il numero di possibili valori di \(X\) dato che c'è stato un errore è al più \(\#\mathcal{X}-1\).
 
   Inoltre, è possibile raggiungere l'uguaglianza.
-  Sia \(\mathcal{X} = \set{1,\ldots,m}\) e sia \(\hat{X} = 1\), ovvero ogni altro valore di \(\mathcal{X}\) abbia probabilità nulla nella distribuzione di \(\hat{X}\).
+  Sia \(\mathcal{X} = \set{1,\ldots,m}\) e sia \(p_{\hat{X}}(1) = 1\), ovvero ogni altro valore di \(\mathcal{X}\) abbia probabilità nulla nella distribuzione di \(\hat{X}\).
   
   In tal caso, \(X\) e \(\hat{X}\) sono indipendenti, da cui \(H(X|\hat{X}) = H(X)\).
 
   Dalla disuguaglianza appena vista abbiamo
-  \(H(X) \leq H(1-p_1)+(1-p_1)\log(m-1)\),
+  \[H(X) \leq H(1-p_1)+(1-p_1)\log(m-1)\]
   dove \(p_i = \Prob(X=i)\), con quindi \(P_e = 1-p_1\).
 
   Se \(p_2=\ldots=p_m = \frac{1-p_1}{m-1}\), si ha che
@@ -210,9 +210,12 @@ In maniera informale, tale teorema può essere enunciato come:
   Sia \((\mathcal{X}, \mathcal{Y}, p(y|x))\) un canale discreto a memoria zero.
 
   La sua \keyword{estensione \(n\)-esima} è il canale discreto \((\mathcal{X}^n, \mathcal{Y}^n, p(y_1,\ldots,y_n|x_1,\ldots,x_n))\), dove per \(1\leq k\leq n\),
-  \(p(y_k|x_1, \ldots,x_k,y_1,\ldots,y_{k-1}) = p(y_k|x_k)\), ovvero il \(k\)-esimo output dipende solo dal \(k\)-esimo input.
+  \[p(y_k|x_1, \ldots,x_k,y_1,\ldots,y_{k-1}) = p(y_k|x_k)\]
+  ovvero il \(k\)-esimo output dipende solo dal \(k\)-esimo input.
   
-  Diciamo che il canale è utilizzato \keyword{senza feedback} se \(p(x_k|x_1,\ldots,x_{k-1},y_1,\ldots,y_{k-1}) = p(x_k|x_1,\ldots,x_{k-1})\), sempre per \(1\leq k \leq n\), ovvero il \(k\)-esimo input dipende solo dagli input precedenti, e non anche dagli output.
+  Diciamo che il canale è utilizzato \keyword{senza feedback} se, per \(1\leq k \leq n\),
+  \[p(x_k|x_1,\ldots,x_{k-1},y_1,\ldots,y_{k-1}) = p(x_k|x_1,\ldots,x_{k-1})\]
+  ovvero anche il \(k\)-esimo input dipende solo dagli input precedenti, e non anche dagli output.
 \end{definition}
 
 Se il canale è senza feedback, si ha che \(p(y_1,\ldots,y_n|x_1,\ldots,x_n) = \prod_{i=1}^n p(y_i|x_i)\)
@@ -220,7 +223,7 @@ Se il canale è senza feedback, si ha che \(p(y_1,\ldots,y_n|x_1,\ldots,x_n) = \
 Per formalizzare il teorema di Shannon è necessario dunque introdurre il concetto di codifica di canale a blocchi.
 
 \begin{definition}{Codifica di canale a blocchi}
-  Dato un DMC \((\mathcal{X}, \mathcal{Y}, p(y|x))\), e dati \(M>1\) e \(n\geq 1\), una \keyword{\((M,n)\)-codifica} dell'estensione \(n\)-esima del DMC, è una terna \((\mathcal{W},f,g)\) con
+  Dato un DMC \((\mathcal{X}, \mathcal{Y}, p(y|x))\), e dati \(M>1\) e \(n\geq 1\), una \keyword{\((M,n)\)\nobreakdash-codifica} dell'estensione \(n\)-esima del DMC, è una terna \((\mathcal{W},f,g)\) con
   \begin{itemize}
     \item \(\mathcal{W} = \set{1,2,\ldots,M}\) alfabeto (o insieme di indici)
     \item \(f: \mathcal{W} \to \mathcal{X}^n\) funzione di codifica iniettiva
@@ -239,33 +242,33 @@ Per formalizzare il teorema di Shannon è necessario dunque introdurre il concet
 \end{definition}
 
 \begin{definition}{Tasso di trasmissione}
-  Data una \((M,n)\)-codifica \((\mathcal{W},f,g)\), il \keyword{tasso di trasmissione \(R\)} è la quantità
+  Data una \((M,n)\)\nobreakdash-codifica \((\mathcal{W},f,g)\), il \keyword{tasso di trasmissione \(R\)} è la quantità
   \[R = \frac{\log M}{n}\] 
-  rappresenta la quantità di informazione trasmessa per simbolo del canale.
-  Tasso di trasmissione \(R = \frac{\log M}{n} \iff 2^{nR} = M\) rappresenta la quantità di informazione trasmessa per simbolo del canale.
-
-  Si ha dunque che \(M = 2^{nR}\).
+  che rappresenta la quantità di informazione trasmessa per simbolo del canale.
+  
+  Fissato \(R>0\), si ha dunque che \(M = 2^{nR}\).
 \end{definition}
 
 \begin{definition}{Tasso raggiungibile}
-  Diremo che un tasso di trasmissione \(R\) è \keyword{raggiungibile} se esiste una successione di \((\lfloor 2^{nR} \rfloor, n)\)-codifiche tali che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
+  Diremo che un tasso di trasmissione \(R\) è \keyword{raggiungibile} se esiste una successione di \((\lfloor 2^{nR} \rfloor, n)\)\nobreakdash-codifiche tali che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
 \end{definition}
 
-Si ha dunque che una \((M,n)\)-codifica porta a una struttura del tipo
+Si ha dunque che una \((M,n)\)\nobreakdash-codifica porta a una struttura del tipo
 \begin{equation}
   W \xrightarrow{f} X^n \xrightarrow{p(y^n|x^n)} Y^n \xrightarrow{g} \hat{W}
 \end{equation}
 con \(p(y^n|x^n) = p(y_1,\ldots,y_n|x_1,\ldots,x_n)\)
 
-Data un elemento di \(\mathcal{W}\), possiamo scrivere che la codifica \(f\) come \(f(i) = x_1(i)\ldots x_n(i) = x^n(i)\) e quindi
+Dato un elemento di \(\mathcal{W}\), possiamo scrivere la codifica \(f\) come \(f(i) = x_1(i)\ldots x_n(i) = x^n(i)\) e quindi
 \[\lambda_i = \Prob[\hat{W} \neq i|X^n = f(i)] = \sum_{\substack{y^n \in \mathcal{Y}^n \\ g(y^n) \neq i}} p(y^n|x^n(i))\]
 Ovvero la probabilità di errore di \(i\) è la somma delle probabilità di ricevere una sequenza \(y^n\) che venga decodificata in un messaggio diverso da \(i\), dato che è stato inviato \(x^n(i)\).
 
 \begin{definition}{Probabilità media (aritmetica) di errore}
-  La \keyword{probabilità media (aritmetica) di errore} di una \((M,n)\)-codifica \((\mathcal{W},f,g)\) è
+  La \keyword{probabilità media (aritmetica) di errore} di una \((M,n)\)\nobreakdash-codifica \((\mathcal{W},f,g)\) è
   \[P_e^{(n)} = \frac{1}{M} \sum_{i=1}^M \lambda_i\]
   
   Tale quantità non è la media in probabilità di errore, a meno che \(W\) non sia uniforme.
+  
   Si ha ovviamente che \(P_e^{(n)} \leq \lambda^{(n)}\).
 \end{definition}
 
@@ -280,7 +283,7 @@ Ovvero la probabilità di errore di \(i\) è la somma delle probabilità di rice
   Dunque qualunque variabile si rimuova le \(3\) rimanenti formano una catena di Markov.
 \end{observation}
 
-\begin{theorem}[label={thm:shannon_2}]{Shannon}
+\begin{theorem}[namedlabel={{thm:shannon_2}}{Shannon}]{Shannon}
   Dato un canale con capacità \(C\), e dato \(R>0\) tasso di trasmissione, allora
   \begin{itemize}
     \item Se \(R < C\), allora \(R\) è raggiungibile
@@ -304,10 +307,10 @@ Di tale teorema dimostreremo solo il secondo punto, ma per fare ciò è necessar
   
 \end{proof}
 
-\begin{proof}[Dimostrazione di~\ref{thm:shannon_2}]
+\begin{proof}[Dimostrazione \Namedref{thm:shannon_2}]
   Andiamo a dimostrare solo la seconda parte del teorema, ovvero che se \(R>C\) allora \(R\) non è raggiungibile.
   Mostriamo l'inverso, ovvero che se \(R\) è raggiungibile allora \(R\leq C\).
-  Sia allora \(R\) un tasso di trasmissione raggiungibile, e consideriamo la successione di \(( 2^{nR},n)\)-codifiche\footnote{Dalla definizione sarebbe necessario utilizzare la funzione \(\lfloor\rfloor\), ma ciò andrebbe solo a complicare i conti, dunque si assumeranno \(2^{nR}\) interi per semplicità} tale che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
+  Sia allora \(R\) un tasso di trasmissione raggiungibile, e consideriamo la successione di \(( 2^{nR},n)\)\nobreakdash-codifiche\footnote{Dalla definizione sarebbe necessario utilizzare la funzione \(\lfloor\rfloor\), ma ciò andrebbe solo a complicare i conti, dunque si assumeranno \(2^{nR}\) interi per semplicità} tale che \(\lim_{n\to\infty} \lambda^{(n)} = 0\).
   
   Fissato \(n\), sia \(\mathcal{W} = \set{1, \ldots, 2^{nR}}\) e sia \(W\) uniforme su \(\mathcal{W}\),\footnote{Possiamo assumere una qualsiasi distribuzione poiché le quantità coinvolte nel teorema sono relative al solo canale, e non alla sorgente sottostante}
   cosicché \(nR = H(W) = H(W|\hat{W}) + I(W;\hat{W})\).
@@ -336,7 +339,7 @@ Alla prima è possibile dare risposta col seguente teorema.
   Allora:
   \begin{itemize}
     \item Se \(H(\underline{S}) < C\), esistono codifiche per cui
-      \[\lim_{n\to\infty} \P(\hat{S}^n \neq S^n) = 0\]
+      \[\lim_{n\to\infty} \Prob[\hat{S}^n \neq S^n] = 0\]
     \item Se \(H(\underline{S}) > C\), la probabilità di errore nel trasmettere messaggi di \(\underline{S}\) sul canale non può essere resa arbitrariamente piccola.
   \end{itemize}
 \end{theorem}

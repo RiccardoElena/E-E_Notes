@@ -11,9 +11,13 @@ Prima di procedere, facciamo un breve richiamo ad alcuni concetti di teoria dell
 Un \keyword{spazio di probabilità} è una tripla \((\Omega, \mathcal{F}, \Prob)\) dove
 \begin{itemize}
   \item \(\Omega\) è un insieme non vuoto, detto spazio campione;
-  \item \(\mathcal{F} \subseteq \mathcal{P}(\Omega)\) è una \(\sigma\)-algebra su \(\Omega\), cioè un insieme di sottoinsiemi di \(\Omega\) che contiene \(\Omega\) stesso, è chiuso rispetto al complemento e alle unioni numerabili;
-  \item \(\Prob: \mathcal{F} \to [0,1]\) è una misura di probabilità, cioè una funzione tale che \(\Prob[\Omega] = 1, \Prob[\emptyset] = 0\) e che è \(\sigma\)-additiva, ovvero per ogni famiglia numerabile di eventi disgiunti \({\{A_i\}}_{i \in \mathbb{N}} \subseteq \mathcal{F}\) si ha che
-  \[\Prob\left[\bigcup_{i=1}^{\infty} A_i\right] = \sum_{i=1}^{\infty} \Prob[A_i]\]
+  \item \(\mathcal{F} \subseteq \mathcal{P}(\Omega)\) è una \(\sigma\)-algebra su \(\Omega\), cioè un insieme di sottoinsiemi di \(\Omega\) che contiene \(\Omega\) stesso, chiuso rispetto al complemento e alle unioni numerabili;
+  \item \(\Prob: \mathcal{F} \to [0,1]\) è una misura di probabilità, cioè una funzione che rispetta gli assiomi di Kolmogorov:
+    \begin{enumerate}
+      \item \(\Prob[A] \geq 0, \forall A \in \mathcal{F}\)
+      \item \(\Prob[\Omega] = 1, \Prob[\emptyset] = 0\)
+      \item \(\Prob\) è \(\sigma\)-additiva, ovvero \(\Prob[\bigcup_{i=1}^\infty E_i] = \sum_{i=1}^{\infty} \Prob[E_i]\), se \(\forall i,j \in \N, i \neq j \implies E_i \cap E_j = \emptyset\)
+    \end{enumerate}
 \end{itemize}
 
 Una \keyword{variabile aleatoria discreta} su uno spazio di probabilità \((\Omega, \mathcal{F}, \Prob)\) è un applicazione misurabile \(S: \Omega \to \SCal\), dove \(\SCal\) è un insieme discreto (finito o numerabile).
@@ -24,7 +28,7 @@ Per allinearci alla notazione usata in teoria della probabilità, indicheremo co
 \begin{definition}{Entropia di una variabile aleatoria}
   Sia \(X\) variabile aleatoria discreta con distribuzione di probabilità \(p\).
   L'\keyword{entropia} di \(X\) è definita come
-  \[H(X) = -\sum_{x \in \mathcal{X}} p(x) \log( p(x))\]
+  \[H(X) = -\sum_{x \in \mathcal{X}} p(x) \log( p(x)) = \EV{\log\left(\frac{1}{p(X)}\right)}\]
 \end{definition}
 
 A seguito del teorema di Shannon, possiamo interpretare questa quantità come il limite inferiore del costo di codifica per una sorgente binaria.
@@ -291,7 +295,7 @@ In particolare, per \(f = id\) si ha che \(I(X;X) = H(X)\), giustificando il sig
   \end{equation*}
   Allora se \(z\neq f(y)\), \(0= p(z|y)=\sum_{x\in\mathcal{X}}p(x,z|y)\).
   
-  Essendo che \(p(x,z|y)\geq 0\), \(\forall x \in \mathcal{X}\), si ha che \(\sum_{x\in\mathcal{X}}p(x,z|y) \iff p(x,z|y)=0 \; \forall x\), e dunque \(0=p(x,z|y) = p(x|y)p(z|y) = p(x|y)\cdot 0\).
+  Essendo che \(p(x,z|y)\geq 0\), \(\forall x \in \mathcal{X}\), si ha che \(\sum_{x\in\mathcal{X}}p(x,z|y) = 0 \iff p(x,z|y)=0 \; \forall x\), e dunque \(0=p(x,z|y) = p(x|y)p(z|y) = p(x|y)\cdot 0\).
 
   Se invece \(z = f(y)\), allora \(\sum_{z' \in \mathcal{Z}}p(x,z'|y)=p(x,z|y)\) poiché, per \(z'\neq z\), \( p(x,z'|y)=p(z|y)p(x|z,y)=0 \cdot p(x|z,y)\). 
   Ma stando sommando su tutti gli elementi di \(\mathcal{Z}\), si ha che 
@@ -300,7 +304,7 @@ In particolare, per \(f = id\) si ha che \(I(X;X) = H(X)\), giustificando il sig
   \[p(x,z|y) = \sum_{z' \in \mathcal{Z}}p(x,z'|y)= p(x|y)p(z|y)\]
 \end{proof}
 
-\begin{proposition}[label=prop:dpi]{Disuguaglianza di Data Processing (DPI)}
+\begin{proposition}[namedlabel={prop:dpi}{Disuguaglianza di Data Processing (DPI)}]{Disuguaglianza di Data Processing (DPI)}
   Date \(X,Y,Z\) variabili aleatorie.
   Se \(X \to Y \to Z\) allora \(I(X;Y) \geq I(X;Z)\).
 
@@ -344,7 +348,6 @@ Allora \(I(X;Y) = 0\) poiché sono indipendenti, ma
 \end{definition}
 
 \begin{note}{}
-  % TODO: per l'interpretazione come sorgente è necessaria la stazionarietà? Non necessaria, ma comoda e frequente
   Possiamo interpretare i processi stocastici stazionari come modelli per sorgenti di informazione che generano simboli in modo casuale secondo una certa distribuzione di probabilità nel tempo.
 
   Si ha che un processo stazionario indipendente corrisponde a una sorgente a memoria zero.
@@ -394,13 +397,17 @@ Inoltre possiamo dire che se un processo \(\underline{X}\) ha \(P\) come matrice
 
 \begin{definition}{Catene irriducibili e aperiodiche}
   Una catena \(\underline{X}\) si dice \keyword{irriducibile} se
-  \[\forall i,h \in \mathcal{X}, \exists n \geq 1 \st \Prob[X_{n+1} = j|X_1 = i] > 0\]
+  \[\forall i,h \in \mathcal{X}, \exists n \geq 1 \st \Prob[X_{n+1} = h|X_1 = i] > 0\]
 
   Una catena \(\underline{X}\) si dice \keyword{aperiodica} se
-  \[\forall x \in \mathcal{X}, MCD \set{n\in\N}[\Prob[X_{n+1} = x|X_1=x]>0] = 1\]
+  \[\forall x \in \mathcal{X}, \gcd \set{n\in\N}[\Prob[X_{n+1} = x|X_1=x]>0] = 1\]
 \end{definition}
 
-Si dimostra che una catena invariante nel tempo, aperiodica e irriducibile ha un'unica distribuzione stazionaria e che indipendentemente dalla distribuzione iniziale, se \(\mu\) è tale distribuzione stazionaria, si ha che \[\lim_{n\to\infty} p_n = \mu\]
+Le catene di Markov tempo invarianti possono essere modellate come grafi orientati pesati, con i nodi che rappresentano gli stati (elementi di \(\mathcal{X}\)) e gli archi che rappresentano le transizioni (con peso dato dalla probabilità di transizione).\footnote{È possibile solo per le catene tempo invarianti poiché altrimenti la matrice di transizione non unica non permetterebbe di assegnare agli archi pesi unici}
+In tal senso, si ha che una catena è irriducibile se e solo se il grafo è fortemente connesso, e che una catena è aperiodica se e solo se, per ogni nodo \(x\), le lunghezze dei cicli che partono e finiscono in \(x\) sono coprime.
+In altre parole, una catena è aperiodica se non ha cicli (incompatibile con l'irriducibilità) o se, per ogni nodo \(x\), esistono almeno due cicli semplici in \(x\) con lunghezze coprime.
+
+Si dimostra che una catena invariante nel tempo, aperiodica e irriducibile ha un'unica distribuzione stazionaria e che indipendentemente dalla distribuzione iniziale \(p_1\), se \(\mu\) è tale distribuzione stazionaria, si ha che \[\lim_{n\to\infty} p_n = \mu\]
 
 \begin{example}{}
   Sia \(\mathcal{X} = \set{1,2}\). La matrice di transizione \(P\) di una catena \(\underline{X}\) è individuata da \(\alpha = \Prob[X_2 = 2 | X_1 = 1]\) e \(\beta = \Prob[X_2 = 1 | X_1 = 2]\) come
@@ -445,14 +452,16 @@ Si può mostrare che però, già togliendo la sola ipotesi di indipendenza, il l
 
 \begin{proof}
   \(\forall n \geq 1\), essendo che il condizionamento non aumenta l'entropia, si ha che
-  \[H(X_{n+1}|X_n, \ldots, X_1)\leq H(X_{n+1}|X_n, \ldots, X_2)\]
+  \[H(X_{n+1}|X_n, \ldots,X_2, X_1)\leq H(X_{n+1}|X_n, \ldots, X_2)\]
   Essendo che \(\underline{X}\) è stazionario, si ha che
   \[H(X_{n+1}|X_n, \ldots, X_2) = H(X_n|X_{n-1}, \ldots, X_1)\]
   Dunque la successione \(a_n = H(X_n|X_{n-1}, \ldots, X_1)\) è decrescente di termini non negativi, e dunque converge, ovvero \(H'(\underline{X})\) esiste.
 
-  Inoltre, dalla regola di catena, \(\frac{1}{n} H(X_1, \ldots, X_n) = \frac{1}{n}\left(H(X_1) +\sum_{i=2}^n H(X_i|X_{i-1}, \ldots, X_1)\right)\), cioè \(\frac{1}{n} H(X_1, \ldots, X_n)\) è la media dei primi \(n\) termini della successione \(a_n\).
+  Inoltre, dalla regola di catena,
+  \[\frac{1}{n} H(X_1, \ldots, X_n) = \frac{1}{n}\left(H(X_1) +\sum_{i=2}^n H(X_i|X_{i-1}, \ldots, X_1)\right)\]
+  cioè \(\frac{1}{n} H(X_1, \ldots, X_n)\) è la media aritmetica parziale dei primi \(n\) termini della successione \(a_n\).
 
-  Per il teorema della media di Cesàro\footnote{Il teorema della media di Cesàro afferma che se una successione \(a_n\) ammette limite, allora la media aritmetica delle sue medie parziali converge allo stesso limite. In termini più formali, dato \(\sigma_n = \frac{1}{n}\sum_{i=1}^n a_i\), si ha \[\lim_{n\to\infty} \sigma_n = \lim_{n\to\infty} a_n\]}, si ricava \(H(\underline{X}) = H'(\underline{X})\).
+  Per il teorema della media di Cesàro\footnote{Il teorema della media di Cesàro afferma che se una successione \(a_n\) ammette limite, allora il limite delle sue medie aritmetiche parziali converge allo stesso limite. In termini più formali, dato \(\sigma_n = \frac{1}{n}\sum_{i=1}^n a_i\), si ha \[\lim_{n\to\infty} \sigma_n = \lim_{n\to\infty} a_n\]}, si ricava \(H(\underline{X}) = H'(\underline{X})\).
 \end{proof}
 
 Se \(\underline{X}\) è una catena di Markov stazionaria, si ha che

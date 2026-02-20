@@ -59,14 +59,14 @@ il costo effettivo per simbolo di una tale codifica tende al tasso di entropia d
 Un principio di massima dettato dall'esperienza, è che più che mantenere segreto il metodo di crittazione, ovvero \(\mathcal{E}_k\), è molto più importante tenere segreta la chiave \(k\).
 
 \begin{definition}{Funzioni di Decriptazione}
-  Dato un crittosistema, un insieme di funzioni \(\mathcal{D}_{\mathcal{K}} = \set{D_l}[l\in\mathcal{K}]\subseteq \mathcal{M}^{\mathcal{C}}\) è detto di \keyword{decrittazione} se
+  Dato un crittosistema, un insieme di funzioni \(\mathcal{D}_{\mathcal{K}} = \set{D_l}[l\in\mathcal{K}]\subseteq {(\mathcal{M}^{\mathcal{C}})}^{\mathcal{K}}\) è detto di \keyword{decrittazione} se
   \[\forall k \in \mathcal{K}, \exists l \in \mathcal{K}\st D_l \circ E_k = id_{\mathcal{M}}\]
 \end{definition}
 
 \begin{example}{}
   Un esempio storico di crittosistema è il cifrario di Cesare.
 
-  Fissato un ordine sull'alfabeto \(\SCal\) e scelta una lettera di posizione \(k\), ogni lettera di posizione \(a\) viene cifrata nella lettera di posizione \(a+k \mod \# \SCal\).
+  Fissato un ordine sull'alfabeto \(\SCal\) e scelta una lettera di posizione \(k\), ogni lettera di posizione \(a\) viene cifrata nella lettera di posizione \(b \equiv_{\# \SCal} a+k,  0\leq b\leq \# \SCal -1\).
 
   In questo caso, si ha che \(\mathcal{M} = \mathcal{C} = \SCal\), \(\mathcal{K} = \set{0, 1, \ldots, \#\SCal - 1}\) e
   \[E_k(a) = D_k(a) = a + k \mod \#\SCal\]
@@ -76,7 +76,7 @@ Un principio di massima dettato dall'esperienza, è che più che mantenere segre
 
 Per migliorare la sicurezza rispetto al cifrario di Cesare, si può passare a un crittosistema a sostituzione monoalfabetica.
 
-In tali sistemi si usa come chiave di crittazione è una permutazione \(\sigma\) di \(\SCal\),  (\(k = \sigma, l = \sigma^{-1}\)).
+In tali sistemi si usa come chiave di criptazione una permutazione \(\sigma\) di \(\SCal\),  (\(k = \sigma, l = \sigma^{-1}\)).
 Questa risulta migliore poiché il numero di chiavi è \((\#\SCal)\!\), ma è comunque vulnerabile ad attacchi basati sull'analisi delle frequenze.
 
 Tali attacchi si basano sull'analizzare la frequenza delle lettere nel linguaggio cifrato e confrontarla con la frequenza delle lettere nel linguaggio naturale.
@@ -102,7 +102,7 @@ Un altro sistema a chiave simmetrica un po' più elaborato è il crittosistema d
 In tale crittosistema, si prende come chiave una matrice \(K \in Mat_{n\times n}\) invertibile su \(\mathbb{F}_p\).\footnote{Teoricamente non è necessario la matrice abbia valori in un campo, ma questo fa si che quasi tutte le matrici siano invertibili, offrendo più chiavi.}
 Si sceglie dunque un alfabeto di cardinalità \(p\), con messaggi suddivisi in blocchi di lunghezza \(n\). Un messaggio \(m\in\mathcal{M}\) può essere visto come \(m = m_1\ldots m_h\), dove ogni \(m_i\) è un vettore colonna di lunghezza \(n\) con valori in \(\mathbb{F}_p\).
 
-Per criptare il messaggio, si calcola per ogni \(i = 1,\ldots, h\) il blocco cifrato \(c_i^T = K m_i^T\), ottenendo così il messaggio cifrato tramite la concatenazione \(c = E_{k}(m) = c_1\ldots c_h\).
+Per criptare il messaggio, si calcola per ogni \(i \in \set{1,\ldots, h}\) il blocco cifrato \(c_i^T = K m_i^T\), ottenendo così il messaggio cifrato tramite la concatenazione \(c = E_{k}(m) = c_1\ldots c_h\).
 Neanche questo sistema è però immune ad attacchi. Esso risulta infatti vulnerabile ad attacchi con testo in chiaro noto (o scelto), in cui l'attaccante conosce (o sospetta) che i blocchi \(m_1, m_2, \ldots, m_n\) siano\footnote{Il totale dei simboli è dunque \(n^2\).} stati cifrati in \(c_1, c_2, \ldots, c_n\).
 
 In questo caso, l'attaccante può facilmente ricavare \(K\) (o una sua ipotesi).
@@ -149,7 +149,8 @@ Per \(n\) sufficientemente grande, sono ragionevoli le ipotesi:
   \item \(C\) (quasi) uniforme, cioè \(H(C) \approx n \log \# A\)
 \end{enumerate}
 
-In tal caso, \(H(K|C) = H(M) + H(K) - H(C) \approx H(K)+nU\log \# A  - n\log \# A = H(K) + n(U-1)\log \# A =  H(K) - n\mathcal{R}\log \# A\)
+In tal caso, \(H(K|C) = H(M) + H(K) - H(C) \approx H(K)+nU\log \# A  - n\log \# A = H(K) + n(U-1)\log \# A =  H(K) - n\mathcal{R}\log \# A\).
+
 Fissata \(K\), al crescere di \(n\) tale quantità decresce, fino ad arrivare a \(0\) per \(n_0 = \frac{H(K)}{\mathcal{R}\log \# A}\) detto \keyword{punto di unicità}.
 
 Arrivati a tale quantità non si ha più incertezza sulla chiave sapendo il testo cifrato, ovvero la chiave può essere individuata univocamente.
@@ -266,7 +267,7 @@ Prendiamo come \(\mathcal{M}\) vettori di interi modulo \(n\) molto grande.\foot
   Nella pratica per evitare limitazioni sui messaggi in chiaro il testo viene codificato in binario e suddiviso in blocchi di lunghezza \(\lceil\log n \rceil\) in modo che ogni blocco rappresenti un intero minore di \(n\).
 }
 
-In \(\mathbb{Z}_n\), ovvero l'anello degli interi modulo \(n\), sono invertibili tutti e soli gli elementi coprimi con \(n\), ovvero i \(k\) tali che\(\gcd(k,n) = 1\).
+In \(\mathbb{Z}_n\), ovvero l'anello degli interi modulo \(n\), sono invertibili tutti e soli gli elementi coprimi con \(n\), ovvero i \(k\) tali che \(\gcd(k,n) = 1\).
 La funzione di Eulero \(\phi(n)\) conta gli interi coprimi con \(n\) minori di \(n\) stesso.
 Si ha che \(\phi(1) = 1\) e che 
 \[\phi(p_1^{\alpha_1}\cdot\ldots\cdot p_t^{\alpha_t}) = p_1^{\alpha_1-1}\cdot\ldots \cdotp_t^{\alpha_t-1}\cdot(p_1 - 1)\cdot\ldots\cdot(p_t - 1) = \prod_{i=1}^{t} (p_i-1)p_i^{\alpha_i-1}\]
@@ -275,16 +276,16 @@ con \(p_i\) primi distinti e \(\alpha_i \in \N,\forall i\).
 In particolare, se \(n = p q\) con \(p,q\) primi distinti, si ha che \(\phi(n) = (p-1)(q-1)\).
 Detto ciò, il crittosistema RSA funziona come segue:
 \begin{itemize}
-  \item B sceglie due numeri primi grandi \(p,q\) e calcola \(n = p q\) e \(\phi(n) = (p-1)(q-1)\).
-  \item B sceglie un intero \(e\) coprimo con \(\phi(n)\) e calcola il suo inverso moltiplicativo \(d = e^{-1} \mod \phi(n)\).
-  \item B pubblica la chiave pubblica \((n,e)\) e tiene segreta la chiave privata \((n,d)\).
+  \item Bob sceglie due numeri primi grandi \(p,q\) e calcola \(n = p q\) e \(\phi(n) = (p-1)(q-1)\).
+  \item Bob sceglie un intero \(e\) coprimo con \(\phi(n)\) e calcola il suo inverso moltiplicativo \(d \equiv_{\phi(n)} e^{-1}\).
+  \item Bob pubblica la chiave pubblica \((n,e)\) e tiene segreta la chiave privata \((n,d)\).
 \end{itemize}
 
-Prendiamo dunque un \(m\) (blocco di lunghezza \(\lceil \log n \rceil\)) si ha che la sua cifratura sarà \(E_{(n,e)} (m) = m^e \mod n\) e la decifratura \(D_{(n,d)} (c) = c^d \mod n\).
+Prendendo dunque un \(m\) (blocco di lunghezza \(\lceil \log n \rceil\)) si ha che la sua cifratura sarà \(E_{(n,e)} (m) = m^e \mod n\) e la decifratura \(D_{(n,d)} (c) = c^d \mod n\).
 
 Prima di addentrarci nella dimostrazione di correttezza di RSA, qualche osservazione pratica:
 \begin{itemize}
-  \item il \(\gcd\) e l'inverso moltiplicativo possono essere calcolato con l'algoritmo di Euclide in tempo polinomiale
+  \item il \(\gcd\) e l'inverso moltiplicativo possono essere calcolati con l'algoritmo di Euclide in tempo polinomiale
   \begin{example}{}
     Calcoliamo il \(\gcd(12,5)\) e l'inverso moltiplicativo di \(5\) modulo \(12\).
     \[\begin{aligned}
@@ -314,18 +315,18 @@ Prima di addentrarci nella dimostrazione di correttezza di RSA, qualche osservaz
 Per dimostrare quindi la correttezza di RSA, è necessario ricordare due importanti risultati di teoria dei numeri, uno conseguenza dell'altro.
 
 \begin{theorem}{Fermat-Euler}
-  Siano \(n,m \in \N_+\) con \(\gcd(m,n) = 1\).
-  Allora \(m^{\phi(n)} \equiv 1 \mod n\).
+  Siano \(n,m \in \N'\) con \(\gcd(m,n) = 1\).
+  Allora \(m^{\phi(n)} \equiv_{n} 1\).
 \end{theorem}
 
 \begin{theorem}{Piccolo Teorema di Fermat}
-  Sia \(p\) un numero primo e \(a \in \N_+\) con \(\gcd(a,p) = 1\).
-  Allora \(a^{p-1} \equiv 1 \mod p\).
+  Sia \(p\) un numero primo e \(a \in \N'\) con \(\gcd(a,p) = 1\).
+  Allora \(a^{p-1} \equiv_{p} 1\).
 \end{theorem}
 
 \begin{proposition}{Correttezza di RSA}
-  Dato \(n = q p\), con \(p,q\) primi distinti, \(e \in N\) coprimo con \(\phi(n) = (p-1)(q-1)\) e \(d = e^{-1} \mod \phi(n)\), allora
-  \[\forall m \in \set{0,\ldots,n-1}, {(m^e)}^d \equiv m \mod n\]
+  Dato \(n = q p\), con \(p,q\) primi distinti, \(e \in N\) coprimo con \(\phi(n) = (p-1)(q-1)\) e \(d \equiv_{\phi(n)} e^{-1}\), allora
+  \[\forall m \in \set{0,\ldots,n-1}, {(m^e)}^d \equiv_{n} m \]
 \end{proposition}
 
 \begin{proof}
@@ -339,7 +340,7 @@ Per dimostrare quindi la correttezza di RSA, è necessario ricordare due importa
       Dal teorema di Fermat-Euler abbiamo che \(m^{\phi(n)} \equiv_n 1\), quindi \(m^{ed} \equiv_n m \cdot 1^k = m\).
     \item Infine, consideriamo \(m\) multiplo di \(p\) e \(\gcd(m,q) = 1\).
       Allora \(m^{\phi(n)} \equiv_p m \equiv_p 0\).
-      Inoltre \(m^{q-1} \equiv_q 1 \mod q\) Dal piccolo teorema di Fermat. Dunque
+      Inoltre \(m^{q-1} \equiv_q 1\) Dal piccolo teorema di Fermat. Dunque
       \[m^{ed} = m^{1+k\phi(n)} = m^{1+k(p-1)(q-1)} = m\cdot{(m^{q-1})}^{k(p-1)}\equiv_q m\]
       Dunque \(m^{ed} = m+tq\) per un certo \(t \in \Z\).
       Ma sia \(m^{ed}\) che \(m\) sono multipli di \(p\), e in particolare lo è la loro differenza, ovvero \(tq\).\footnote{Questo perché se \(m = ph\) per qualche \(h\in\Z\), allora \(m^{ed} = {(p h)}^{ed} = p^{ed} h^{ed}\). Quindi \(m^{ed} - m = p^{ed} h^{ed} - p h = p(p^{ed-1} h^{ed} - h)\).}
