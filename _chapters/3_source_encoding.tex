@@ -77,7 +77,7 @@ Da questo momento in avanti si farà riferimento unicamente ai \(bit\) come unit
 
 \begin{note}{}
   La definizione di entropia fornita non esclude la possibilità di avere \(p(s) = 0\) per qualche \(s \in \SCal\).
-  In tal caso il termine della somma corrispondente a tale \(s\) non saredefinito. 
+  In tal caso il termine della somma corrispondente a tale \(s\) non sarebbe definito. 
   Dunque si assume che il termine \(p(s)\log\left(p(s)\right) = 0\) per continuità, dato che \(\lim_{x \to 0^+} x \log\left(x\right) = 0\).
 
   In maniera formale, si può ridefinire l'entropia come
@@ -127,7 +127,7 @@ Andiamo dunque a dimostrare tali affermazioni.
   \end{equation}
   Ovvero che l'entropia di \(S\) rispetto a \(p\) è minore o uguale alla media in probabilità \(p\) dell'inverso del logaritmo della probabilità secondo \(q\), e vale l'uguaglianza se e solo se \(p = q\).
   \begin{note}{}
-    È importate notare che il lato destro della disuguaglianza può divergere, poiché essendo le distribuzioni diverse non è possibile definire separatamente il caso dello \(0\), poiché le due distribuzioni potrebbero essere nulle in punti diversi.
+    È importante notare che il lato destro della disuguaglianza può divergere, poiché essendo le distribuzioni diverse non è possibile definire separatamente il caso dello \(0\), poiché le due distribuzioni potrebbero essere nulle in punti diversi.
   \end{note}
   Posto \(q(s) = \frac{1}{\#\SCal}, \forall s \in \SCal\), per la disuguaglianza di Gibbs si ha che
   \[H(S) \leq \sum_{s \in \SCal} p(s) \log\left(\#\SCal\right) = \log\left(\#\SCal\right)\sum_{s \in \SCal} p(s) = \log\left(\#\SCal\right)\]
@@ -197,7 +197,7 @@ Possiamo dunque arrivare a un risultato fondamentale per questo corso che lega l
 Infatti, \(p(s) = d^{-\abs{\varphi(s)}} \iff \abs{\varphi(s)} = -\log_d(p(s))\). Essendo \(\phi_{|_X}\) biettiva, è possibile riscrivere la condizione come da corollario.
 
 Da questo corollario è chiaro che non è sempre possibile avere un codice assolutamente ottimale, poiché per fare ciò è necessario che \(-\log_d (p(\varphi^{-1}(x))) \in \N\) per ogni \(x \in X\), per poter rappresentare le lunghezze delle parole, è ciò accade se e solo se le probabilità sono potenze negative di \(d\).
-È però sempre possibile, per ogni sorgente e alfabeto di codice (con almento \(2\) lettere) avere un codice ottimale, e lo si può scegliere prefisso.
+È però sempre possibile, per ogni sorgente e alfabeto di codice (con almeno \(2\) lettere) avere un codice ottimale, e lo si può scegliere prefisso.
 
 \section{Codici prefissi}
 
@@ -212,7 +212,7 @@ Alcuni esempi sono:
 \hline
 \emph{linguaggio} & \emph{codice} (eng.\ \emph{codebook}) \\
 \emph{morfismo (di codifica)} & \emph{codice} (eng.\ \emph{code}) \\
-\emph{codice} & \emph{codice univocamente decifrabili} (eng.\ \emph{univocally decifrable code}) \\
+\emph{codice} & \emph{codice univocamente decifrabile} (eng.\ \emph{univocally decifrable code}) \\
 \emph{codice prefisso} & \emph{codice istantaneo} (eng.\ \emph{instantaneous code}) \\
 \hline
 \end{tabular}
@@ -231,7 +231,7 @@ In particolare il nome \emph{codice istantaneo} deriva dal fatto che, in un codi
 Come già visto nel capitolo precedente nella \Cref{def:prefix_suffix}, diremo che \(X \subseteq X^*\) è prefisso (o suffisso) se e solo se non ci sono parole di \(X\) che sono prefissi (o suffissi) di altre parole di \(X\), ovvero:
 \[X\cap XA^+ = \emptyset\]
 
-In oltre, nel \Namedref{thm:prefix_suffix_code} abbiamo visto che a un insieme prefisso (o suffisso) per essere codice è sufficiente che non sia \(\set{\varepsilon}\), che è ovviamente sia prefisso che suffisso ma non codice.
+Inoltre, nel \Namedref{thm:prefix_suffix_code} abbiamo visto che a un insieme prefisso (o suffisso) per essere codice è sufficiente che non sia \(\set{\varepsilon}\), che è ovviamente sia prefisso che suffisso ma non codice.
 Come casi particolari tra tali codici troviamo:
 \begin{itemize}
   \item \keyword{Codici bifissi}: codici che sono sia prefisso che suffisso
@@ -451,9 +451,9 @@ Riprendendo il concetto di funzione di struttura della \Cref{def:structure_funct
 
   Si ha ovviamente per costruzione che \(f(n)\leq\nu(n), \forall n \in \N\)
   In particolare si ha che \(f(1) \leq \nu(1) = d\).
-  Considerando dunque l'albero \(d\)-ario generico possiamo scegliere \(f(1)\) nodi al primo livello per potarne i sottolaberi corrispondenti rendendoli foglie.
+  Considerando dunque l'albero \(d\)-ario generico possiamo scegliere \(f(1)\) nodi al primo livello per potarne i sottoalberi corrispondenti rendendoli foglie.
   Ognuno dei rimanenti \(d - f(1)\) nodi al primo livello ha \(d\) figli al secondo, e \(d(d-f(1))=d(\nu(1)- f(1)) = \nu(2)\).
-  Dunque possiamo scegliere \(f(2) \leq \nu(2)\) nodi al secondo livello e potarne i sottolaberi corrispondenti rendendoli foglie.
+  Dunque possiamo scegliere \(f(2) \leq \nu(2)\) nodi al secondo livello e potarne i sottoalberi corrispondenti rendendoli foglie.
 
   In generale quindi a ogni livello \(k\) scelgo \(f(k)\) nodi dall'insieme dei \(\nu(k)\) rimasti e li rendo foglie.
   L'albero così costruito ha dunque esattamente \(f(k)\) foglie al livello \(k\) per ogni \(k\), e dunque corrisponde a un codice prefisso su un alfabeto \(d\)-ario con \(f\) come struttura.
@@ -523,7 +523,7 @@ Infine, formalizziamo l'intuizione citata nella nota precedente
   Allora, per ogni codifica \(\varphi : \SCal \leftrightarrow X\), si ha che
   \[c(X,\varphi) = \sum_{s \in \SCal} p(s)\abs{\varphi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta(\varphi(s))} = c(X', \delta \circ \varphi)\]
   Dunque ogni costo di \(X\) per qualsiasi codifica è ottenibile come costo di \(X'\) per una codifica opportuna.
-  In oltre, essendo \(\delta\) invertibile è possibile mostrare il viceversa, ovvero, per ogni codifica \(\psi: \SCal \leftrightarrow X'\), si ha che
+  Inoltre, essendo \(\delta\) invertibile è possibile mostrare il viceversa, ovvero, per ogni codifica \(\psi: \SCal \leftrightarrow X'\), si ha che
   \[c(X',\psi) = \sum_{s \in \SCal} p(s)\abs{\psi(s)} = \sum_{s \in \SCal} p(s)\abs{\delta^{-1}(\psi(s))} = c(X, \delta^{-1} \circ \psi)\]
   Segue dunque che
   \[\set{c(X,\varphi)}[\varphi:\SCal \leftrightarrow X] = \set{c(X',\psi)}[\psi:\SCal \leftrightarrow X']\]
@@ -670,7 +670,7 @@ Ovviamente, in caso la sorgente non ammetta ottimo assoluto questo valore è sup
   \[1 \geq \sum_{s\in\SCal} d^{-r(s)} = \sum_{n=0}^{\infty} f(n)d^{-n}\]
   Essendo \(S\) propria, \(p(s) > 0 \forall s \in \SCal\), dunque \(\log_d\left(\frac{1}{p(s)}\right)>0 \implies r(s) \geq 1\) per definizione di \(\lceil\;\rceil\).
   Da cui \(f(0) = 0\). Sono dunque valide le ipotesi del \Namedref{thm:kraft}, e dunque esiste \(X\) codice prefisso su \(A\) tale che \(f_X = f\), e in particolare si ha che \(\lvert\; \rvert \circ \varphi = r\), ovvero la funzione lunghezza delle parole di \(X\) coincide con \(r\).
-  In oltre si ha che \(\# X = \# \SCal\). Allora
+  Inoltre si ha che \(\# X = \# \SCal\). Allora
   \(c(X) \leq \sum_{s\in\SCal} p(s)r(s) < \sum_{s\in\SCal} p(s)\left(\log_d\left(\frac{1}{p(s)}\right) + 1\right) = \frac{\sum_{s\in\SCal} p(s)\log\left(\frac{1}{p(s)}\right)}{\log(d)} + \sum_{s\in\SCal} p(s) = \frac{H(S)}{\log(d)} + 1\)
 \end{proof}
 
@@ -880,7 +880,7 @@ Essendo il numero di \(b\) potenzialmente infinito si dice che il ritardo di dec
 \begin{definition}{Ritardo di decifrazione}
   Per \(k\geq 0\), definiamo l'insieme
   \begin{equation*}
-    DD(k) = \set{C\subseteq A^* }[\forall x,x' \in X, (\set{x}X^k A^+ \cap \set{x'}X^* \neq \emptyset) \implies x = x']
+    DD(k) = \set{X\subseteq A^* }[\forall x,x' \in X, (\set{x}X^k A^+ \cap \set{x'}X^* \neq \emptyset) \implies x = x']
   \end{equation*}
   che contiene tutti i codici \(X\) di cui ogni parola può essere decifrata dopo aver ricevuto al più \(k\) parole aggiuntive.
   Il \keyword{ritardo di decifrazione} di un codice \(X\) è il minimo \(k\) tale che \(X \in DD(k)\), se esiste, altrimenti è infinito.
@@ -968,7 +968,7 @@ Il concetto di ritardo di decifrazione è inoltre fortemente legato agli insiemi
       \begin{enumerate}
         \item \(i+j - 1 = n\)
         \item \(x_1 \neq x_1'\)
-        \item \(x_1\ldots x_i' w = x_1'\ldots x_j'\)\label{item:even-thm-dim-3}
+        \item \(x_1\ldots x_i w = x_1'\ldots x_j'\)\label{item:even-thm-dim-3}
         \item \(\abs{w} \leq \abs{x_j'}\)\label{item:even-thm-dim-4}
       \end{enumerate}
       Dunque dall'equazione al punto~\ref{item:even-thm-dim-3} e dall'ipotesi \(X \in DD(d)\) segue che \(i-1 < d\implies i\leq d\).
@@ -1022,7 +1022,7 @@ Se però questo pattern si interrompe, ricevendo ad un certo punto \(\ldots baab
 \end{definition}
 
 Ad esempio, il codice \(X = \set{ab,ba,bb}\) è sincronizzante, ma \(X' = \set{ab,ba,bb,aa}\) non lo è.
-In oltre, il codice Morse è sincronizzante, poiché ogni parola di codice finisce con uno spazio (pausa più lunga), e quindi ogni coppia di parole è sincronizzante.
+Inoltre, il codice Morse è sincronizzante, poiché ogni parola di codice finisce con uno spazio (pausa più lunga), e quindi ogni coppia di parole è sincronizzante.
 
 Definiamo dunque un concetto analogo a quello di ritardo di decifrazione per la sincronizzazione.
 
@@ -1067,7 +1067,7 @@ Definiamo dunque un concetto analogo a quello di ritardo di decifrazione per la 
   essendo \(X\) codice.
 \end{proof}
 
-Infine, per dimostrare le ultime importanti proprietà dei codici sincronizzanti, andiamo a definire un altra classe di codici strettamente legata a questi.
+Infine, per dimostrare le ultime importanti proprietà dei codici sincronizzanti, andiamo a definire un'altra classe di codici strettamente legata a questi.
 
 \begin{definition}{Codici circolari}
   \(X \subseteq A^*\) codice si dice \keyword{circolare} se

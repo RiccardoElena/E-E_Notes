@@ -33,7 +33,7 @@ Dato un canale con caratteristiche note, e una funzione di codifica \(f: \mathca
 Dato \(y \in \set{0,1}^n\), avrebbe senso porre \(g(y) = f^{-1}(x)\), dove \(x\in\set{0,1}^n\) massimizza \(p(x|y)\), ma ciò richiederebbe di conoscere la distribuzione di \(W\), visto che \(p(x|y) = \frac{p(x,y)}{p(y)} = \frac{p(x)p(y|x)}{p(y)}\), ma in generale il ricevente conosce solo le proprietà del canale (ovvero \(p(y|x)\)).
 
 Una soluzione \qi{pratica} è quella di scegliere \(g(y) = f^-1(x)\) dove \(x\) massimizza \(p(y|x)\).
-Un altra possibile scelta consiste nel minimizzare \(d(x,y)\).
+Un'altra possibile scelta consiste nel minimizzare \(d(x,y)\).
 
 \begin{proposition}{}
   Su un canale binario simmetrico usato senza feedback con probabilità di errore \(q \leq \frac{1}{2}\) le due strategie coincidono, ovvero
@@ -607,7 +607,7 @@ Essendo che \(\mathbb{F}_2 \subseteq \mathbb{F}_{2^m}\), possiamo scrivere la se
 \[f_1(x)\ldots f_l(x) = (x-\alpha)\ldots(x-\alpha^{n-1})\]
 
 % Dunque ogni \(f_j(x)\) avrà come radici alcune delle potenze di \(\alpha\).
-Possiamo osservare un altra importante proprietà dei polinomi in \(\mathbb{F}_2[x]\), ovvero che se \(\beta\) è radice di un polinomio \(p(x) \in \mathbb{F}_2[x]\), allora anche \(\beta^2\) è radice di \(p(x)\).
+Possiamo osservare un'altra importante proprietà dei polinomi in \(\mathbb{F}_2[x]\), ovvero che se \(\beta\) è radice di un polinomio \(p(x) \in \mathbb{F}_2[x]\), allora anche \(\beta^2\) è radice di \(p(x)\).
 Questo poiché in \(\mathbb{F}_2\) vale che \({(a+b)}^2 = a^2 + b^2\) e \(a^2 = a\) per ogni \(a,b \in \mathbb{F}_2\).
 Dunque se un polinomio \(p(x) = p_0 + p_1 x + \ldots p_h x^h\) ha \(\beta\) come radice, si ha
 \[p(\beta) = p_0 + p_1 \beta + p_2 \beta^2 + \ldots + p_h \beta^h = 0\]
