@@ -270,7 +270,7 @@ Prendiamo come \(\mathcal{M}\) vettori di interi modulo \(n\) molto grande.\foot
 In \(\mathbb{Z}_n\), ovvero l'anello degli interi modulo \(n\), sono invertibili tutti e soli gli elementi coprimi con \(n\), ovvero i \(k\) tali che \(\gcd(k,n) = 1\).
 La funzione di Eulero \(\phi(n)\) conta gli interi coprimi con \(n\) minori di \(n\) stesso.
 Si ha che \(\phi(1) = 1\) e che 
-\[\phi(p_1^{\alpha_1}\cdot\ldots\cdot p_t^{\alpha_t}) = p_1^{\alpha_1-1}\cdot\ldots \cdotp_t^{\alpha_t-1}\cdot(p_1 - 1)\cdot\ldots\cdot(p_t - 1) = \prod_{i=1}^{t} (p_i-1)p_i^{\alpha_i-1}\]
+\[\phi(p_1^{\alpha_1}\cdot\ldots\cdot p_t^{\alpha_t}) = p_1^{\alpha_1-1}\cdot\ldots \cdot p_t^{\alpha_t-1}\cdot(p_1 - 1)\cdot\ldots\cdot(p_t - 1) = \prod_{i=1}^{t} (p_i-1)p_i^{\alpha_i-1}\]
 con \(p_i\) primi distinti e \(\alpha_i \in \N,\forall i\).
 
 In particolare, se \(n = p q\) con \(p,q\) primi distinti, si ha che \(\phi(n) = (p-1)(q-1)\).
@@ -336,7 +336,7 @@ Per dimostrare quindi la correttezza di RSA, è necessario ricordare due importa
     \item Se \(m\) è multiplo di \(n\), si ha che \(m = 0\), allora la tesi è ovvia.
     \item Consideriamo dunque \(m\) coprimo con \(n\), ovvero \(\gcd(m,n) = 1\).
       Poiché \(d e \equiv 1 \mod \phi(n)\), esiste \(k \in \Z\) tale che \(d e = 1 + k \phi(n)\).
-      Quindi \(m^{ed} = m^{1 + k\phi(m)} = m{(m^{\phi(n)})}^k\).
+      Quindi \(m^{ed} = m^{1 + k\phi(n)} = m{(m^{\phi(n)})}^k\).
       Dal teorema di Fermat-Euler abbiamo che \(m^{\phi(n)} \equiv_n 1\), quindi \(m^{ed} \equiv_n m \cdot 1^k = m\).
     \item Infine, consideriamo \(m\) multiplo di \(p\) e \(\gcd(m,q) = 1\).
       Allora \(m^{\phi(n)} \equiv_p m \equiv_p 0\).
