@@ -47,7 +47,7 @@ Contributions of any kind welcome!
 
 ## Compilazione del Documento
 
-Per compilare questo documento è necessario utilizzare il template LaTeX presente nella repository [https://github.com/RiccardoElena/UniNotes_Template].
+Per compilare questo documento è necessario utilizzare il template LaTeX presente in questa [repository](https://github.com/RiccardoElena/UniNotes_Template).
 
 Dopo il clone del repository, è necessario inizializzare i submodule per ottenere il template:
 
