@@ -15,4 +15,4 @@ jobs:
   build:
     uses: RiccardoElena/UniNotes_Template/.github/workflows/latex-compile-ci.yaml@master
     with:
-      pdf_name: 'Encoding_and_Encryption.pdf'
+      pdf_name: 'Encoding_and_Encryption'
