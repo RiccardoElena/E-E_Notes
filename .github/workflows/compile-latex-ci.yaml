@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - '**/[0-9A-Z]_*.tex'
+      - '.github/workflows/compile-latex-ci.yaml'
 
 permissions:
   contents: write
